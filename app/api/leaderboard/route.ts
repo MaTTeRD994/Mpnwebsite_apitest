@@ -36,7 +36,7 @@ export async function GET(request: Request) {
       }
     }
 
-    // Fetch users to see who has linked their Discord
+    // [Force Push Update] Fetch users to see who has linked their Discord
     const { data: linkedUsers } = await supabase
       .from('users')
       .select('minecraft_uuid, discord_id')
