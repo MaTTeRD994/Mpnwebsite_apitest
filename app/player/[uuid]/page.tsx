@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { SkinViewer } from "skinview3d";
 import { supabase } from "../../../utils/supabase";
 
 export default function PlayerProfile({ params }: { params: { uuid: string } }) {
@@ -35,6 +36,30 @@ export default function PlayerProfile({ params }: { params: { uuid: string } }) 
     fetchProfile();
   }, [params.uuid]);
 
+  useEffect(() => {
+    if (!playerInfo || loading) return;
+    
+    const canvas = document.getElementById("skin_container") as HTMLCanvasElement;
+    if (canvas) {
+      // Clear previous instances if any
+      const viewer = new SkinViewer({
+        canvas: canvas,
+        width: 150,
+        height: 300,
+        skin: `https://crafatar.com/skins/${params.uuid}`
+      });
+      
+      // Setup animation
+      viewer.autoRotate = true;
+      viewer.autoRotateSpeed = 0.5;
+      
+      // Cleanup on unmount
+      return () => {
+        viewer.dispose();
+      };
+    }
+  }, [playerInfo, loading, params.uuid]);
+
   if (loading) {
     return <div style={{ minHeight: "80vh", display: "flex", justifyContent: "center", alignItems: "center", color: "var(--text-muted)" }}>Loading Profile...</div>;
   }
@@ -67,12 +92,7 @@ export default function PlayerProfile({ params }: { params: { uuid: string } }) 
         {/* Left Column: Skin */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
           <div style={{ background: "rgba(0,0,0,0.3)", borderRadius: "8px", padding: "1rem", border: "1px solid var(--border-light)" }}>
-            <img 
-              src={`https://crafatar.com/renders/body/${params.uuid}?overlay=true&scale=10`} 
-              alt={`${playerInfo.name}'s Skin`} 
-              style={{ width: "120px", height: "auto", display: "block" }} 
-              crossOrigin="anonymous"
-            />
+            <canvas id="skin_container" style={{ display: "block" }}></canvas>
           </div>
           <button className="btn" style={{ background: "transparent", border: "1px solid var(--border-light)", color: "var(--text-muted)", padding: "0.5rem 1rem", fontSize: "0.8rem", borderRadius: "4px", cursor: "pointer", width: "100%" }}>
             ⟳ Refresh skin

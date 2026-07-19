@@ -103,7 +103,7 @@ export default function Leaderboard() {
                     </td>
                     <td style={{ padding: '1rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <img src={`https://crafatar.com/avatars/${p.uuid}?size=32&overlay=true`} alt={p.name} style={{ width: '32px', height: '32px', borderRadius: '0.375rem', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.5)' }} crossOrigin="anonymous" />
+                        <img src={`https://api.mcheads.org/head/${p.uuid}/256`} alt={p.name} style={{ width: '32px', height: '32px', borderRadius: '0.375rem', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.5)' }} crossOrigin="anonymous" />
                         <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '1rem' }}>{p.name}</span>
                       </div>
                     </td>
