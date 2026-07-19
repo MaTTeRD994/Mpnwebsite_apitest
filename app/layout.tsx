@@ -2,8 +2,54 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MaTTeRPixel Network",
-  description: "The ultimate modded Minecraft experience.",
+  metadataBase: new URL("https://mpnwebsite-apitest.vercel.app"),
+  title: {
+    default: "MaTTeRPixel Network | Free Modded Minecraft Servers",
+    template: "%s | MaTTeRPixel Network",
+  },
+  description: "Join the MaTTeRPixel Network (MPN) — premier lag-free modded Minecraft servers. Explore All The Mods 10 (ATM10), Deceasedcraft, Makeshift SMP, and more with live player tracking and zero lag.",
+  keywords: ["Minecraft", "Modded Minecraft", "ATM10", "All The Mods 10", "Deceasedcraft", "Makeshift SMP", "Minecraft Server List", "Modpack Servers", "MPN", "MaTTeRPixel Network"],
+  authors: [{ name: "MaTTeRPixel Team" }],
+  creator: "MaTTeRPixel Network",
+  publisher: "MaTTeRPixel Network",
+  openGraph: {
+    title: "MaTTeRPixel Network | Free Modded Minecraft Servers",
+    description: "Join the MaTTeRPixel Network (MPN) — premier lag-free modded Minecraft servers. Explore expert modpacks, kitchen sinks, and long-term community worlds.",
+    url: "https://mpnwebsite-apitest.vercel.app",
+    siteName: "MaTTeRPixel Network",
+    images: [
+      {
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "MaTTeRPixel Network Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "MaTTeRPixel Network | Free Modded Minecraft Servers",
+    description: "Join the MaTTeRPixel Network (MPN) — premier lag-free modded Minecraft servers with zero lag and vibrant community.",
+    images: ["/logo.png"],
+  },
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
