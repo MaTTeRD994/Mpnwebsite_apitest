@@ -28,6 +28,7 @@ export default function ClientNav({ children }: { children: React.ReactNode }) {
           <a href="/" className="nav-link" style={{ transition: 'color 0.2s' }}>Home</a>
           <a href="/servers" className="nav-link" style={{ transition: 'color 0.2s' }}>Servers</a>
           <a href="/leaderboard" className="nav-link" style={{ transition: 'color 0.2s' }}>Leaderboard</a>
+          <a href="/store" className="nav-link" style={{ transition: 'color 0.2s', color: '#f43f5e', fontWeight: 'bold' }}>Store 💎</a>
           <a href="/info" className="nav-link" style={{ transition: 'color 0.2s', color: 'var(--text-light)' }}>Info</a>
         </div>
         

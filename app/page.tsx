@@ -481,7 +481,8 @@ export default function Home() {
 
       {/* 5. MODPACK MARQUEE STRIP */}
       <section style={{ padding: '3.5rem 0 4.5rem', overflow: 'hidden', opacity: 0.18, userSelect: 'none', pointerEvents: 'none' }}>
-        <div style={{ display: 'flex', gap: '4rem', whiteSpace: 'nowrap', justifyContent: 'center', flexWrap: 'wrap', fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: '900', color: '#fff', letterSpacing: '-0.02em' }}>
+        <div className="animate-marquee" style={{ gap: '4rem', whiteSpace: 'nowrap', fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: '900', color: '#fff', letterSpacing: '-0.02em' }}>
+          {/* First Copy */}
           <span>GregTech New Horizons</span>
           <span>•</span>
           <span>All The Mods 10</span>
@@ -493,6 +494,20 @@ export default function Home() {
           <span>ThaSMP</span>
           <span>•</span>
           <span>Deceased Craft</span>
+          <span>•</span>
+          {/* Second Copy for Seamless Loop */}
+          <span>GregTech New Horizons</span>
+          <span>•</span>
+          <span>All The Mods 10</span>
+          <span>•</span>
+          <span>ATM 10 To The Sky</span>
+          <span>•</span>
+          <span>All The Mons</span>
+          <span>•</span>
+          <span>ThaSMP</span>
+          <span>•</span>
+          <span>Deceased Craft</span>
+          <span>•</span>
         </div>
       </section>
 
