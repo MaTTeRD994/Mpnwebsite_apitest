@@ -90,7 +90,7 @@ export default function RootLayout({
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   <li><a href="/guide" style={{ color: 'inherit', textDecoration: 'none' }}>Guides</a></li>
                   <li><a href="/faq" style={{ color: 'inherit', textDecoration: 'none' }}>FAQ</a></li>
-                  <li><a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Discord</a></li>
+                  <li><a href="/discord" style={{ color: 'inherit', textDecoration: 'none' }}>Discord</a></li>
                 </ul>
               </div>
             </div>
