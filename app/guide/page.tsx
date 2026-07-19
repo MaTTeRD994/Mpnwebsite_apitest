@@ -1,5 +1,8 @@
+import Link from "next/link";
+
 export default function Guide() {
-  const categories = [
+  const categories: any[] = [
+    { title: "Playtime Ranks", desc: "View the hours required to level up and unlock more claims.", link: "/guide/playtime-ranks" },
     { title: "Getting Started", desc: "How to install modpacks and join the servers." },
     { title: "Server Guides", desc: "Specific information for individual servers." },
     { title: "Commands", desc: "A list of all available player commands." },
@@ -70,6 +73,25 @@ export default function Guide() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
           {categories.map((cat, idx) => (
+            cat.link ? (
+              <Link href={cat.link} key={idx} style={{ textDecoration: 'none' }}>
+                <div style={{ 
+                  background: 'rgba(255,255,255,0.02)', 
+                  border: '1px solid var(--border-light)', 
+                  borderRadius: '0.75rem', 
+                  padding: '1.5rem', 
+                  cursor: 'pointer', 
+                  transition: 'border-color 0.2s, background-color 0.2s',
+                  height: '100%'
+                }} className="hover-border-primary hover-bg-surface">
+                  <div style={{ width: '3rem', height: '3rem', borderRadius: '0.5rem', background: 'var(--bg-base)', border: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                    <span style={{ color: 'var(--text-muted)' }}>❖</span>
+                  </div>
+                  <h3 style={{ fontSize: '1.125rem', fontWeight: 'bold', color: '#fff', marginBottom: '0.5rem' }}>{cat.title}</h3>
+                  <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>{cat.desc}</p>
+                </div>
+              </Link>
+            ) : (
             <div key={idx} style={{ 
               background: 'rgba(255,255,255,0.02)', 
               border: '1px solid var(--border-light)', 
@@ -84,6 +106,7 @@ export default function Guide() {
               <h3 style={{ fontSize: '1.125rem', fontWeight: 'bold', color: '#fff', marginBottom: '0.5rem' }}>{cat.title}</h3>
               <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>{cat.desc}</p>
             </div>
+            )
           ))}
         </div>
 

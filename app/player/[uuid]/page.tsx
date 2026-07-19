@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getPlaytimeRank } from "../../../utils/ranks";
 import { supabase } from "../../../utils/supabase";
 
 export default function PlayerProfile({ params }: { params: { uuid: string } }) {
@@ -114,8 +115,8 @@ export default function PlayerProfile({ params }: { params: { uuid: string } }) 
               <h1 style={{ fontSize: "2.5rem", margin: 0, marginBottom: "1rem", textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}>{playerInfo.name}</h1>
               
               <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
-                <span style={{ background: "rgba(74, 222, 128, 0.1)", color: "#4ade80", padding: "0.25rem 0.75rem", borderRadius: "20px", fontSize: "0.85rem", fontWeight: "bold" }}>
-                  {playerInfo.role}
+                <span style={{ background: "rgba(0,0,0,0.5)", border: `1px solid ${rank.color}`, padding: "0.25rem 0.75rem", borderRadius: "4px", fontSize: "0.875rem", fontWeight: "bold", color: rank.color, textTransform: "uppercase" }}>
+                  {rank.name}
                 </span>
                 <span style={{ background: "rgba(234, 179, 8, 0.1)", color: "#eab308", padding: "0.25rem 0.75rem", borderRadius: "20px", fontSize: "0.85rem", fontWeight: "bold", border: "1px solid rgba(234, 179, 8, 0.2)" }}>
                   🏆 {playerInfo.playtime}h Playtime

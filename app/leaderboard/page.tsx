@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { getPlaytimeRank } from "../../utils/ranks";
 
 export default function Leaderboard() {
   const [players, setPlayers] = useState<any[]>([]);
@@ -96,7 +97,9 @@ export default function Leaderboard() {
                       No players found on the leaderboard yet.
                     </td>
                   </tr>
-                ) : players.map((p, index) => (
+                ) : players.map((p, index) => {
+                  const rank = getPlaytimeRank(p.playtime, p.name);
+                  return (
                   <tr key={p.uuid} onClick={() => window.location.href = `/player/${p.uuid}`} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', transition: 'background-color 0.2s', cursor: 'pointer' }} className="hover-row">
                     <td style={{ padding: '1rem', textAlign: 'center', fontFamily: 'monospace', fontWeight: 'bold', color: 'var(--text-muted)' }}>
                       {index + 1}
@@ -108,8 +111,8 @@ export default function Leaderboard() {
                       </div>
                     </td>
                     <td style={{ padding: '1rem', fontWeight: 'bold' }}>
-                      <span style={{ padding: '0.25rem 0.5rem', borderRadius: '0.25rem', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)', textTransform: 'uppercase', letterSpacing: '0.025em', fontSize: '0.625rem', color: p.color || '#a855f7' }}>
-                        {p.role}
+                      <span style={{ padding: '0.25rem 0.5rem', borderRadius: '0.25rem', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)', textTransform: 'uppercase', letterSpacing: '0.025em', fontSize: '0.625rem', color: rank.color, borderColor: `rgba(${rank.color.replace('#', '')}, 0.2)` }}>
+                        {rank.name}
                       </span>
                     </td>
                     <td style={{ padding: '1rem', fontFamily: 'monospace', color: 'rgba(255,255,255,0.8)' }}>
@@ -119,7 +122,7 @@ export default function Leaderboard() {
                       {p.votes}
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>
