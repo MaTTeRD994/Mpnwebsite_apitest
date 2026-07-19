@@ -29,6 +29,9 @@ export async function POST(request: Request) {
         name: player.name,
         playtime: player.playtime || 0,
         votes: player.votes || 0,
+        deaths: player.deaths || 0,
+        mob_kills: player.mob_kills || 0,
+        blocks_mined: player.blocks_mined || 0,
         role: player.role || 'Player',
         color: player.color || '#ffffff',
         updated_at: new Date().toISOString()

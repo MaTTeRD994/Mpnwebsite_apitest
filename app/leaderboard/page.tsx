@@ -97,13 +97,13 @@ export default function Leaderboard() {
                     </td>
                   </tr>
                 ) : players.map((p, index) => (
-                  <tr key={p.uuid} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', transition: 'background-color 0.2s', cursor: 'pointer' }} className="hover-row">
+                  <tr key={p.uuid} onClick={() => window.location.href = `/player/${p.uuid}`} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', transition: 'background-color 0.2s', cursor: 'pointer' }} className="hover-row">
                     <td style={{ padding: '1rem', textAlign: 'center', fontFamily: 'monospace', fontWeight: 'bold', color: 'var(--text-muted)' }}>
                       {index + 1}
                     </td>
                     <td style={{ padding: '1rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <div style={{ width: '32px', height: '32px', borderRadius: '0.375rem', background: 'var(--bg-surface)', border: '1px solid rgba(255,255,255,0.1)' }}></div>
+                        <img src={`https://crafatar.com/avatars/${p.uuid}?size=32&overlay=true`} alt={p.name} style={{ width: '32px', height: '32px', borderRadius: '0.375rem', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.5)' }} crossOrigin="anonymous" />
                         <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '1rem' }}>{p.name}</span>
                       </div>
                     </td>

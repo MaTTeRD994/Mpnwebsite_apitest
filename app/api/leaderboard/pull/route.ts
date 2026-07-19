@@ -94,9 +94,23 @@ export async function GET(request: Request) {
           if (statRes.ok) {
             const statJson = await statRes.json();
             
-            // Minecraft Playtime usually found here in ticks
-            const ticks = statJson?.stats?.["minecraft:custom"]?.["minecraft:play_time"] || 0;
+            // Extract deep statistics
+            const customStats = statJson?.stats?.["minecraft:custom"] || {};
+            const minedStats = statJson?.stats?.["minecraft:mined"] || {};
+            
+            // Playtime
+            const ticks = customStats["minecraft:play_time"] || 0;
             const hours = Math.round(ticks / 72000); // 20 ticks/sec * 60 * 60 = 72000 ticks/hour
+            
+            // Deaths and Kills
+            const deaths = customStats["minecraft:deaths"] || 0;
+            const mobKills = customStats["minecraft:mob_kills"] || 0;
+            
+            // Calculate total blocks mined by summing all values in minecraft:mined
+            let blocksMined = 0;
+            for (const key in minedStats) {
+              blocksMined += minedStats[key];
+            }
             
             upsertData.push({
               uuid: uuid,
@@ -104,6 +118,9 @@ export async function GET(request: Request) {
               name: playerName,
               playtime: hours,
               votes: 0,
+              deaths: deaths,
+              mob_kills: mobKills,
+              blocks_mined: blocksMined,
               role: 'Player',
               color: '#4ade80',
               updated_at: new Date().toISOString()
