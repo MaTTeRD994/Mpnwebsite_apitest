@@ -42,13 +42,13 @@ export async function GET(request: Request) {
       .select('minecraft_uuid, discord_id')
       .not('minecraft_uuid', 'is', null);
 
-    const linkedUuids = new Set(linkedUsers?.map(u => u.minecraft_uuid));
+    const linkedUuids = new Set(linkedUsers?.map(u => u.minecraft_uuid?.toLowerCase()));
 
     const enrichedPlayers = players?.map(p => ({
       ...p,
       last_server: serverMap.get(p.uuid)?.server_id || 'Unknown',
       updated_at: serverMap.get(p.uuid)?.updated_at || p.updated_at,
-      discord: linkedUuids.has(p.uuid)
+      discord: p.uuid ? linkedUuids.has(p.uuid.toLowerCase()) : false
     })) || [];
 
     return NextResponse.json(enrichedPlayers);
