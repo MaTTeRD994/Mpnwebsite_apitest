@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;800;900&display=swap');
+
+:root {
+  /* Brand Colors */
+  --primary: hsl(0, 100%, 50%); /* MaTTeR Red */
+  --primary-glow: hsla(0, 100%, 50%, 0.3);
+  --secondary: hsl(0, 0%, 80%); /* Pixel Silver */
+  
+  /* Backgrounds */
+  --bg-base: hsl(240, 10%, 4%); /* Deep Void */
+  --bg-surface: hsla(240, 10%, 8%, 0.6); /* Obsidian Glass */
+  --bg-surface-solid: hsl(240, 10%, 8%);
+  
+  /* Text */
+  --text-primary: hsl(0, 0%, 100%);
+  --text-muted: hsl(240, 5%, 65%);
+  
+  /* Borders */
+  --border-light: hsla(0, 0%, 100%, 0.08);
+  --border-strong: hsla(0, 0%, 100%, 0.15);
+  
+  /* Fonts */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Add a subtle dark radial gradient for depth */
+  background-image: radial-gradient(circle at 50% -20%, hsl(240, 10%, 12%), var(--bg-base) 60%);
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Glassmorphism Utility */
+.glass {
+  background: var(--bg-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+}
+
+/* Premium Button Component Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 2rem;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--text-primary);
+  box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--primary-glow);
+  background-color: hsl(0, 100%, 55%);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-surface-solid);
+  border-color: var(--secondary);
+  transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Hover Utilities */
+.hover-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.hover-border-primary:hover {
+  border-color: var(--primary) !important;
+}
+
+.hover-bg-surface:hover {
+  background-color: var(--bg-surface-solid) !important;
+}
+
+.hover-bg-base:hover {
+  background-color: var(--bg-base) !important;
+}
+
+.hover-text-primary:hover {
+  color: var(--primary) !important;
+}
