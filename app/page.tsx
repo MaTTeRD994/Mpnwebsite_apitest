@@ -49,7 +49,7 @@ export default function Home() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Semi-transparent background image covering full viewport */}
+        {/* Semi-transparent background image covering full viewport with softened contrast */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -60,18 +60,19 @@ export default function Home() {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          opacity: 0.35,
+          opacity: 0.18,
+          filter: 'blur(3px) brightness(0.7) contrast(0.85)',
           zIndex: -2
         }} />
         
-        {/* Smooth gradient transition into the rest of the site below */}
+        {/* Smooth gradient transition at both top navbar edge and bottom site edge */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'linear-gradient(to bottom, transparent 60%, var(--bg-base) 100%)',
+          background: 'linear-gradient(to bottom, var(--bg-base) 0%, transparent 20%, transparent 60%, var(--bg-base) 100%)',
           zIndex: -1
         }} />
 
