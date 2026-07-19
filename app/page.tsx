@@ -47,7 +47,7 @@ export default function Home() {
         textAlign: 'center',
         padding: '2rem',
         position: 'relative',
-        backgroundImage: 'linear-gradient(to bottom, rgba(10, 10, 10, 0.1) 0%, rgba(10, 10, 10, 0.6) 80%, var(--bg-main) 100%), url(/herobg.png)',
+        backgroundImage: 'linear-gradient(to bottom, rgba(10, 10, 10, 0.1) 0%, rgba(10, 10, 10, 0.6) 80%, var(--bg-base) 100%), url(/herobg.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
