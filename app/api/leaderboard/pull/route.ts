@@ -74,48 +74,47 @@ export async function GET(request: Request) {
       // 3. For every .json file, fetch its contents
       const upsertData: any[] = [];
       
-      // We process files in chunks of 5 concurrently to speed up fetching without completely overwhelming the API
-      const BATCH_SIZE = 5;
-      for (let i = 0; i < files.length; i += BATCH_SIZE) {
-        const batch = files.slice(i, i + BATCH_SIZE);
-        
-        await Promise.all(batch.map(async (fileObj: any) => {
-          const filename = fileObj.attributes.name;
-          if (!filename.endsWith('.json')) return;
+      // Process files sequentially with a small delay to avoid Pterodactyl 429 Rate Limits
+      for (let i = 0; i < files.length; i++) {
+        const fileObj = files[i];
+        const filename = fileObj.attributes.name;
+        if (!filename.endsWith('.json')) continue;
 
-          const uuid = filename.replace('.json', '');
-          const playerName = usercache[uuid] || "Unknown Player";
+        const uuid = filename.replace('.json', '');
+        const playerName = usercache[uuid] || "Unknown Player";
 
-          try {
-            const statRes = await fetch(`${panelUrl}/api/client/servers/${pteroId}/files/contents?file=world/stats/${filename}`, {
-              headers: {
-                'Authorization': `Bearer ${apiKey}`,
-                'Accept': 'application/json'
-              }
-            });
-
-            if (statRes.ok) {
-              const statJson = await statRes.json();
-              
-              // Minecraft Playtime usually found here in ticks
-              const ticks = statJson?.stats?.["minecraft:custom"]?.["minecraft:play_time"] || 0;
-              const hours = Math.round(ticks / 72000); // 20 ticks/sec * 60 * 60 = 72000 ticks/hour
-              
-              upsertData.push({
-                uuid: uuid,
-                server_id: server.id,
-                name: playerName,
-                playtime: hours,
-                votes: 0,
-                role: 'Player',
-                color: '#4ade80',
-                updated_at: new Date().toISOString()
-              });
+        try {
+          const statRes = await fetch(`${panelUrl}/api/client/servers/${pteroId}/files/contents?file=world/stats/${filename}`, {
+            headers: {
+              'Authorization': `Bearer ${apiKey}`,
+              'Accept': 'application/json'
             }
-          } catch(e) {
-             console.error(`Failed to read stats file ${filename} on ${server.id}`);
+          });
+
+          if (statRes.ok) {
+            const statJson = await statRes.json();
+            
+            // Minecraft Playtime usually found here in ticks
+            const ticks = statJson?.stats?.["minecraft:custom"]?.["minecraft:play_time"] || 0;
+            const hours = Math.round(ticks / 72000); // 20 ticks/sec * 60 * 60 = 72000 ticks/hour
+            
+            upsertData.push({
+              uuid: uuid,
+              server_id: server.id,
+              name: playerName,
+              playtime: hours,
+              votes: 0,
+              role: 'Player',
+              color: '#4ade80',
+              updated_at: new Date().toISOString()
+            });
           }
-        }));
+          
+          // Sleep for 100ms between requests to avoid rate-limiting
+          await new Promise(resolve => setTimeout(resolve, 100));
+        } catch(e) {
+           console.error(`Failed to read stats file ${filename} on ${server.id}`);
+        }
       }
 
       // 4. Upsert into Supabase
