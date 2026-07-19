@@ -23,6 +23,9 @@ export default function PlayerProfile() {
         .eq("uuid", uuid)
         .single();
 
+      console.log("Global Data:", globalData);
+      console.log("Global Error:", globalError);
+
       // Fetch the most recently played server
       const { data: serverData, error: serverError } = await supabase
         .from("players")
@@ -91,6 +94,8 @@ export default function PlayerProfile() {
   const memberSinceStr = memberSinceDate.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
   
   const lastOnlineStr = lastServer ? new Date(lastServer.updated_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : "Unknown";
+
+  const rank = getPlaytimeRank(playerInfo.playtime, playerInfo.name);
 
   return (
     <main style={{ maxWidth: "1000px", margin: "0 auto", padding: "4rem 2rem", minHeight: "80vh" }}>
