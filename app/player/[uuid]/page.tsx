@@ -12,6 +12,7 @@ export default function PlayerProfile() {
   const [playerInfo, setPlayerInfo] = useState<any>(null);
   const [allServerStats, setAllServerStats] = useState<any[]>([]);
   const [selectedServerId, setSelectedServerId] = useState<string>("");
+  const [liveStatus, setLiveStatus] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   // Accordion states for Achievement categories
@@ -41,6 +42,13 @@ export default function PlayerProfile() {
         .ilike("minecraft_uuid", uuid)
         .maybeSingle();
 
+      // Fetch real-time live character status from player_live_status
+      const { data: liveData } = await supabase
+        .from("player_live_status")
+        .select("*")
+        .eq("uuid", uuid)
+        .maybeSingle();
+
       if (globalData) {
         setPlayerInfo({
           ...globalData,
@@ -50,6 +58,9 @@ export default function PlayerProfile() {
       if (serverList && serverList.length > 0) {
         setAllServerStats(serverList);
         setSelectedServerId(serverList[0].server_id);
+      }
+      if (liveData) {
+        setLiveStatus(liveData);
       }
       setLoading(false);
     };
@@ -244,6 +255,108 @@ export default function PlayerProfile() {
           </div>
         </div>
       </div>
+
+      {/* Live Character Status & Equipped Gear Card (if available) */}
+      {liveStatus && (
+        <div className="glass" style={{ marginTop: "2.5rem", padding: "2rem", borderRadius: "16px", border: "1px solid var(--border-light)", background: "rgba(18, 18, 24, 0.8)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", marginBottom: "1.5rem" }}>
+            <div>
+              <div style={{ fontSize: "0.75rem", color: "var(--primary)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "0.3rem", fontWeight: 700 }}>REAL-TIME MOD DATA</div>
+              <h2 style={{ fontSize: "1.6rem", margin: 0, fontWeight: 800, display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                <span>Live Character Status</span>
+                {liveStatus.is_online ? (
+                  <span style={{ fontSize: "0.75rem", background: "rgba(16, 185, 129, 0.2)", color: "#10b981", border: "1px solid rgba(16, 185, 129, 0.4)", padding: "0.25rem 0.75rem", borderRadius: "9999px", display: "inline-flex", alignItems: "center", gap: "0.4rem", fontWeight: "bold" }}>
+                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 8px #10b981" }} />
+                    ONLINE ({liveStatus.server_id?.toUpperCase()})
+                  </span>
+                ) : (
+                  <span style={{ fontSize: "0.75rem", background: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.3)", padding: "0.25rem 0.75rem", borderRadius: "9999px", display: "inline-flex", alignItems: "center", gap: "0.4rem", fontWeight: "bold" }}>
+                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#ef4444" }} />
+                    OFFLINE (Last on {liveStatus.server_id?.toUpperCase()})
+                  </span>
+                )}
+              </h2>
+            </div>
+            {liveStatus.updated_at && (
+              <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
+                Updated: {new Date(liveStatus.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </div>
+            )}
+          </div>
+
+          {/* Vitals Bar */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem", marginBottom: "1.75rem" }}>
+            {liveStatus.health !== null && liveStatus.health !== undefined && (
+              <div style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
+                <span style={{ fontSize: "1.6rem" }}>❤️</span>
+                <div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: "bold" }}>Health</div>
+                  <div style={{ fontSize: "1.2rem", fontWeight: 900, color: "#f87171" }}>{liveStatus.health} / {liveStatus.max_health || 20} HP</div>
+                </div>
+              </div>
+            )}
+            {liveStatus.level !== null && liveStatus.level !== undefined && (
+              <div style={{ background: "rgba(234, 179, 8, 0.08)", border: "1px solid rgba(234, 179, 8, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
+                <span style={{ fontSize: "1.6rem" }}>✨</span>
+                <div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: "bold" }}>XP Level</div>
+                  <div style={{ fontSize: "1.2rem", fontWeight: 900, color: "#fbbf24" }}>Level {liveStatus.level}</div>
+                </div>
+              </div>
+            )}
+            {liveStatus.dimension && (
+              <div style={{ background: "rgba(168, 85, 247, 0.08)", border: "1px solid rgba(168, 85, 247, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
+                <span style={{ fontSize: "1.6rem" }}>🌍</span>
+                <div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: "bold" }}>Dimension</div>
+                  <div style={{ fontSize: "1.1rem", fontWeight: 900, color: "#c084fc", textTransform: "capitalize" }}>{typeof liveStatus.dimension === 'string' ? liveStatus.dimension.replace('minecraft:', '') : 'Overworld'}</div>
+                </div>
+              </div>
+            )}
+            {liveStatus.coordinates && (
+              <div style={{ background: "rgba(59, 130, 246, 0.08)", border: "1px solid rgba(59, 130, 246, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
+                <span style={{ fontSize: "1.6rem" }}>📍</span>
+                <div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: "bold" }}>Coordinates</div>
+                  <div style={{ fontSize: "1.05rem", fontWeight: 900, color: "#60a5fa", fontFamily: "monospace" }}>X:{liveStatus.coordinates.x} Y:{liveStatus.coordinates.y} Z:{liveStatus.coordinates.z}</div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Equipped Gear & Armor */}
+          {(liveStatus.armor || liveStatus.main_hand) && (
+            <div>
+              <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "0.8rem", fontWeight: 700 }}>EQUIPPED GEAR & ARMOR</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.85rem" }}>
+                {/* Main Hand */}
+                {liveStatus.main_hand && (
+                  <div style={{ background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.12)", padding: "0.85rem 1rem", borderRadius: "10px", display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                    <span style={{ fontSize: "1.3rem" }}>⚔️</span>
+                    <div style={{ overflow: "hidden" }}>
+                      <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", textTransform: "uppercase" }}>Main Hand</div>
+                      <div style={{ fontSize: "0.9rem", fontWeight: "bold", color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{liveStatus.main_hand.name || liveStatus.main_hand.item}</div>
+                    </div>
+                  </div>
+                )}
+                {/* Armor Slots */}
+                {Array.isArray(liveStatus.armor) && liveStatus.armor.map((slot: any, idx: number) => {
+                  const icons: Record<string, string> = { helmet: "🪖", chestplate: "👕", leggings: "👖", boots: "🥾" };
+                  return (
+                    <div key={idx} style={{ background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.12)", padding: "0.85rem 1rem", borderRadius: "10px", display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                      <span style={{ fontSize: "1.3rem" }}>{icons[slot.slot?.toLowerCase()] || "🛡️"}</span>
+                      <div style={{ overflow: "hidden" }}>
+                        <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", textTransform: "uppercase" }}>{slot.slot}</div>
+                        <div style={{ fontSize: "0.9rem", fontWeight: "bold", color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{slot.name || slot.item || "Empty"}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Global Statistics Section */}
       <div style={{ marginTop: "4rem" }}>

@@ -82,6 +82,7 @@ export default function RootLayout({
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   <li><a href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Home</a></li>
                   <li><a href="/servers" style={{ color: 'inherit', textDecoration: 'none' }}>Servers</a></li>
+                  <li><a href="/packs" style={{ color: 'inherit', textDecoration: 'none' }}>Packs</a></li>
                   <li><a href="/leaderboard" style={{ color: 'inherit', textDecoration: 'none' }}>Leaderboard</a></li>
                 </ul>
               </div>

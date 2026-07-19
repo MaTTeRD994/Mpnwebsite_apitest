@@ -235,6 +235,87 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 2.5. OFFICIAL MPN MODPACKS FEATURE BANNER */}
+      <section style={{ padding: '2rem 1.5rem 5rem', maxWidth: '1250px', margin: '0 auto' }}>
+        <div style={{
+          background: 'radial-gradient(circle at 80% 50%, rgba(139, 92, 246, 0.22) 0%, rgba(18, 18, 24, 0.9) 70%)',
+          border: '1px solid rgba(139, 92, 246, 0.35)',
+          borderRadius: '1.5rem',
+          padding: '3.5rem 3rem',
+          position: 'relative',
+          overflow: 'hidden',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '2.5rem',
+          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+          backdropFilter: 'blur(12px)'
+        }}>
+          {/* Background decorative floating pack icons */}
+          <div style={{ position: 'absolute', right: '-40px', bottom: '-40px', width: '280px', height: '280px', borderRadius: '50%', background: 'var(--primary)', filter: 'blur(100px)', opacity: 0.15, pointerEvents: 'none' }} />
+
+          <div style={{ maxWidth: '620px', position: 'relative', zIndex: 10 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', background: 'rgba(139, 92, 246, 0.2)', border: '1px solid rgba(139, 92, 246, 0.4)', color: '#d8b4fe', fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.15em', padding: '0.35rem 0.9rem', borderRadius: '9999px', marginBottom: '1.25rem' }}>
+              ✦ HANDCRAFTED BY MPN TEAM ✦
+            </div>
+            <h2 style={{ fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 900, color: '#fff', margin: '0 0 1rem 0', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+              Official Custom <span style={{ color: 'var(--primary)' }}>Modpacks</span>
+            </h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', margin: '0 0 1.75rem 0', lineHeight: 1.6 }}>
+              We don&apos;t just host servers — we design and balance our own flagship modpacks. Explore <strong style={{ color: '#fff' }}>ThaSMP</strong> and <strong style={{ color: '#fff' }}>Makeshift SMP</strong>, built specifically for seamless 20 TPS multiplayer stability, rich redstone engineering, and vibrant community exploration.
+            </p>
+
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Link
+                href="/packs"
+                style={{
+                  background: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  padding: '0.9rem 2rem',
+                  borderRadius: '0.75rem',
+                  fontSize: '1rem',
+                  textDecoration: 'none',
+                  boxShadow: '0 10px 25px -5px rgba(139, 92, 246, 0.45)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  transition: 'transform 0.2s, box-shadow 0.2s'
+                }}
+                className="hover-scale"
+              >
+                <span>Explore Modpacks</span>
+                <span>→</span>
+              </Link>
+
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-light)', opacity: 0.8 }}>
+                Available on Modrinth & CurseForge
+              </span>
+            </div>
+          </div>
+
+          {/* Right Side Stacked Icons Preview */}
+          <div style={{ display: 'flex', gap: '1.25rem', position: 'relative', zIndex: 10, flexWrap: 'wrap', justifyItems: 'center', justifyContent: 'center' }}>
+            <Link href="/packs/makeshiftsmp" style={{ textDecoration: 'none', transition: 'transform 0.3s' }} className="hover-scale">
+              <div style={{ width: '130px', background: 'var(--bg-surface)', border: '2px solid #8b5cf6', borderRadius: '1.25rem', padding: '1rem', textAlign: 'center', boxShadow: '0 15px 30px rgba(0,0,0,0.5)' }}>
+                <img src="https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp" alt="Makeshift SMP" style={{ width: '70px', height: '70px', objectFit: 'contain', borderRadius: '0.75rem', margin: '0 auto 0.75rem' }} />
+                <div style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#fff' }}>Makeshift</div>
+                <div style={{ fontSize: '0.7rem', color: '#c084fc', marginTop: '0.2rem' }}>Flagship SMP</div>
+              </div>
+            </Link>
+
+            <Link href="/packs/thasmp" style={{ textDecoration: 'none', transition: 'transform 0.3s' }} className="hover-scale">
+              <div style={{ width: '130px', background: 'var(--bg-surface)', border: '2px solid #eab308', borderRadius: '1.25rem', padding: '1rem', textAlign: 'center', boxShadow: '0 15px 30px rgba(0,0,0,0.5)' }}>
+                <img src="https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp" alt="ThaSMP" style={{ width: '70px', height: '70px', objectFit: 'contain', borderRadius: '0.75rem', margin: '0 auto 0.75rem' }} />
+                <div style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#fff' }}>ThaSMP</div>
+                <div style={{ fontSize: '0.7rem', color: '#facc15', marginTop: '0.2rem' }}>Community</div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* 3. GETTING STARTED ("Join in 3 Simple Steps") */}
       <section style={{ padding: '6rem 1.5rem 5rem', maxWidth: '1250px', margin: '0 auto', position: 'relative' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
