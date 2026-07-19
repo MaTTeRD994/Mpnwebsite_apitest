@@ -14,10 +14,11 @@ repositories {
 }
 
 dependencies {
-    minecraft 'com.mojang:minecraft:26.2'
-    // mappings loom.officialMojangMappings() - Not needed for unobfuscated 26.2
-    modImplementation 'net.fabricmc:fabric-loader:0.19.3'
-    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.154.2+26.2'
+    // Compile against 1.21.1 as a proxy since 26.2 mappings are not on Loom yet
+    minecraft 'com.mojang:minecraft:1.21.1'
+    mappings loom.officialMojangMappings()
+    modImplementation 'net.fabricmc:fabric-loader:0.16.5'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.106.0+1.21.1'
 }
 
 java {
