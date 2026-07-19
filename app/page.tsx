@@ -46,7 +46,11 @@ export default function Home() {
         justifyContent: 'center',
         textAlign: 'center',
         padding: '2rem',
-        position: 'relative'
+        position: 'relative',
+        backgroundImage: 'linear-gradient(to bottom, rgba(10, 10, 10, 0.5), var(--bg-main)), url(/herobg.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
       }}>
         {/* Background decorative glow */}
         <div style={{
