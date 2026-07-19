@@ -4,16 +4,18 @@ import { useState } from "react";
 export default function ServerCard({ server }: { server: any }) {
   const [copied, setCopied] = useState(false);
 
+  const isPrivate = server.isPrivate || server.status === 'Private' || server.address === 'Private';
+  const isComingSoon = server.isComingSoon || server.status === 'Coming Soon' || server.address === 'Coming Soon';
+  const isOnline = server.status === 'Online';
+
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (server.address) {
+    if (server.address && !isPrivate && !isComingSoon) {
       navigator.clipboard.writeText(server.address);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
   };
-
-  const isOnline = server.status === 'Online';
 
   return (
     <div 
@@ -67,7 +69,7 @@ export default function ServerCard({ server }: { server: any }) {
           position: 'absolute',
           bottom: '0.75rem',
           left: '0.75rem',
-          background: isOnline ? 'rgba(16, 185, 129, 0.85)' : 'rgba(239, 68, 68, 0.85)',
+          background: isPrivate ? 'rgba(168, 85, 247, 0.85)' : isComingSoon ? 'rgba(234, 179, 8, 0.85)' : isOnline ? 'rgba(16, 185, 129, 0.85)' : 'rgba(239, 68, 68, 0.85)',
           color: '#fff',
           fontSize: '0.75rem',
           fontWeight: 'bold',
@@ -80,28 +82,30 @@ export default function ServerCard({ server }: { server: any }) {
           boxShadow: '0 2px 8px rgba(0,0,0,0.4)'
         }}>
           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#fff', boxShadow: '0 0 6px #fff' }} />
-          {isOnline ? 'Online' : 'Offline'}
+          {isPrivate ? 'Private' : isComingSoon ? 'Coming Soon' : isOnline ? 'Online' : 'Offline'}
         </div>
 
         {/* Players Count Pill Bottom Right */}
-        <div style={{
-          position: 'absolute',
-          bottom: '0.75rem',
-          right: '0.75rem',
-          background: 'rgba(0, 0, 0, 0.65)',
-          color: '#fff',
-          fontSize: '0.75rem',
-          fontWeight: 'bold',
-          padding: '0.25rem 0.65rem',
-          borderRadius: '9999px',
-          border: '1px solid rgba(255,255,255,0.15)',
-          backdropFilter: 'blur(4px)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.35rem'
-        }}>
-          👥 {server.players || 0} / 32
-        </div>
+        {!isComingSoon && (
+          <div style={{
+            position: 'absolute',
+            bottom: '0.75rem',
+            right: '0.75rem',
+            background: 'rgba(0, 0, 0, 0.65)',
+            color: '#fff',
+            fontSize: '0.75rem',
+            fontWeight: 'bold',
+            padding: '0.25rem 0.65rem',
+            borderRadius: '9999px',
+            border: '1px solid rgba(255,255,255,0.15)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.35rem'
+          }}>
+            {isPrivate ? '🔒 Whitelist' : `👥 ${server.players || 0} / 32`}
+          </div>
+        )}
       </div>
       
       {/* Card Body */}
@@ -141,27 +145,49 @@ export default function ServerCard({ server }: { server: any }) {
           >
             Learn More
           </a>
-          <button
-            onClick={handleCopy}
-            style={{
-              flex: 1,
-              background: copied ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.04)',
-              border: `1px solid ${copied ? '#10b981' : 'rgba(255, 255, 255, 0.1)'}`,
-              color: copied ? '#4ade80' : 'var(--text-muted)',
-              fontSize: '0.85rem',
-              fontWeight: 'bold',
-              padding: '0.65rem 1rem',
-              borderRadius: '0.6rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.4rem'
-            }}
-          >
-            {copied ? '✓ Copied IP' : 'Copy IP'}
-          </button>
+          {isPrivate || isComingSoon ? (
+            <div
+              style={{
+                flex: 1,
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                color: 'var(--text-muted)',
+                fontSize: '0.85rem',
+                fontWeight: 'bold',
+                padding: '0.65rem 1rem',
+                borderRadius: '0.6rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.4rem',
+                cursor: 'not-allowed'
+              }}
+            >
+              {isPrivate ? '🔒 Private' : '⏳ Coming Soon'}
+            </div>
+          ) : (
+            <button
+              onClick={handleCopy}
+              style={{
+                flex: 1,
+                background: copied ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.04)',
+                border: `1px solid ${copied ? '#10b981' : 'rgba(255, 255, 255, 0.1)'}`,
+                color: copied ? '#4ade80' : 'var(--text-muted)',
+                fontSize: '0.85rem',
+                fontWeight: 'bold',
+                padding: '0.65rem 1rem',
+                borderRadius: '0.6rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.4rem'
+              }}
+            >
+              {copied ? '✓ Copied IP' : 'Copy IP'}
+            </button>
+          )}
         </div>
       </div>
     </div>

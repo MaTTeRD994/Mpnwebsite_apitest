@@ -88,7 +88,7 @@ export default function DiscordPage() {
         
         <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a 
-            href="https://discord.gg/yourinvite" 
+            href="https://discord.gg/NeYyChaFfZ" 
             target="_blank"
             rel="noopener noreferrer"
             style={{ 
@@ -215,7 +215,7 @@ export default function DiscordPage() {
             </div>
           </div>
           <a 
-            href="https://discord.gg/yourinvite" 
+            href="https://discord.gg/NeYyChaFfZ" 
             target="_blank" 
             rel="noopener noreferrer"
             style={{

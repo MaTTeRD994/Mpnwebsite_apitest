@@ -60,35 +60,37 @@ export async function GET() {
         }
       }
 
-      let status = "Offline";
+      let status = staticServer.isPrivate ? "Private" : staticServer.isComingSoon ? "Coming Soon" : "Offline";
       let playersCount = 0;
 
-      if (pteroIdentifier) {
-        try {
-          // Fetch the live resource status
-          const resRes = await fetch(`${panelUrl}/api/client/servers/${pteroIdentifier}/resources`, {
-            headers: {
-              'Authorization': `Bearer ${apiKey}`,
-              'Accept': 'application/json'
-            },
-            next: { revalidate: 30 }
-          });
-          
-          if (resRes.ok) {
-            const resData = await resRes.json();
-            const state = resData.attributes?.current_state; // running, offline, starting, stopping
+      if (!staticServer.isPrivate && !staticServer.isComingSoon) {
+        if (pteroIdentifier) {
+          try {
+            // Fetch the live resource status
+            const resRes = await fetch(`${panelUrl}/api/client/servers/${pteroIdentifier}/resources`, {
+              headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Accept': 'application/json'
+              },
+              next: { revalidate: 30 }
+            });
             
-            if (state === "running") status = "Online";
-            else if (state === "starting") status = "Starting";
-            else if (state === "stopping") status = "Stopping";
-            else status = "Offline";
+            if (resRes.ok) {
+              const resData = await resRes.json();
+              const state = resData.attributes?.current_state; // running, offline, starting, stopping
+              
+              if (state === "running") status = "Online";
+              else if (state === "starting") status = "Starting";
+              else if (state === "stopping") status = "Stopping";
+              else status = "Offline";
+            }
+          } catch (e) {
+            console.error(`Failed to fetch status for ${pteroIdentifier}`, e);
           }
-        } catch (e) {
-          console.error(`Failed to fetch status for ${pteroIdentifier}`, e);
+        } else {
+           // If we don't have a pterodactyl server match yet, just default to Offline
+           status = "Offline";
         }
-      } else {
-         // If we don't have a pterodactyl server match yet, just default to Offline
-         status = "Offline";
       }
 
       // If the server is Online or Starting, fetch the live player count using mcsrvstat API

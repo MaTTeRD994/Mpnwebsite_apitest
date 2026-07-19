@@ -6,7 +6,7 @@ export default function Leaderboard() {
   const [players, setPlayers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortField, setSortField] = useState<'player' | 'rank' | 'playtime' | 'last_server' | 'last_online' | 'votes' | 'discord'>('rank');
+  const [sortField, setSortField] = useState<'player' | 'rank' | 'playtime' | 'last_server' | 'last_online' | 'votes' | 'discord'>('playtime');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const playersPerPage = 50;
@@ -87,6 +87,11 @@ export default function Leaderboard() {
       } else if (sortField === 'rank') {
         valA = getRankLevel(a.playtime, a.name);
         valB = getRankLevel(b.playtime, b.name);
+        if (valA === valB) {
+          return sortDirection === 'asc' 
+            ? (a.playtime || 0) - (b.playtime || 0) 
+            : (b.playtime || 0) - (a.playtime || 0);
+        }
       } else if (sortField === 'playtime') {
         valA = a.playtime || 0;
         valB = b.playtime || 0;
@@ -107,7 +112,10 @@ export default function Leaderboard() {
 
       if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
       if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
-      return 0;
+      // Tie-breaker by playtime
+      return sortDirection === 'asc' 
+        ? (a.playtime || 0) - (b.playtime || 0) 
+        : (b.playtime || 0) - (a.playtime || 0);
     });
 
   const totalPages = Math.max(1, Math.ceil(filteredPlayers.length / playersPerPage));

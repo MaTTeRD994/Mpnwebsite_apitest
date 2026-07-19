@@ -9,6 +9,8 @@ export interface StaticServerConfig {
   color: string;
   imgUrl: string;
   featured?: boolean;
+  isPrivate?: boolean;
+  isComingSoon?: boolean;
 }
 
 export const staticServers: StaticServerConfig[] = [
@@ -16,7 +18,7 @@ export const staticServers: StaticServerConfig[] = [
     id: "gtnh",
     pterodactyl_id: "ed952e62",
     name: "GregTech New Horizons",
-    address: "37.27.225.173:27020",
+    address: "gtnh-s1.mpnhost.com",
     version: "2.6.1",
     mc: "1.7.10",
     packUrl: "https://www.curseforge.com/minecraft/modpacks/gt-new-horizons",
@@ -28,7 +30,7 @@ export const staticServers: StaticServerConfig[] = [
     id: "atm10",
     pterodactyl_id: "31613859",
     name: "All The Mods 10",
-    address: "37.27.225.173:27025",
+    address: "atm10-s1.mpnhost.com",
     version: "1.2.3",
     mc: "1.20.1",
     packUrl: "https://www.curseforge.com/minecraft/modpacks/all-the-mods-10",
@@ -40,7 +42,7 @@ export const staticServers: StaticServerConfig[] = [
     id: "atm10tts",
     pterodactyl_id: "31463b29",
     name: "ATM 10 To The Sky",
-    address: "37.27.225.173:27022",
+    address: "atm10tts-s1.mpnhost.com",
     version: "0.1.5",
     mc: "1.20.1",
     packUrl: "https://www.curseforge.com/minecraft/modpacks/all-the-mods-10-sky",
@@ -52,7 +54,7 @@ export const staticServers: StaticServerConfig[] = [
     id: "atmons",
     pterodactyl_id: "7230a0f8",
     name: "All The Mons",
-    address: "37.27.225.173:27021",
+    address: "ATMons-S1.mpnhost.com",
     version: "1.0.0",
     mc: "1.20.1",
     packUrl: "https://www.curseforge.com/minecraft/modpacks/all-the-mons",
@@ -62,41 +64,44 @@ export const staticServers: StaticServerConfig[] = [
   {
     id: "makeshiftsmp",
     pterodactyl_id: "b691e0da", // Mapped from the API test
-    name: "Makeshift SMP (Private)",
-    address: "37.27.225.173:27029",
+    name: "Makeshift SMP",
+    address: "Private",
     version: "Custom",
     mc: "1.20.4",
     packUrl: "https://modrinth.com/modpack/makeshift",
     color: "var(--primary)",
-    imgUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp"
+    imgUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
+    isPrivate: true
   },
   {
     id: "thasmp",
     pterodactyl_id: "9b7f4bba",
-    name: "ThaSMP (Private)",
-    address: "37.27.225.173:27023",
+    name: "ThaSMP",
+    address: "Private",
     version: "Custom",
     mc: "1.20.4",
     packUrl: "https://modrinth.com/modpack/thasmp",
     color: "#eab308",
-    imgUrl: "https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp"
+    imgUrl: "https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp",
+    isPrivate: true
   },
   {
     id: "deceasedcraft",
     pterodactyl_id: "6d11144c",
     name: "Deceased Craft",
-    address: "37.27.225.173:27028",
+    address: "Private",
     version: "5.4.2",
     mc: "1.18.2",
     packUrl: "https://www.curseforge.com/minecraft/modpacks/deceasedcraft",
     color: "var(--primary)",
-    imgUrl: "https://media.forgecdn.net/avatars/thumbnails/1577/605/256/256/639022081315858417.png"
+    imgUrl: "https://media.forgecdn.net/avatars/thumbnails/1577/605/256/256/639022081315858417.png",
+    isPrivate: true
   },
   {
     id: "atm9reborn",
     pterodactyl_id: "94cf900e",
     name: "All The Mods 9 - Reborn",
-    address: "37.27.225.173:27027",
+    address: "atm9-s1.mpnhost.com",
     version: "1.0.0",
     mc: "1.20.1",
     packUrl: "https://www.curseforge.com/minecraft/modpacks/all-the-mods-9",
@@ -107,11 +112,12 @@ export const staticServers: StaticServerConfig[] = [
     id: "makeshiftcommunity",
     pterodactyl_id: "004c817a",
     name: "Makeshift Community | SMP",
-    address: "37.27.225.173:27026",
+    address: "Coming Soon",
     version: "Custom",
     mc: "1.20.4",
     packUrl: "https://modrinth.com/modpack/makeshift",
     color: "var(--primary)",
-    imgUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp"
+    imgUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
+    isComingSoon: true
   }
 ];

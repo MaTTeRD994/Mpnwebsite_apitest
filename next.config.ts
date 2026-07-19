@@ -8,15 +8,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'mc-heads.net' },
     ],
   },
-  async redirects() {
-    return [
-      {
-        source: '/discord',
-        destination: 'https://discord.gg/NeYyChaFfZ',
-        permanent: false, // Use false in case you want to change the invite link later
-      },
-    ];
-  },
 };
 
 export default nextConfig;
