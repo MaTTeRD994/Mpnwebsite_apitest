@@ -134,3 +134,24 @@ a {
 .hover-text-primary:hover {
   color: var(--primary) !important;
 }
+
+.hover-scale {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+}
+
+.hover-scale:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+.hover-bg-light:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.server-card:hover {
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.server-card:hover .card-banner-img {
+  transform: scale(1.06);
+}
