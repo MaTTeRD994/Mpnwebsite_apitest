@@ -11,8 +11,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.io.*;
@@ -59,17 +57,13 @@ public class LinkMod implements DedicatedServerModInitializer {
                                     .append(Component.literal("Your link code: ")
                                         .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xE2E8F0)).withBold(false)))
                                     .append(Component.literal(code)
-                                        .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x4ADE80)).withBold(true)
-                                            .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, code))
-                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to copy code"))))));
+                                        .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x4ADE80)).withBold(true))));
                                 player.sendSystemMessage(Component.literal(" ✦ ")
                                     .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xA855F7)).withBold(true))
                                     .append(Component.literal("Go to ")
                                         .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xE2E8F0)).withBold(false)))
                                     .append(Component.literal(websiteUrl + "/account")
-                                        .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x60A5FA)).withBold(false).withUnderlined(true)
-                                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, websiteUrl + "/account"))
-                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to open website")))))
+                                        .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x60A5FA)).withBold(false).withUnderlined(true)))
                                     .append(Component.literal(" and enter this code")
                                         .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xE2E8F0)).withBold(false))));
                                 player.sendSystemMessage(Component.literal(" ✦ ")
