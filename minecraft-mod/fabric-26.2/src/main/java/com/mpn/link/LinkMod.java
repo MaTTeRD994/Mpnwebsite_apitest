@@ -43,7 +43,7 @@ public class LinkMod implements DedicatedServerModInitializer {
                     ServerPlayer player = source.getPlayerOrException();
 
                     String uuid = player.getStringUUID();
-                    String name = player.getGameProfile().getName();
+                    String name = player.getName().getString();
                     String code = generateCode();
 
                     new Thread(() -> {
