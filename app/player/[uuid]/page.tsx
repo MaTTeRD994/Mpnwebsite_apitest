@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { getPlaytimeRank } from "../../../utils/ranks";
+import { getPlaytimeRank, PLAYTIME_RANKS } from "../../../utils/ranks";
 import { supabase } from "../../../utils/supabase";
 
 export default function PlayerProfile() {
@@ -109,18 +109,14 @@ export default function PlayerProfile() {
   const selectedServerData = allServerStats.find(s => s.server_id === selectedServerId) || allServerStats[0] || null;
 
   // --- ACHIEVEMENTS SETUP (No Economy, No Gambling) ---
-  const playtimeMilestones = [
-    { title: "First Steps", desc: "Play for 1 hour across all servers.", required: 1, current: playerInfo.playtime || 0 },
-    { title: "Getting Started", desc: "Play for 10 hours across all servers.", required: 10, current: playerInfo.playtime || 0 },
-    { title: "Committed", desc: "Play for 24 hours across all servers.", required: 24, current: playerInfo.playtime || 0 },
-    { title: "Veteran", desc: "Play for 100 hours across all servers.", required: 100, current: playerInfo.playtime || 0 },
-    { title: "Seasoned", desc: "Play for 250 hours across all servers.", required: 250, current: playerInfo.playtime || 0 },
-    { title: "Dedicated", desc: "Play for 500 hours across all servers.", required: 500, current: playerInfo.playtime || 0 },
-    { title: "Legend", desc: "Play for 1,000 hours across all servers.", required: 1000, current: playerInfo.playtime || 0 },
-    { title: "Mythic", desc: "Play for 2,000 hours across all servers.", required: 2000, current: playerInfo.playtime || 0 },
-    { title: "Immortal", desc: "Play for 5,000 hours across all servers.", required: 5000, current: playerInfo.playtime || 0 },
-    { title: "Eternal", desc: "Play for 10,000 hours across all servers.", required: 10000, current: playerInfo.playtime || 0 },
-  ];
+  const playtimeMilestones = PLAYTIME_RANKS.map(rank => ({
+    title: `${rank.name} Rank`,
+    desc: rank.hours === 0 
+      ? `Start your journey on the network (${rank.claims} claims, ${rank.homes} home).` 
+      : `Reach ${rank.hours} hours across all servers to unlock ${rank.name} (${rank.claims} claims, ${rank.forceLoaded} force loaded chunks, ${rank.homes} homes${rank.specialDiscord ? ', VIP Discord role' : ''}).`,
+    required: rank.hours,
+    current: playerInfo.playtime || 0
+  }));
 
   const votingMilestones = [
     { title: "First Vote", desc: "Vote for MaTTeRPixel Network for the first time.", required: 1, current: playerInfo.votes || 0 },
