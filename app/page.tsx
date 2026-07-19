@@ -101,7 +101,7 @@ export default function Home() {
           </div>
 
           <h1 style={{ 
-            fontSize: 'clamp(2.5rem, 6vw, 4.25rem)', 
+            fontSize: 'clamp(3rem, 7vw, 5rem)', 
             fontWeight: '900', 
             lineHeight: 1.1, 
             letterSpacing: '-0.03em',
@@ -109,13 +109,9 @@ export default function Home() {
             margin: '0 0 1.25rem 0',
             textShadow: '0 10px 30px rgba(0,0,0,0.6)'
           }}>
-            Your Next Modded Adventure <br />
-            <span style={{ 
-              background: 'linear-gradient(135deg, #fff 0%, #cbd5e1 50%, #8b5cf6 100%)', 
-              WebkitBackgroundClip: 'text', 
-              WebkitTextFillColor: 'transparent' 
-            }}>
-              Starts Here
+            MORE THAN SERVERS. <br/>
+            <span style={{ color: 'transparent', WebkitTextStroke: '1.5px #E6E6E6' }}>
+              A HOME.
             </span>
           </h1>
           
@@ -126,7 +122,7 @@ export default function Home() {
             margin: '0 0 2.5rem 0', 
             lineHeight: 1.6 
           }}>
-            A hand-picked collection of modded Minecraft servers — from kitchen sinks to expert packs. Join thousands of players and find your perfect pack today.
+            Free modded Minecraft servers built around community, creativity, automation, and unforgettable adventures. Explore expert packs, kitchen sinks, and long-term worlds.
           </p>
 
           {/* Action Buttons */}
