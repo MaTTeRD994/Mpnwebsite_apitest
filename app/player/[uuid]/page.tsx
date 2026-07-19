@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { SkinViewer } from "skinview3d";
 import { supabase } from "../../../utils/supabase";
 
 export default function PlayerProfile({ params }: { params: { uuid: string } }) {
@@ -41,21 +40,29 @@ export default function PlayerProfile({ params }: { params: { uuid: string } }) 
     
     const canvas = document.getElementById("skin_container") as HTMLCanvasElement;
     if (canvas) {
-      // Clear previous instances if any
-      const viewer = new SkinViewer({
-        canvas: canvas,
-        width: 150,
-        height: 300,
-        skin: `https://crafatar.com/skins/${params.uuid}`
-      });
-      
-      // Setup animation
-      viewer.autoRotate = true;
-      viewer.autoRotateSpeed = 0.5;
+      // Dynamically import skinview3d to avoid Next.js SSR crashes
+      import('skinview3d').then(({ SkinViewer }) => {
+        // Clear previous instances if any
+        const viewer = new SkinViewer({
+          canvas: canvas,
+          width: 150,
+          height: 300,
+          skin: `https://crafatar.com/skins/${params.uuid}`
+        });
+        
+        // Setup animation
+        viewer.autoRotate = true;
+        viewer.autoRotateSpeed = 0.5;
+        
+        // Save to window so we can dispose it later if needed
+        (window as any)._skinViewer = viewer;
+      }).catch(err => console.error("Failed to load skinview3d", err));
       
       // Cleanup on unmount
       return () => {
-        viewer.dispose();
+        if ((window as any)._skinViewer) {
+          (window as any)._skinViewer.dispose();
+        }
       };
     }
   }, [playerInfo, loading, params.uuid]);
