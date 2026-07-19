@@ -1,0 +1,28 @@
+modLoader="javafml"
+loaderVersion="[40,)"
+license="MIT"
+issueTrackerURL="https://github.com/MaTTeRD994/Mpnwebsite_apitest/issues"
+
+[[mods]]
+modId="mpnlink"
+version="1.0.0"
+displayName="MPN Link Mod"
+authors="MaTTeRPixel Team"
+displayTest="IGNORE_ALL_VERSION"
+description='''
+Allows players on MaTTeRPixel Network servers to link their Minecraft account to Discord using /link.
+'''
+
+[[dependencies.mpnlink]]
+modId="forge"
+mandatory=true
+versionRange="[40,)"
+ordering="NONE"
+side="SERVER"
+
+[[dependencies.mpnlink]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.18.2,1.18.3)"
+ordering="NONE"
+side="SERVER"

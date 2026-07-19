@@ -2,18 +2,20 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { signJwt } from '../../../../utils/jwt';
 import { supabase } from '../../../../utils/supabase';
+import { getOrigin, getAuthRedirectUri } from '../../../../utils/auth-url';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
+  const origin = getOrigin(request);
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
 
   if (!code) {
-    return NextResponse.redirect(new URL('/?error=no_code', request.url));
+    return NextResponse.redirect(`${origin}/?error=no_code`);
   }
 
-  const redirectUri = `${process.env.NEXTAUTH_URL}/api/auth/callback`;
+  const redirectUri = getAuthRedirectUri(request);
 
   try {
     // Exchange code for access token
@@ -31,7 +33,7 @@ export async function GET(request: Request) {
 
     if (!tokenRes.ok) {
       console.error('Discord token error:', await tokenRes.text());
-      return NextResponse.redirect(new URL('/?error=token_failed', request.url));
+      return NextResponse.redirect(`${origin}/?error=token_failed`);
     }
 
     const tokenData = await tokenRes.json();
@@ -43,7 +45,7 @@ export async function GET(request: Request) {
 
     if (!userRes.ok) {
       console.error('Discord user error:', await userRes.text());
-      return NextResponse.redirect(new URL('/?error=user_failed', request.url));
+      return NextResponse.redirect(`${origin}/?error=user_failed`);
     }
 
     const discordUser = await userRes.json();
@@ -82,9 +84,9 @@ export async function GET(request: Request) {
       path: '/',
     });
 
-    return NextResponse.redirect(new URL('/account', request.url));
+    return NextResponse.redirect(`${origin}/account`);
   } catch (err) {
     console.error('Auth callback error:', err);
-    return NextResponse.redirect(new URL('/?error=auth_failed', request.url));
+    return NextResponse.redirect(`${origin}/?error=auth_failed`);
   }
 }

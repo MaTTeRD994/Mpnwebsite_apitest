@@ -1,0 +1,16 @@
+# Gradle & Java
+.gradle/
+build/
+out/
+bin/
+*.log
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/

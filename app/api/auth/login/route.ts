@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
+import { getAuthRedirectUri } from '../../../../utils/auth-url';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
   const clientId = process.env.DISCORD_CLIENT_ID;
-  const redirectUri = `${process.env.NEXTAUTH_URL}/api/auth/callback`;
+  const redirectUri = getAuthRedirectUri(request);
 
   const params = new URLSearchParams({
     client_id: clientId!,

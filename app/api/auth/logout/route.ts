@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { getOrigin } from '../../../../utils/auth-url';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
+  const origin = getOrigin(request);
   const cookieStore = await cookies();
   cookieStore.set('mpn_session', '', {
     httpOnly: true,
@@ -13,5 +15,5 @@ export async function GET(request: Request) {
     path: '/',
   });
 
-  return NextResponse.redirect(new URL('/', request.url));
+  return NextResponse.redirect(`${origin}/`);
 }
