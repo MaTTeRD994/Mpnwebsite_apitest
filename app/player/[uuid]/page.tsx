@@ -49,27 +49,33 @@ export default function PlayerProfile() {
     const canvas = document.getElementById("skin_container") as HTMLCanvasElement;
     if (canvas) {
       // Dynamically import skinview3d to avoid Next.js SSR crashes
-      import('skinview3d').then(({ SkinViewer }) => {
+      import('skinview3d').then(({ SkinViewer, IdleAnimation }) => {
         // Clear previous instances if any
+        if ((window as any)._skinViewer) {
+          try { (window as any)._skinViewer.dispose(); } catch(e) {}
+        }
+        
         const viewer = new SkinViewer({
           canvas: canvas,
-          width: 150,
-          height: 300,
-          skin: `https://crafatar.com/skins/${uuid}`
+          width: 180,
+          height: 320,
+          skin: `https://mc-heads.net/skin/${uuid}`
         });
         
-        // Setup animation
+        // Setup smooth idle animation and rotation
+        viewer.animation = new IdleAnimation();
         viewer.autoRotate = true;
-        viewer.autoRotateSpeed = 0.5;
+        viewer.autoRotateSpeed = 0.6;
+        viewer.zoom = 0.9;
         
-        // Save to window so we can dispose it later if needed
+        // Save to window so we can dispose or reload it later
         (window as any)._skinViewer = viewer;
       }).catch(err => console.error("Failed to load skinview3d", err));
       
       // Cleanup on unmount
       return () => {
         if ((window as any)._skinViewer) {
-          (window as any)._skinViewer.dispose();
+          try { (window as any)._skinViewer.dispose(); } catch(e) {}
         }
       };
     }
@@ -111,7 +117,14 @@ export default function PlayerProfile() {
           <div style={{ background: "rgba(0,0,0,0.3)", borderRadius: "8px", padding: "1rem", border: "1px solid var(--border-light)" }}>
             <canvas id="skin_container" style={{ display: "block" }}></canvas>
           </div>
-          <button className="btn" style={{ background: "transparent", border: "1px solid var(--border-light)", color: "var(--text-muted)", padding: "0.5rem 1rem", fontSize: "0.8rem", borderRadius: "4px", cursor: "pointer", width: "100%" }}>
+          <button 
+            className="btn hover-bg-surface" 
+            onClick={() => {
+              if ((window as any)._skinViewer) {
+                (window as any)._skinViewer.loadSkin(`https://mc-heads.net/skin/${uuid}?t=${Date.now()}`);
+              }
+            }}
+            style={{ background: "transparent", border: "1px solid var(--border-light)", color: "var(--text-muted)", padding: "0.5rem 1rem", fontSize: "0.8rem", borderRadius: "4px", cursor: "pointer", width: "100%", transition: "all 0.2s" }}>
             ⟳ Refresh skin
           </button>
         </div>
