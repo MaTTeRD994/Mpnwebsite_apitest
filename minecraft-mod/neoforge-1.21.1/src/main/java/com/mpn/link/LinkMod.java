@@ -56,9 +56,9 @@ public class LinkMod {
             }
             String json = Files.readString(configPath);
             JsonObject config = JsonParser.parseString(json).getAsJsonObject();
-            supabaseUrl = config.get("supabaseUrl").getAsString();
-            supabaseKey = config.get("supabaseKey").getAsString();
-            websiteUrl = config.get("websiteUrl").getAsString();
+            supabaseUrl = config.get("supabaseUrl").getAsString().trim();
+            supabaseKey = config.get("supabaseKey").getAsString().trim();
+            websiteUrl = config.get("websiteUrl").getAsString().trim();
             System.out.println("[MPN-Link] Config loaded successfully");
         } catch (Exception e) {
             System.err.println("[MPN-Link] Failed to load config: " + e.getMessage());
@@ -79,6 +79,15 @@ public class LinkMod {
 
                 new Thread(() -> {
                     try {
+                        if (supabaseKey == null || supabaseKey.isEmpty() || "YOUR_SUPABASE_ANON_KEY_HERE".equals(supabaseKey)) {
+                            System.err.println("[MPN-Link] ERROR: The API key is missing or still set to the default placeholder! Please update config/mpn-link.json and restart the server!");
+                            server.execute(() -> {
+                                player.sendSystemMessage(Component.literal("✗ Server Error: Mod is not configured! Check server console.")
+                                    .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xEF4444))));
+                            });
+                            return;
+                        }
+                        
                         sendLinkCode(code, uuid, name);
                         server.execute(() -> {
                             player.sendSystemMessage(Component.literal(""));
