@@ -140,7 +140,7 @@ export async function GET(request: Request) {
               blocks_mined: blocksMined,
               role: 'Player',
               color: '#4ade80',
-              updated_at: new Date().toISOString()
+              updated_at: fileObj.attributes?.modified_at || new Date().toISOString()
             });
           }
           
