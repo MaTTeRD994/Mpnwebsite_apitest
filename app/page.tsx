@@ -39,7 +39,7 @@ export default function Home() {
     <main>
       {/* Hero Section */}
       <section style={{ 
-        minHeight: '80vh', 
+        minHeight: '100vh', 
         display: 'flex', 
         flexDirection: 'column',
         alignItems: 'center', 
@@ -47,11 +47,34 @@ export default function Home() {
         textAlign: 'center',
         padding: '2rem',
         position: 'relative',
-        backgroundImage: 'linear-gradient(to bottom, rgba(10, 10, 10, 0.1) 0%, rgba(10, 10, 10, 0.6) 80%, var(--bg-base) 100%), url(/herobg.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        overflow: 'hidden'
       }}>
+        {/* Semi-transparent background image covering full viewport */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'url(/herobg.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: 0.35,
+          zIndex: -2
+        }} />
+        
+        {/* Smooth gradient transition into the rest of the site below */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(to bottom, transparent 60%, var(--bg-base) 100%)',
+          zIndex: -1
+        }} />
+
         {/* Background decorative glow */}
         <div style={{
           position: 'absolute',
