@@ -6,7 +6,7 @@ export const revalidate = 60; // Cache leaderboard for 60 seconds
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '50');
+    const limit = parseInt(searchParams.get('limit') || '1000');
 
     // Fetch players from the aggregated view, sorted by playtime descending
     const { data: players, error } = await supabase

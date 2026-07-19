@@ -8,9 +8,11 @@ export default function Leaderboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState<'player' | 'rank' | 'playtime' | 'last_server' | 'last_online' | 'votes' | 'discord'>('playtime');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const playersPerPage = 50;
 
   useEffect(() => {
-    fetch('/api/leaderboard?limit=200')
+    fetch('/api/leaderboard?limit=1000')
       .then(res => res.json())
       .then(data => {
         if (data.error || !Array.isArray(data)) {
@@ -33,6 +35,7 @@ export default function Leaderboard() {
       setSortField(field);
       setSortDirection('desc');
     }
+    setCurrentPage(1);
   };
 
   const formatLastOnline = (updatedAt: string) => {
@@ -107,6 +110,12 @@ export default function Leaderboard() {
       return 0;
     });
 
+  const totalPages = Math.max(1, Math.ceil(filteredPlayers.length / playersPerPage));
+  const paginatedPlayers = filteredPlayers.slice(
+    (currentPage - 1) * playersPerPage,
+    currentPage * playersPerPage
+  );
+
   return (
     <main>
       <div style={{ 
@@ -139,7 +148,10 @@ export default function Leaderboard() {
               type="text" 
               placeholder="Search player name..." 
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
               style={{
                 width: '100%',
                 background: 'rgba(0,0,0,0.6)',
@@ -217,16 +229,20 @@ export default function Leaderboard() {
                       {searchQuery ? `No players matching "${searchQuery}"` : "No players found on the leaderboard yet."}
                     </td>
                   </tr>
-                ) : filteredPlayers.map((p) => {
+                ) : paginatedPlayers.map((p, idx) => {
                   const rank = getPlaytimeRank(p.playtime, p.name);
                   const onlineInfo = formatLastOnline(p.updated_at);
                   const serverName = p.last_server && p.last_server !== 'Unknown' ? p.last_server : 'Lobby';
+                  const absolutePosition = (currentPage - 1) * playersPerPage + idx + 1;
 
                   return (
                     <tr key={p.uuid} onClick={() => window.location.href = `/player/${p.uuid}`} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', transition: 'background-color 0.2s', cursor: 'pointer' }} className="hover-row">
                       {/* PLAYER */}
                       <td style={{ padding: '1rem 1.5rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                          <span style={{ color: 'var(--text-muted)', fontFamily: 'monospace', fontSize: '0.85rem', width: '2.2rem', display: 'inline-block' }}>
+                            #{absolutePosition}
+                          </span>
                           <img src={`https://mc-heads.net/avatar/${p.uuid}/256`} alt={p.name} style={{ width: '36px', height: '36px', borderRadius: '0.5rem', border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(0,0,0,0.6)' }} crossOrigin="anonymous" />
                           <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>{p.name}</span>
                         </div>
@@ -278,6 +294,52 @@ export default function Leaderboard() {
               </tbody>
             </table>
           </div>
+
+          {/* PAGINATION CONTROLS */}
+          {totalPages > 1 && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.25rem 1.5rem', background: 'rgba(0,0,0,0.4)', borderTop: '1px solid var(--border-light)', flexWrap: 'wrap', gap: '1rem' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                Showing <span style={{ color: '#fff', fontWeight: 'bold' }}>{(currentPage - 1) * playersPerPage + 1}</span> to <span style={{ color: '#fff', fontWeight: 'bold' }}>{Math.min(currentPage * playersPerPage, filteredPlayers.length)}</span> of <span style={{ color: '#fff', fontWeight: 'bold' }}>{filteredPlayers.length}</span> players
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <button
+                  onClick={() => setCurrentPage(1)}
+                  disabled={currentPage === 1}
+                  className="btn"
+                  style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem', background: currentPage === 1 ? 'transparent' : 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: currentPage === 1 ? 'rgba(255,255,255,0.25)' : '#fff', cursor: currentPage === 1 ? 'not-allowed' : 'pointer', borderRadius: '6px' }}
+                >
+                  « First
+                </button>
+                <button
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                  className="btn"
+                  style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem', background: currentPage === 1 ? 'transparent' : 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: currentPage === 1 ? 'rgba(255,255,255,0.25)' : '#fff', cursor: currentPage === 1 ? 'not-allowed' : 'pointer', borderRadius: '6px' }}
+                >
+                  ‹ Prev
+                </button>
+                <div style={{ padding: '0 0.75rem', color: '#fff', fontWeight: 'bold', fontSize: '0.9rem' }}>
+                  Page {currentPage} of {totalPages}
+                </div>
+                <button
+                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                  disabled={currentPage === totalPages}
+                  className="btn"
+                  style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem', background: currentPage === totalPages ? 'transparent' : 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: currentPage === totalPages ? 'rgba(255,255,255,0.25)' : '#fff', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer', borderRadius: '6px' }}
+                >
+                  Next ›
+                </button>
+                <button
+                  onClick={() => setCurrentPage(totalPages)}
+                  disabled={currentPage === totalPages}
+                  className="btn"
+                  style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem', background: currentPage === totalPages ? 'transparent' : 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: currentPage === totalPages ? 'rgba(255,255,255,0.25)' : '#fff', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer', borderRadius: '6px' }}
+                >
+                  Last »
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </main>
