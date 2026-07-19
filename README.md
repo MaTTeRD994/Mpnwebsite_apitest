@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔮 MaTTeRPixel Network 
 
-## Getting Started
+![MaTTeRPixel Banner](https://raw.githubusercontent.com/MaTTeRD994/Mpnwebsite_apitest/main/public/logo.png)
 
-First, run the development server:
+Welcome to the official repository for the **MaTTeRPixel Network Website**, a premium, automated web platform built for high-performance Minecraft server networks.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
+* **Dynamic Server Status:** Real-time pinging of game servers through the Pterodactyl Panel API and `mcsrvstat.us` to display live player counts and online/offline statuses.
+* **Automated Leaderboards:** A serverless Next.js cron job that automatically scrapes `usercache.json` and `world/stats/` from game nodes, calculates precise playtime, and pushes it to a Supabase Postgres database.
+* **Premium Dark Mode UI:** Built with pure CSS glassmorphism, glowing accents, and smooth micro-animations.
+* **Fully Responsive:** Beautifully designed for desktop and mobile alike.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Tech Stack
+* **Framework:** Next.js 14 (App Router)
+* **Language:** TypeScript
+* **Database:** Supabase (PostgreSQL)
+* **Hosting:** Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Setup & Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/MaTTeRD994/Mpnwebsite_apitest.git
+   ```
 
-## Learn More
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Configure Environment Variables:**
+   Create a `.env.local` file in the root directory:
+   ```env
+   PTERODACTYL_PANEL_URL=https://console.yourhost.com
+   PTERODACTYL_CLIENT_API_KEY=your_client_api_key
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Run the Development Server:**
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Built with ❤️ for the MaTTeRPixel Community.*
