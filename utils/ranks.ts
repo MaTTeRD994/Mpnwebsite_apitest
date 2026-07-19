@@ -40,3 +40,10 @@ export function getPlaytimeRank(playtime: number, username: string): { name: str
   // Fallback (should never happen since Neophyte is 0)
   return { name: 'Neophyte', color: '#9ca3af' };
 }
+
+export function getRankLevel(playtime: number, username: string): number {
+  if (username && username.toLowerCase() === 'thamatter') {
+    return 99999;
+  }
+  return playtime || 0;
+}
