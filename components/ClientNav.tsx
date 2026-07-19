@@ -16,7 +16,7 @@ export default function ClientNav({ children }: { children: React.ReactNode }) {
             justifyContent: 'center',
             overflow: 'hidden'
           }}>
-            <img src="/logo.png" alt="MP Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            <img src="/logo.webp" alt="MP Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
           <a href="/" style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.1', textDecoration: 'none', color: 'inherit' }}>
             <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800 }}>MaTTeR<span style={{ color: 'var(--primary)' }}>Pixel</span></span>
@@ -28,6 +28,7 @@ export default function ClientNav({ children }: { children: React.ReactNode }) {
           <a href="/" className="nav-link" style={{ transition: 'color 0.2s' }}>Home</a>
           <a href="/servers" className="nav-link" style={{ transition: 'color 0.2s' }}>Servers</a>
           <a href="/leaderboard" className="nav-link" style={{ transition: 'color 0.2s' }}>Leaderboard</a>
+          <a href="/discord" className="nav-link" style={{ transition: 'color 0.2s' }}>Discord</a>
           <a href="/info" className="nav-link" style={{ transition: 'color 0.2s', color: 'var(--text-light)' }}>Info</a>
         </div>
         

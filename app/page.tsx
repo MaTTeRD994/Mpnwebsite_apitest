@@ -57,7 +57,7 @@ export default function Home() {
         <div style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'url(/herobg.png)',
+          backgroundImage: 'url(/herobg.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -80,7 +80,7 @@ export default function Home() {
           {/* Logo above Title */}
           <div style={{ marginBottom: '1.5rem', animation: 'float 6s ease-in-out infinite' }}>
             <Image 
-              src="/logo.png" 
+              src="/logo.webp" 
               alt="MaTTeRPxiel floating logo" 
               width={300} 
               height={200} 

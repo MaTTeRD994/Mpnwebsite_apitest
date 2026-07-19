@@ -29,9 +29,9 @@ export default function InfoPage() {
       
       {/* Hero Section */}
       <section style={{ textAlign: 'center', marginBottom: '4rem', marginTop: '2rem' }}>
-        <h3 style={{ color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem', marginBottom: '1rem', fontWeight: 'bold' }}>
+        <div style={{ color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem', marginBottom: '1rem', fontWeight: 'bold' }}>
           MaTTeRPixel Network
-        </h3>
+        </div>
         <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '4rem', fontWeight: 900, lineHeight: 1.1, marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>
           Everything You Need<br />
           <span style={{ color: 'var(--text-muted)' }}>to Know</span>
@@ -176,7 +176,7 @@ export default function InfoPage() {
               <a 
                 href="https://patreon.com" 
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 style={{ 
                   display: 'inline-flex', 
                   alignItems: 'center', 

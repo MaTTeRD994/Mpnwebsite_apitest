@@ -128,7 +128,7 @@ export default function Leaderboard() {
         <div style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'url(/herobg.png)',
+          backgroundImage: 'url(/herobg.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           opacity: 0.12,

@@ -1,12 +1,30 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../components/AuthProvider";
+import { supabase } from "../../utils/supabase";
+import { getPlaytimeRank } from "../../utils/ranks";
 
 export default function AccountPage() {
   const { user, loading, refreshUser } = useAuth();
   const [linkCode, setLinkCode] = useState("");
   const [linkStatus, setLinkStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [linking, setLinking] = useState(false);
+  const [stats, setStats] = useState<any>(null);
+  const [loadingStats, setLoadingStats] = useState(false);
+
+  useEffect(() => {
+    if (!user?.minecraft_uuid) return;
+    setLoadingStats(true);
+    supabase
+      .from("network_leaderboard")
+      .select("*")
+      .eq("uuid", user.minecraft_uuid)
+      .single()
+      .then(({ data }) => {
+        setStats(data || { playtime: 0, mob_kills: 0, blocks_mined: 0, deaths: 0, servers_played: 0 });
+        setLoadingStats(false);
+      });
+  }, [user?.minecraft_uuid]);
 
   const handleLink = async () => {
     if (!linkCode.trim()) return;
@@ -177,66 +195,146 @@ export default function AccountPage() {
           </h3>
 
           {user.minecraft_uuid ? (
-            /* LINKED STATE */
+            /* LINKED STATE WITH LIVE STATS DASHBOARD */
             <div>
+              {/* Profile Header Bar */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1.25rem',
-                padding: '1.25rem',
-                background: 'rgba(74, 222, 128, 0.06)',
-                border: '1px solid rgba(74, 222, 128, 0.2)',
+                padding: '1.5rem',
+                background: 'rgba(74, 222, 128, 0.05)',
+                border: '1px solid rgba(74, 222, 128, 0.25)',
                 borderRadius: '1rem',
                 flexWrap: 'wrap',
+                marginBottom: '1.5rem'
               }}>
                 <img
-                  src={`https://mc-heads.net/avatar/${user.minecraft_uuid}/64`}
+                  src={`https://mc-heads.net/avatar/${user.minecraft_uuid}/72`}
                   alt={user.minecraft_name || 'Minecraft'}
                   style={{
-                    width: '56px',
-                    height: '56px',
-                    borderRadius: '0.75rem',
-                    border: '2px solid rgba(74, 222, 128, 0.3)',
+                    width: '68px',
+                    height: '68px',
+                    borderRadius: '0.85rem',
+                    border: '2px solid rgba(74, 222, 128, 0.4)',
                     background: 'rgba(0,0,0,0.4)',
+                    boxShadow: '0 8px 20px rgba(74, 222, 128, 0.15)'
                   }}
                 />
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.25rem' }}>
-                    <span style={{ color: '#fff', fontSize: '1.15rem', fontWeight: 'bold' }}>
+                <div style={{ flex: 1, minWidth: '200px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.35rem', flexWrap: 'wrap' }}>
+                    <span style={{ color: '#fff', fontSize: '1.3rem', fontWeight: 800 }}>
                       {user.minecraft_name}
                     </span>
                     <span style={{
                       background: 'rgba(74, 222, 128, 0.15)',
                       color: '#4ade80',
-                      padding: '0.15rem 0.6rem',
+                      padding: '0.2rem 0.65rem',
                       borderRadius: '999px',
-                      fontSize: '0.7rem',
+                      fontSize: '0.72rem',
                       fontWeight: 'bold',
                       letterSpacing: '0.05em',
+                      border: '1px solid rgba(74, 222, 128, 0.3)'
                     }}>
-                      ✓ LINKED
+                      ✓ CONNECTED
                     </span>
+                    {stats && (
+                      <span style={{
+                        background: 'rgba(0,0,0,0.5)',
+                        border: `1px solid ${getPlaytimeRank(stats.playtime || 0, user.minecraft_name || "").color}`,
+                        color: getPlaytimeRank(stats.playtime || 0, user.minecraft_name || "").color,
+                        padding: '0.2rem 0.65rem',
+                        borderRadius: '6px',
+                        fontSize: '0.75rem',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase'
+                      }}>
+                        {getPlaytimeRank(stats.playtime || 0, user.minecraft_name || "").name}
+                      </span>
+                    )}
                   </div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontFamily: 'monospace' }}>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '0.82rem', fontFamily: 'monospace' }}>
                     {user.minecraft_uuid}
                   </div>
                 </div>
-                <a
-                  href={`/player/${user.minecraft_uuid}`}
+                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  <a
+                    href={`/player/${user.minecraft_uuid}`}
+                    style={{
+                      background: 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)',
+                      color: '#fff',
+                      padding: '0.65rem 1.25rem',
+                      borderRadius: '0.65rem',
+                      fontSize: '0.9rem',
+                      fontWeight: 'bold',
+                      textDecoration: 'none',
+                      transition: 'all 0.2s',
+                      boxShadow: '0 6px 16px rgba(168, 85, 247, 0.3)'
+                    }}
+                  >
+                    View Full Profile & Achievements →
+                  </a>
+                </div>
+              </div>
+
+              {/* Live KPI Grid */}
+              <div style={{ marginBottom: '1.5rem' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 'bold', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+                  YOUR LIVE NETWORK STATS
+                </div>
+                {loadingStats ? (
+                  <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', background: 'rgba(0,0,0,0.2)', borderRadius: '1rem' }}>
+                    Loading your statistics...
+                  </div>
+                ) : (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem' }}>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '1.25rem', textAlign: 'center' }}>
+                      <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>⏱️</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#4ade80' }}>{stats?.playtime || 0}h</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Playtime</div>
+                    </div>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '1.25rem', textAlign: 'center' }}>
+                      <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>⚡</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fb923c' }}>{stats?.mob_kills || 0}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Mob Kills</div>
+                    </div>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '1.25rem', textAlign: 'center' }}>
+                      <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>⛏️</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#eab308' }}>{stats?.blocks_mined || 0}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Blocks Mined</div>
+                    </div>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '1.25rem', textAlign: 'center' }}>
+                      <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>💀</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#f87171' }}>{stats?.deaths || 0}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Deaths</div>
+                    </div>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '1.25rem', textAlign: 'center' }}>
+                      <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>📦</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#60a5fa' }}>{stats?.servers_played || 0}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Modpacks</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Unlink Action Bar */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1rem' }}>
+                <button
+                  onClick={handleUnlink}
                   style={{
-                    background: 'rgba(168, 85, 247, 0.15)',
-                    border: '1px solid rgba(168, 85, 247, 0.3)',
-                    color: '#a855f7',
-                    padding: '0.55rem 1.1rem',
-                    borderRadius: '0.6rem',
-                    fontSize: '0.85rem',
-                    fontWeight: 'bold',
-                    textDecoration: 'none',
-                    transition: 'all 0.2s',
+                    background: 'transparent',
+                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                    color: '#ef4444',
+                    padding: '0.45rem 1rem',
+                    borderRadius: '0.5rem',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
                   }}
                 >
-                  View Profile →
-                </a>
+                  Unlink Minecraft Account
+                </button>
               </div>
             </div>
           ) : (
