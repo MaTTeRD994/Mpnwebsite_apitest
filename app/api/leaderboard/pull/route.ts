@@ -56,20 +56,37 @@ export async function GET(request: Request) {
         }
       }
 
-      // 2. Fetch the list of files in world/stats/
-      const listRes = await fetch(`${panelUrl}/api/client/servers/${pteroId}/files/list?directory=world/stats`, {
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Accept': 'application/json'
-        }
-      });
+      // 2. Fetch the list of files checking multiple common stats directories (e.g. world/stats, world/players/stats)
+      let files: any[] = [];
+      let statsDir = 'world/stats';
+      const possibleDirs = ['world/stats', 'world/players/stats', 'stats'];
 
-      if (!listRes.ok) {
-        throw new Error(`Failed to list world/stats. Status: ${listRes.status}`);
+      for (const dir of possibleDirs) {
+        try {
+          const listRes = await fetch(`${panelUrl}/api/client/servers/${pteroId}/files/list?directory=${encodeURIComponent(dir)}`, {
+            headers: {
+              'Authorization': `Bearer ${apiKey}`,
+              'Accept': 'application/json'
+            }
+          });
+          if (listRes.ok) {
+            const listData = await listRes.json();
+            const foundFiles = listData.data || [];
+            if (foundFiles.some((f: any) => f.attributes?.name?.endsWith('.json'))) {
+              files = foundFiles;
+              statsDir = dir;
+              break;
+            }
+          }
+        } catch (e) {
+          // Continue to next directory candidate
+        }
       }
 
-      const listData = await listRes.json();
-      const files = listData.data || [];
+      if (files.length === 0) {
+        // No stats files found for this server, skip cleanly
+        continue;
+      }
 
       // 3. For every .json file, fetch its contents
       const upsertData: any[] = [];
@@ -84,7 +101,7 @@ export async function GET(request: Request) {
         const playerName = usercache[uuid] || "Unknown Player";
 
         try {
-          const statRes = await fetch(`${panelUrl}/api/client/servers/${pteroId}/files/contents?file=world/stats/${filename}`, {
+          const statRes = await fetch(`${panelUrl}/api/client/servers/${pteroId}/files/contents?file=${statsDir}/${filename}`, {
             headers: {
               'Authorization': `Bearer ${apiKey}`,
               'Accept': 'application/json'
