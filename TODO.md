@@ -16,17 +16,9 @@ Welcome to your project command center! Keep this file open in your editor (`TOD
 
 ---
 
-## 🗳️ Upcoming Features & Pages
+## 🛠️ Upcoming Features & Pages
 
-### 1. Vote Section (`/vote`) — *Up Next!*
-- [ ] **Create `/vote` Page (`app/vote/page.tsx`)**
-  - Display server voting links (TopMinecraftServers, PlanetMinecraft, MinecraftServerList, etc.).
-  - Show a **Top Voters Leaderboard** pulling right from `playerInfo.votes` in Supabase.
-  - Highlight in-game voting rewards (Crate Keys, Claim Blocks, Special Titles, Playtime Rank boosts).
-- [ ] **Add `Vote` Link to Navigation Bar**
-  - Add `<a href="/vote">Vote</a>` inside `components/ClientNav.tsx`.
-
-### 2. Real-Time Minecraft Mod Data Pusher (`/api/minecraft/event`)
+### 1. Real-Time Minecraft Mod Data Pusher (`/api/minecraft/event`) — *Next Priority!*
 - [ ] **Build Next.js Secure Gateway Endpoint (`app/api/minecraft/event/route.ts`)**
   - Authenticate incoming requests using an `X-Server-API-Key` secret header.
   - Handle event payloads (`PLAYER_JOIN`, `PLAYER_LEAVE`, `ADVANCEMENT`, `INVENTORY_UPDATE`).
@@ -34,9 +26,21 @@ Welcome to your project command center! Keep this file open in your editor (`TOD
   - Track live online status (`is_online`, `current_server`, exact session timer).
   - Push current armor and inventory data on disconnect to showcase on `/player/[uuid]`.
 
-### 3. Store / Support Page (`/store`)
+### 2. Store / Support Page (`/store`)
 - [ ] **Create `/store` Page (`app/store/page.tsx`)**
   - Showcase Patreon tiers, server hosting costs transparency, and exclusive VIP cosmetic perks.
+
+---
+
+## 📌 Deferred / On Hold (Requires Manual Server-Side Setup First)
+
+### Vote Section (`/vote`) — *Deferred until NuVotifier & Voting Sites are set up*
+- [ ] **Create `/vote` Page (`app/vote/page.tsx`)**
+  - Display server voting links (TopMinecraftServers, PlanetMinecraft, MinecraftServerList, etc.).
+  - Show a **Top Voters Leaderboard** pulling right from `playerInfo.votes` in Supabase.
+  - Highlight in-game voting rewards (Crate Keys, Claim Blocks, Special Titles, Playtime Rank boosts).
+- [ ] **Add `Vote` Link to Navigation Bar**
+  - Add `<a href="/vote">Vote</a>` inside `components/ClientNav.tsx`.
 
 ---
 
