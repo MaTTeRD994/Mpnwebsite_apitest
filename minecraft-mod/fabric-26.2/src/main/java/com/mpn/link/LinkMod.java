@@ -45,11 +45,12 @@ public class LinkMod implements DedicatedServerModInitializer {
                     String uuid = player.getStringUUID();
                     String name = player.getName().getString();
                     String code = generateCode();
+                    net.minecraft.server.MinecraftServer server = source.getServer();
 
                     new Thread(() -> {
                         try {
                             sendLinkCode(code, uuid, name);
-                            player.getServer().execute(() -> {
+                            server.execute(() -> {
                                 player.sendSystemMessage(Component.literal(""));
                                 player.sendSystemMessage(Component.literal(" ✦ ")
                                     .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xA855F7)).withBold(true))
@@ -72,7 +73,7 @@ public class LinkMod implements DedicatedServerModInitializer {
                                 player.sendSystemMessage(Component.literal(""));
                             });
                         } catch (Exception e) {
-                            player.getServer().execute(() -> {
+                            server.execute(() -> {
                                 player.sendSystemMessage(Component.literal("✗ Failed to generate link code. Please try again later.")
                                     .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xEF4444))));
                             });
