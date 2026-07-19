@@ -34,7 +34,19 @@ export default function PlayerProfile() {
         .eq("uuid", uuid)
         .order("playtime", { ascending: false });
 
-      if (globalData) setPlayerInfo(globalData);
+      // Fetch discord status
+      const { data: discordData } = await supabase
+        .from("users")
+        .select("discord_id")
+        .ilike("minecraft_uuid", uuid)
+        .maybeSingle();
+
+      if (globalData) {
+        setPlayerInfo({
+          ...globalData,
+          discord: !!discordData
+        });
+      }
       if (serverList && serverList.length > 0) {
         setAllServerStats(serverList);
         setSelectedServerId(serverList[0].server_id);
