@@ -85,8 +85,8 @@ export default function Leaderboard() {
         valB = b.name?.toLowerCase() || '';
         return sortDirection === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
       } else if (sortField === 'rank') {
-        valA = getRankLevel(a.playtime, a.name);
-        valB = getRankLevel(b.playtime, b.name);
+        valA = getRankLevel(a.playtime, a.name, a.uuid);
+        valB = getRankLevel(b.playtime, b.name, b.uuid);
         if (valA === valB) {
           return sortDirection === 'asc' 
             ? (a.playtime || 0) - (b.playtime || 0) 
@@ -269,7 +269,7 @@ export default function Leaderboard() {
                     </td>
                   </tr>
                 ) : paginatedPlayers.map((p, idx) => {
-                  const rank = getPlaytimeRank(p.playtime, p.name);
+                  const rank = getPlaytimeRank(p.playtime, p.name, p.uuid);
                   const onlineInfo = formatLastOnline(p.updated_at);
                   const serverName = p.last_server && p.last_server !== 'Unknown' ? p.last_server : 'Lobby';
                   const absolutePosition = (currentPage - 1) * playersPerPage + idx + 1;

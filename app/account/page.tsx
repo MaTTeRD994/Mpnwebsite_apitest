@@ -133,11 +133,15 @@ export default function AccountPage() {
     : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discord_id) % 5}.png`;
 
   const playtimeHours = stats?.playtime || 0;
-  const currentRank = getPlaytimeRank(playtimeHours, user.minecraft_name || "");
+  const currentRank = getPlaytimeRank(playtimeHours, user.minecraft_name || "", user.minecraft_uuid || "");
 
   // Calculate next rank progress
   const getNextRankProgress = () => {
-    if (user.minecraft_name?.toLowerCase() === 'thamatter') {
+    if (
+      user.minecraft_name?.toLowerCase() === 'thamatter' ||
+      user.minecraft_name?.toLowerCase() === 'vallith' ||
+      user.minecraft_uuid?.toLowerCase() === '63514ed4-62d2-413f-aeaf-a29d204d757b'
+    ) {
       return { next: null, percent: 100, remaining: 0 };
     }
     let currentIdx = 0;
@@ -334,7 +338,7 @@ export default function AccountPage() {
                 </div>
               ) : user.minecraft_uuid ? (
                 <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '0.75rem 1rem', borderRadius: '0.75rem', color: '#fca5a5', fontSize: '0.85rem', fontWeight: 600 }}>
-                  🌟 You have achieved our maximum rank milestone (`{currentRank.name}`) or special Admin privileges!
+                  🌟 You have achieved our maximum rank milestone (`{currentRank.name}`) or special Admin/Owner privileges!
                 </div>
               ) : null}
             </div>

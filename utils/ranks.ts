@@ -21,9 +21,15 @@ export const PLAYTIME_RANKS: PlaytimeRank[] = [
   { name: 'Eclipse', color: '#9333ea', hours: 1000, claims: 400, forceLoaded: 84, homes: 6, specialDiscord: true },
 ];
 
-export function getPlaytimeRank(playtime: number, username: string): { name: string; color: string } {
-  // Special Admin Exception
-  if (username && username.toLowerCase() === 'thamatter') {
+export function getPlaytimeRank(playtime: number, username?: string, uuid?: string): { name: string; color: string } {
+  const lowerName = username ? username.toLowerCase() : "";
+  const lowerUuid = uuid ? uuid.toLowerCase() : "";
+
+  // Special Owner / Admin Exceptions
+  if (lowerName === 'vallith' || lowerUuid === '63514ed4-62d2-413f-aeaf-a29d204d757b') {
+    return { name: 'Owner', color: '#f87171' }; // Light red / coral for Owner
+  }
+  if (lowerName === 'thamatter') {
     return { name: 'Admin', color: '#f87171' }; // Light red for Admin
   }
 
@@ -41,8 +47,15 @@ export function getPlaytimeRank(playtime: number, username: string): { name: str
   return { name: 'Neophyte', color: '#9ca3af' };
 }
 
-export function getRankLevel(playtime: number, username: string): number {
-  if (username && username.toLowerCase() === 'thamatter') {
+export function getRankLevel(playtime: number, username?: string, uuid?: string): number {
+  const lowerName = username ? username.toLowerCase() : "";
+  const lowerUuid = uuid ? uuid.toLowerCase() : "";
+
+  if (
+    lowerName === 'thamatter' ||
+    lowerName === 'vallith' ||
+    lowerUuid === '63514ed4-62d2-413f-aeaf-a29d204d757b'
+  ) {
     return 99999;
   }
   return playtime || 0;

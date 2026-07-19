@@ -115,7 +115,7 @@ export default function PlayerProfile() {
     ? new Date(mostRecentServerObj.updated_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) 
     : "Unknown";
 
-  const rank = getPlaytimeRank(playerInfo.playtime, playerInfo.name);
+  const rank = getPlaytimeRank(playerInfo.playtime, playerInfo.name, playerInfo.uuid);
 
   // Selected server for "PER SERVER -> Server Statistics"
   const selectedServerData = allServerStats.find(s => s.server_id === selectedServerId) || allServerStats[0] || null;
