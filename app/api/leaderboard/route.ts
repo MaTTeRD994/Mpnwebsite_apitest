@@ -26,19 +26,20 @@ export async function GET(request: Request) {
       .select('uuid, server_id, updated_at')
       .order('updated_at', { ascending: false });
 
-    // Map each player to include their latest server_id
+    // Map each player to include their latest server_id and last seen time
     const serverMap = new Map();
     if (recentServers) {
       for (const row of recentServers) {
         if (!serverMap.has(row.uuid)) {
-          serverMap.set(row.uuid, row.server_id);
+          serverMap.set(row.uuid, { server_id: row.server_id, updated_at: row.updated_at });
         }
       }
     }
 
     const enrichedPlayers = players?.map(p => ({
       ...p,
-      last_server: serverMap.get(p.uuid) || 'Unknown'
+      last_server: serverMap.get(p.uuid)?.server_id || 'Unknown',
+      updated_at: serverMap.get(p.uuid)?.updated_at || p.updated_at
     })) || [];
 
     return NextResponse.json(enrichedPlayers);

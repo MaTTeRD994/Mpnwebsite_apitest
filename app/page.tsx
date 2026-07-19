@@ -74,28 +74,17 @@ export default function Home() {
           zIndex: 1
         }} />
 
-        {/* Ambient radial glow */}
-        <div style={{
-          position: 'absolute',
-          top: '40%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '700px',
-          height: '500px',
-          background: 'radial-gradient(ellipse, rgba(139, 92, 246, 0.15) 0%, transparent 70%)',
-          zIndex: 1,
-          pointerEvents: 'none'
-        }} />
+
 
         <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '900px', margin: '0 auto' }}>
           {/* Logo above Title */}
           <div style={{ marginBottom: '1.5rem', animation: 'float 6s ease-in-out infinite' }}>
             <Image 
               src="/logo.png" 
-              alt="MaTTeRPxiel Network Logo" 
-              width={200} 
-              height={100} 
-              style={{ objectFit: 'contain', filter: 'drop-shadow(0 10px 25px rgba(139, 92, 246, 0.4))' }}
+              alt="MaTTeRPxiel floating logo" 
+              width={300} 
+              height={200} 
+              style={{ objectFit: 'contain', filter: 'drop-shadow(0 10px 25px rgba(139, 92, 246, 0.4))' }} 
               priority
             />
           </div>
@@ -110,7 +99,7 @@ export default function Home() {
             textShadow: '0 10px 30px rgba(0,0,0,0.6)'
           }}>
             MORE THAN SERVERS. <br/>
-            <span style={{ color: 'transparent', WebkitTextStroke: '1.5px #E6E6E6' }}>
+            <span style={{ color: '#ff4444' }}>
               A HOME.
             </span>
           </h1>

@@ -6,7 +6,7 @@ export default function Leaderboard() {
   const [players, setPlayers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortField, setSortField] = useState<'player' | 'rank' | 'playtime' | 'last_server' | 'last_online' | 'votes' | 'discord'>('playtime');
+  const [sortField, setSortField] = useState<'player' | 'rank' | 'playtime' | 'last_server' | 'last_online' | 'votes' | 'discord'>('rank');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const playersPerPage = 50;
