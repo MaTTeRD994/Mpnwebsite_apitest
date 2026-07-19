@@ -157,6 +157,42 @@ export default function StorePage() {
         </div>
       </div>
 
+      {/* MONTHLY SERVER COST GOAL BAR */}
+      <div style={{ maxWidth: '850px', margin: '0 auto 4.5rem', background: 'linear-gradient(135deg, rgba(30, 27, 46, 0.85) 0%, rgba(18, 18, 24, 0.95) 100%)', border: '1px solid rgba(239, 68, 68, 0.45)', borderRadius: '1.5rem', padding: '2rem 2.5rem', boxShadow: '0 15px 35px rgba(0,0,0,0.5)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(239, 68, 68, 0.15)', color: '#f87171', fontSize: '0.72rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '0.3rem 0.75rem', borderRadius: '100px', marginBottom: '0.5rem' }}>
+              <span>⚡ MONTHLY COMMUNITY GOAL</span>
+            </div>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', margin: 0 }}>
+              Server Hosting Costs & Maintenance
+            </h3>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <span style={{ fontSize: '1.8rem', fontWeight: 900, color: '#4ade80' }}>$312</span>
+            <span style={{ fontSize: '1.1rem', color: 'var(--text-muted)', fontWeight: 600 }}> / $450 USD</span>
+            <div style={{ fontSize: '0.8rem', color: '#a855f7', fontWeight: 'bold', marginTop: '0.15rem' }}>69% Funded This Month</div>
+          </div>
+        </div>
+
+        {/* Progress Track */}
+        <div style={{ width: '100%', height: '16px', background: 'rgba(255, 255, 255, 0.08)', borderRadius: '100px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255, 255, 255, 0.12)' }}>
+          <div style={{
+            width: '69%',
+            height: '100%',
+            background: 'linear-gradient(90deg, #ef4444 0%, #a855f7 50%, #06b6d4 100%)',
+            borderRadius: '100px',
+            boxShadow: '0 0 20px rgba(239, 68, 68, 0.6)',
+            transition: 'width 1s cubic-bezier(0.4, 0, 0.2, 1)'
+          }} />
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.85rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+          <span>💻 Covers 8 Dedicated Ryzen 9 Nodes + DDoS Protection</span>
+          <span>🔄 Goal resets every 1st of the month</span>
+        </div>
+      </div>
+
       {/* PATREON TIERS GRID */}
       <div style={{ maxWidth: '1250px', margin: '0 auto 5.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem', alignItems: 'stretch' }}>
         {tiers.map((tier) => (
@@ -274,12 +310,13 @@ export default function StorePage() {
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
                 textDecoration: 'none',
+                whiteSpace: 'nowrap',
                 boxShadow: tier.popular ? '0 8px 25px rgba(239, 68, 68, 0.4)' : 'none',
                 transition: 'all 0.2s'
               }}
               className={tier.popular ? '' : 'hover-bg-light'}
             >
-              <span>Join {tier.name} on Patreon</span>
+              <span>Join {tier.name}</span>
               <span>↗</span>
             </a>
           </div>
