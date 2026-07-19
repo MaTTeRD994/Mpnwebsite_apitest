@@ -37,6 +37,12 @@ export default function ServerCard({ server }: { server: any }) {
           )}
         </div>
       </div>
+
+      {server.joinedPlayers !== undefined && (
+        <div style={{ marginBottom: '1rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+          <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{server.joinedPlayers}</span> Players Joined
+        </div>
+      )}
       
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: 'auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

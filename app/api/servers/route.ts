@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { staticServers } from '../../../config/servers';
+import { supabase } from '../../../utils/supabase';
 
 export const revalidate = 30; // Revalidate the cache every 30 seconds
 
@@ -16,6 +17,15 @@ export async function GET() {
   }
 
   try {
+    // Fetch historical joined player counts from Supabase
+    const { data: dbPlayers } = await supabase.from('players').select('server_id');
+    const joinedCounts: Record<string, number> = {};
+    if (dbPlayers) {
+      dbPlayers.forEach((p: any) => {
+        joinedCounts[p.server_id] = (joinedCounts[p.server_id] || 0) + 1;
+      });
+    }
+
     // We will attempt to fetch the resource status for servers that have a pterodactyl_id mapped.
     // Right now, we only know "makeshiftsmp" maps to "b691e0da", but we'll try to fetch all if we have an ID.
     // For servers without an ID, we'll try to fetch the full client list first to match them by name.
@@ -101,6 +111,7 @@ export async function GET() {
         ...staticServer,
         status,
         players: playersCount,
+        joinedPlayers: joinedCounts[staticServer.id] || 0,
         pterodactyl_id: pteroIdentifier // Expose if found, for debugging
       };
     }));
