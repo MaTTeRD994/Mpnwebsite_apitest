@@ -11,13 +11,14 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.fml.loading.FMLPaths;
+import net.minecraft.server.MinecraftServer;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -28,7 +29,6 @@ import java.time.temporal.ChronoUnit;
 
 @Mod("mpnlink")
 public class LinkMod {
-
     private String supabaseUrl = "";
     private String supabaseKey = "";
     private String websiteUrl = "https://mpnwebsite-apitest.vercel.app";
@@ -67,20 +67,20 @@ public class LinkMod {
 
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
-        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
-        dispatcher.register(Commands.literal("link")
+        event.getDispatcher().register(Commands.literal("link")
             .executes(ctx -> {
                 CommandSourceStack source = ctx.getSource();
                 ServerPlayer player = source.getPlayerOrException();
 
                 String uuid = player.getStringUUID();
-                String name = player.getGameProfile().getName();
+                String name = player.getName().getString();
                 String code = generateCode();
+                MinecraftServer server = source.getServer();
 
                 new Thread(() -> {
                     try {
                         sendLinkCode(code, uuid, name);
-                        player.getServer().execute(() -> {
+                        server.execute(() -> {
                             player.sendSystemMessage(Component.literal(""));
                             player.sendSystemMessage(Component.literal(" ✦ ")
                                 .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xA855F7)).withBold(true))
@@ -103,7 +103,7 @@ public class LinkMod {
                             player.sendSystemMessage(Component.literal(""));
                         });
                     } catch (Exception e) {
-                        player.getServer().execute(() -> {
+                        server.execute(() -> {
                             player.sendSystemMessage(Component.literal("✗ Failed to generate link code. Please try again later.")
                                 .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xEF4444))));
                         });
@@ -133,7 +133,7 @@ public class LinkMod {
             code, uuid, name, expiresAt
         );
 
-        URL url = URI.create(endpoint).toURL();
+        URL url = new URL(endpoint);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");

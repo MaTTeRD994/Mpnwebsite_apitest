@@ -1,29 +1,27 @@
 plugins {
-    id 'java'
-    id 'net.neoforged.moddev' version '2.0.142'
+    id 'java-library'
+    id 'net.neoforged.moddev' version '1.0.11'
 }
 
-version = '1.0.0'
+version = '1.0.0-1.21.1'
 group = 'com.mpn.link'
+
+base {
+    archivesName = 'mpnlink-neoforge-1.21.1'
+}
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
-    version = '21.1.172'
-    
-    runs {
-        server {
-            server()
-        }
-    }
+    version = '21.1.12'
     
     mods {
         mpnlink {
-            sourceSet sourceSets.main
+            sourceSet project.sourceSets.main
         }
     }
 }
 
-repositories {
-    mavenCentral()
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
