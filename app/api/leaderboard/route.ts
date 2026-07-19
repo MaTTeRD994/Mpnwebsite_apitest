@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '../../../utils/supabase';
 
-export const revalidate = 60; // Cache leaderboard for 60 seconds
+export const dynamic = 'force-dynamic'; // Disable caching to ensure fresh data
 
 export async function GET(request: Request) {
   try {
