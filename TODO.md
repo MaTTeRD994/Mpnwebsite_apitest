@@ -7,7 +7,7 @@ Welcome to your project command center! Keep this file open in your editor (`TOD
 ## 🚀 Immediate Priorities & Setup (Do This Next)
 
 - [ ] **Verify Discord Bot & Pterodactyl Sync**
-  - [ ] Check server `matter.6bb391de` (IP: `37.27.225.173:2022`).
+  - [ ] Check server `matter.6bb391de` (subdomain: `gtnh-s1.mpnhost.com`).
   - [ ] Ensure `DiscordBot.zip` is unarchived and running (`node index.js`).
   - [ ] Verify console output shows `[StatsSync] Starting global stats sync...` and populates the `network_leaderboard` table in Supabase.
 - [ ] **Review & Test New Pages**
@@ -42,6 +42,15 @@ Welcome to your project command center! Keep this file open in your editor (`TOD
 
 ## ✅ Completed Milestones
 
+- [x] **Command Center Dashboard Overhaul (`/account`) & Navigation Upgrades**
+  - Built unified 3D identity hero banner with side-by-side Discord avatar + Minecraft skin preview (`mc-heads.net`), live rank progress bar (`%` and remaining hours), and glowing rank badges.
+  - Implemented 3 interactive dashboard tabs: `Overview & Stats` (KPIs & Milestone badges), `Rank & Perks` (10-tier breakdown), and `Account Settings & Link`.
+  - Upgraded navbar right actions with dual buttons: muted glass `Discord` pill + crimson red `Login` gradient button.
+- [x] **Security Protocol Enforcement & IP Lockdown**
+  - Stripped all numerical IPs (`37.27...`) across all configuration files (`config/servers.ts`).
+  - Switched public servers strictly to subdomains (`*.mpnhost.com`) and disabled `Copy IP` buttons entirely for `Private` and `Coming Soon` servers.
+- [x] **Leaderboard Default Playtime Ordering (`/leaderboard`)**
+  - Switched default primary sorting on the Network Leaderboard to exact **Played Time (`playtime`)** and added playtime tie-breakers across all views.
 - [x] **Discord OAuth & Account Linking Engine (`/api/auth/...`)**
   - Built full JWT session handling (`utils/jwt.ts`).
   - Implemented `/login`, `/callback`, `/logout`, `/me`, and `/link` API endpoints.
@@ -53,5 +62,3 @@ Welcome to your project command center! Keep this file open in your editor (`TOD
   - Fixed heading hierarchy (`<h1>`/`<h3>` order) and secured cross-origin links across `/info`.
 - [x] **Dedicated Discord Hub Page (`/discord`)**
   - Built stunning community portal showcasing feature grids, role selection guides (`#channels-and-roles`), in-game chat bridge instructions, bot commands (`/lookup`, `/players`), and a 9-rule glassmorphic grid.
-- [x] **Live Player Dashboard on Account Page (`/account`)**
-  - Upgraded linked account view to dynamically fetch and display real-time network KPIs (`Playtime`, `Mob Kills`, `Blocks Mined`, `Deaths`, `Modpacks`) and synced Playtime Rank badges (`Acolyte` to `Apex`).
