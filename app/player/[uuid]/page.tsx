@@ -2,28 +2,32 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { getPlaytimeRank } from "../../../utils/ranks";
 import { supabase } from "../../../utils/supabase";
 
-export default function PlayerProfile({ params }: { params: { uuid: string } }) {
+export default function PlayerProfile() {
+  const params = useParams();
+  const uuid = params.uuid as string;
   const [playerInfo, setPlayerInfo] = useState<any>(null);
   const [lastServer, setLastServer] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!uuid) return;
     const fetchProfile = async () => {
       // Fetch global aggregated stats
       const { data: globalData, error: globalError } = await supabase
         .from("network_leaderboard")
         .select("*")
-        .eq("uuid", params.uuid)
+        .eq("uuid", uuid)
         .single();
 
       // Fetch the most recently played server
       const { data: serverData, error: serverError } = await supabase
         .from("players")
         .select("server_id, updated_at")
-        .eq("uuid", params.uuid)
+        .eq("uuid", uuid)
         .order("updated_at", { ascending: false })
         .limit(1)
         .single();
@@ -34,10 +38,10 @@ export default function PlayerProfile({ params }: { params: { uuid: string } }) 
     };
 
     fetchProfile();
-  }, [params.uuid]);
+  }, [uuid]);
 
   useEffect(() => {
-    if (!playerInfo || loading) return;
+    if (!playerInfo || loading || !uuid) return;
     
     const canvas = document.getElementById("skin_container") as HTMLCanvasElement;
     if (canvas) {
@@ -48,7 +52,7 @@ export default function PlayerProfile({ params }: { params: { uuid: string } }) 
           canvas: canvas,
           width: 150,
           height: 300,
-          skin: `https://crafatar.com/skins/${params.uuid}`
+          skin: `https://crafatar.com/skins/${uuid}`
         });
         
         // Setup animation
@@ -66,7 +70,7 @@ export default function PlayerProfile({ params }: { params: { uuid: string } }) 
         }
       };
     }
-  }, [playerInfo, loading, params.uuid]);
+  }, [playerInfo, loading, uuid]);
 
   if (loading) {
     return <div style={{ minHeight: "80vh", display: "flex", justifyContent: "center", alignItems: "center", color: "var(--text-muted)" }}>Loading Profile...</div>;
@@ -136,7 +140,7 @@ export default function PlayerProfile({ params }: { params: { uuid: string } }) 
             <InfoRow icon="🗄️" label="Last Server" value={lastServer?.server_id || "Unknown"} extra={lastOnlineStr} />
             <InfoRow icon="📅" label="Member since" value={memberSinceStr} />
             <InfoRow icon="💬" label="Discord" value="Not Linked" extra={<span style={{ background: "transparent", border: "1px solid var(--border-light)", padding: "0.2rem 0.5rem", borderRadius: "4px", fontSize: "0.75rem", cursor: "not-allowed", opacity: 0.5 }}>Re-link</span>} />
-            <InfoRow icon="🔑" label="UUID" value={params.uuid} isSmall />
+            <InfoRow icon="🔑" label="UUID" value={uuid} isSmall />
           </div>
         </div>
       </div>
