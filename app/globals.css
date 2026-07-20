@@ -252,16 +252,11 @@ a {
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
-    padding-top: 6rem !important; /* Make room for overlapping avatar */
-    position: relative;
+    padding-top: 1rem !important; 
     gap: 1rem !important;
   }
   .gumao-avatar {
-    position: absolute !important;
-    top: -4rem !important; /* Overlap the top of the card */
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-width: 140px !important; /* Bigger avatar for mobile hero */
+    margin-top: -6rem !important; /* Pop out of the top of the card naturally */
     z-index: 10;
   }
   

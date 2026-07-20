@@ -11,12 +11,13 @@ function BottomNav() {
     { label: "Home", href: "/", icon: "🏠" },
     { label: "Servers", href: "/servers", icon: "🖥️" },
     { label: "Packs", href: "/packs", icon: "📦" },
+    { label: "Ranks", href: "/leaderboard", icon: "🏆" },
     { label: "Store", href: "/store", icon: "💎" },
     { label: "Account", href: "/account", icon: "👤" }
   ];
 
   return (
-    <div className="mobile-only glass" style={{
+    <div className="mobile-only" style={{
       position: 'fixed',
       bottom: '1rem',
       left: '1rem',
@@ -26,7 +27,11 @@ function BottomNav() {
       justifyContent: 'space-between',
       alignItems: 'center',
       borderRadius: '1.25rem',
-      boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+      boxShadow: '0 10px 40px rgba(0,0,0,0.8)',
+      background: 'rgba(18, 18, 24, 0.95)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      border: '1px solid rgba(255,255,255,0.1)'
     }}>
       {navItems.map(item => {
         const isActive = pathname === item.href || (item.href !== "/" && pathname?.startsWith(item.href));
@@ -37,15 +42,15 @@ function BottomNav() {
             alignItems: 'center',
             justifyContent: 'center',
             flex: 1,
-            padding: '0.5rem 0',
+            padding: '0.4rem 0',
             borderRadius: '0.75rem',
-            background: isActive ? 'rgba(255,255,255,0.1)' : 'transparent',
+            background: isActive ? 'rgba(255,255,255,0.15)' : 'transparent',
             color: isActive ? '#fff' : 'var(--text-muted)',
             textDecoration: 'none',
             transition: 'all 0.2s'
           }}>
-            <span style={{ fontSize: '1.2rem', marginBottom: '0.2rem', filter: isActive ? 'drop-shadow(0 0 5px rgba(255,255,255,0.5))' : 'none' }}>{item.icon}</span>
-            <span style={{ fontSize: '0.65rem', fontWeight: isActive ? 800 : 600 }}>{item.label}</span>
+            <span style={{ fontSize: '1.1rem', marginBottom: '0.2rem', filter: isActive ? 'drop-shadow(0 0 5px rgba(255,255,255,0.5))' : 'none' }}>{item.icon}</span>
+            <span style={{ fontSize: '0.6rem', fontWeight: isActive ? 800 : 600, letterSpacing: '-0.02em' }}>{item.label}</span>
           </Link>
         );
       })}
