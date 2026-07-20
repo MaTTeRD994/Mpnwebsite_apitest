@@ -119,10 +119,15 @@ export default function Leaderboard() {
     });
 
   const totalPages = Math.max(1, Math.ceil(filteredPlayers.length / playersPerPage));
+  const isFirstPageAndNoSearch = currentPage === 1 && !searchQuery;
+  const top3 = isFirstPageAndNoSearch && filteredPlayers.length >= 3 ? filteredPlayers.slice(0, 3) : [];
+  
   const paginatedPlayers = filteredPlayers.slice(
     (currentPage - 1) * playersPerPage,
     currentPage * playersPerPage
   );
+  
+  const tablePlayers = isFirstPageAndNoSearch && filteredPlayers.length >= 3 ? paginatedPlayers.slice(3) : paginatedPlayers;
 
   return (
     <main style={{ background: 'var(--bg-base)', minHeight: '100vh', overflowX: 'hidden' }}>
@@ -218,8 +223,17 @@ export default function Leaderboard() {
         </div>
       </div>
 
+      {/* TOP 3 PODIUM */}
+      {top3.length >= 3 && (
+        <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '1.5rem', padding: '1rem 1rem 3rem', marginTop: '-3rem', position: 'relative', zIndex: 20 }}>
+          <PodiumPlayer player={top3[1]} rank={2} sortField={sortField} formatPlaytime={formatPlaytime} />
+          <PodiumPlayer player={top3[0]} rank={1} sortField={sortField} formatPlaytime={formatPlaytime} />
+          <PodiumPlayer player={top3[2]} rank={3} sortField={sortField} formatPlaytime={formatPlaytime} />
+        </div>
+      )}
+
       {/* TABLE SECTION */}
-      <div style={{ padding: '3.5rem 1.5rem', maxWidth: '1250px', margin: '0 auto' }}>
+      <div style={{ padding: '0 1.5rem 3.5rem', maxWidth: '1250px', margin: '0 auto' }}>
         <div style={{ 
           background: 'linear-gradient(135deg, rgba(18, 18, 24, 0.85) 0%, rgba(18, 18, 24, 0.7) 100%)', 
           border: '1px solid rgba(255, 255, 255, 0.08)', 
@@ -268,11 +282,11 @@ export default function Leaderboard() {
                       {searchQuery ? `No players matching "${searchQuery}"` : "No players found on the leaderboard yet."}
                     </td>
                   </tr>
-                ) : paginatedPlayers.map((p, idx) => {
+                ) : tablePlayers.map((p, idx) => {
                   const rank = getPlaytimeRank(p.playtime, p.name, p.uuid);
                   const onlineInfo = formatLastOnline(p.updated_at);
                   const serverName = p.last_server && p.last_server !== 'Unknown' ? p.last_server : 'Lobby';
-                  const absolutePosition = (currentPage - 1) * playersPerPage + idx + 1;
+                  const absolutePosition = (currentPage - 1) * playersPerPage + idx + (top3.length >= 3 ? 4 : 1);
 
                   return (
                     <tr key={p.uuid} onClick={() => window.location.href = `/player/${p.uuid}`} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', transition: 'background-color 0.2s', cursor: 'pointer' }} className="hover-row">
@@ -397,5 +411,43 @@ export default function Leaderboard() {
         </div>
       </div>
     </main>
+  );
+}
+
+function PodiumPlayer({ player, rank, sortField, formatPlaytime }: any) {
+  const isFirst = rank === 1;
+  const height = isFirst ? '220px' : '180px';
+  const width = isFirst ? '140px' : '110px';
+  const colors: Record<number, string> = {
+    1: '#fbbf24', // Gold
+    2: '#94a3b8', // Silver
+    3: '#f97316'  // Bronze
+  };
+  const color = colors[rank];
+  const rankRank = getPlaytimeRank(player.playtime, player.name, player.uuid);
+
+  let statLabel = "Playtime";
+  let statValue = formatPlaytime(player.playtime);
+  if (sortField === 'votes') {
+    statLabel = "Votes";
+    statValue = player.votes || 0;
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', position: 'relative' }} onClick={() => window.location.href = `/player/${player.uuid}`}>
+      <div style={{ position: 'relative', width, height, marginBottom: '-1rem', zIndex: 10, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
+        {isFirst && <div style={{ position: 'absolute', top: '-1.5rem', fontSize: '2rem', zIndex: 20 }}>👑</div>}
+        <img src={`https://mc-heads.net/body/${player.uuid}/256`} alt={player.name} style={{ height: '100%', objectFit: 'contain', filter: `drop-shadow(0 10px 15px rgba(0,0,0,0.5))` }} crossOrigin="anonymous" />
+      </div>
+      <div className="glass" style={{ width: isFirst ? '180px' : '150px', background: 'rgba(18, 18, 24, 0.85)', border: `1px solid ${color}40`, borderRadius: '16px', padding: '1.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: `0 8px 32px ${color}15`, position: 'relative' }}>
+        <div style={{ position: 'absolute', top: '-12px', background: `linear-gradient(135deg, ${color} 0%, ${color}99 100%)`, color: rank === 1 ? '#000' : '#fff', fontWeight: 900, width: '28px', height: '28px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.85rem', boxShadow: `0 4px 12px ${color}60` }}>
+          {rank}
+        </div>
+        <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '1rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{player.name}</div>
+        <div style={{ color: rankRank.color, fontSize: '0.75rem', fontWeight: 'bold', marginBottom: '0.5rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{rankRank.name}</div>
+        <div style={{ color: color, fontSize: '0.9rem', fontWeight: 800 }}>{statValue}</div>
+        <div style={{ color: 'var(--text-muted)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{statLabel}</div>
+      </div>
+    </div>
   );
 }
