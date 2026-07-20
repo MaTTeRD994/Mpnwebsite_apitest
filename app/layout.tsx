@@ -95,7 +95,7 @@ export default function RootLayout({
                 </ul>
               </div>
             </div>
-            <div style={{ maxWidth: '1200px', margin: '2rem auto 0', paddingTop: '2rem', borderTop: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+            <div className="mobile-stack" style={{ maxWidth: '1200px', margin: '2rem auto 0', paddingTop: '2rem', borderTop: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', gap: '1rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
               <div>Session: 00:00:00 | Servers: 8 Active / 0 Offline | Global Players: 154</div>
               <div>MPN v2.0.0</div>
             </div>

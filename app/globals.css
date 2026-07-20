@@ -176,3 +176,74 @@ a {
   width: max-content;
   animation: marquee 35s linear infinite;
 }
+
+/* ==========================================================================
+   MOBILE & RESPONSIVE UTILITIES
+   ========================================================================== */
+
+/* Hide on Mobile, Show on Desktop */
+.desktop-only {
+  display: flex !important;
+}
+
+/* Show on Mobile, Hide on Desktop */
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .mobile-only {
+    display: flex !important;
+  }
+  
+  /* Make all interactive buttons touch-friendly */
+  .btn, .nav-link, button, a {
+    min-height: 44px;
+  }
+  
+  /* Reduce global padding on mobile sections */
+  section {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  /* Stack grid layouts */
+  .mobile-stack {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+  
+  /* Mobile Bottom Nav Spacer */
+  body {
+    padding-bottom: 80px; /* Space for the bottom nav bar */
+  }
+  
+  /* Account Hero Mobile Game Style */
+  .account-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 1.5rem !important;
+  }
+  .account-hero > div {
+    width: 100% !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .account-tabs {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+    justify-content: flex-start !important;
+  }
+  .account-tabs::-webkit-scrollbar {
+    display: none;
+  }
+}

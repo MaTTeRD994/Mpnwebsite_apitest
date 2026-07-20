@@ -173,7 +173,7 @@ export default function Home() {
             borderRadius: '1.25rem',
             padding: '1.5rem 1rem',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
             gap: '1rem',
             backdropFilter: 'blur(12px)',
             boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
@@ -218,7 +218,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.75rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.75rem' }}>
           {loading ? (
             <div style={{ gridColumn: '1 / -1', padding: '4rem', textAlign: 'center', color: 'var(--text-muted)', background: 'rgba(255,255,255,0.02)', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.05)' }}>
               Loading latest server data...
@@ -330,7 +330,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem', marginTop: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2.5rem', marginTop: '1rem' }}>
           {/* Step 1 */}
           <div style={{
             background: 'rgba(18, 18, 24, 0.7)',
@@ -467,7 +467,7 @@ export default function Home() {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
           {/* Feature 1 */}
           <div style={{ background: 'rgba(18, 18, 24, 0.65)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '1rem', padding: '1.75rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
             <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', flexShrink: 0 }}>

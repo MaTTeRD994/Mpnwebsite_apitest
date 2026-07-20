@@ -214,7 +214,7 @@ export default function AccountPage() {
             }} />
           )}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap', position: 'relative', zIndex: 2 }}>
+          <div className="account-hero" style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap', position: 'relative', zIndex: 2 }}>
             
             {/* Left Column: Avatars / 3D Character Preview */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexShrink: 0 }}>
@@ -395,7 +395,7 @@ export default function AccountPage() {
         </div>
 
         {/* 📑 INTERACTIVE DASHBOARD TABS */}
-        <div style={{ display: 'flex', gap: '0.75rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
+        <div className="account-tabs" style={{ display: 'flex', gap: '0.75rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
           <button
             onClick={() => setActiveTab('overview')}
             style={{
@@ -489,7 +489,7 @@ export default function AccountPage() {
                     </div>
 
                     {/* Vitals Bar */}
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem", marginBottom: "1.75rem" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "1rem", marginBottom: "1.75rem" }}>
                       {liveStatus.health !== null && liveStatus.health !== undefined && (
                         <div style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
                           <span style={{ fontSize: "1.6rem" }}>❤️</span>
@@ -532,7 +532,7 @@ export default function AccountPage() {
                     {(liveStatus.armor || liveStatus.main_hand) && (
                       <div>
                         <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "0.8rem", fontWeight: 700 }}>EQUIPPED GEAR & ARMOR</div>
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.85rem" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "0.85rem" }}>
                           {/* Main Hand */}
                           {liveStatus.main_hand && (
                             <div style={{ background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.12)", padding: "0.85rem 1rem", borderRadius: "10px", display: "flex", alignItems: "center", gap: "0.6rem" }}>
@@ -570,7 +570,7 @@ export default function AccountPage() {
                     Fetching real-time stats across all MPN servers...
                   </div>
                 ) : (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.25rem', marginBottom: '3rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1.25rem', marginBottom: '3rem' }}>
                     <div className="glass" style={{ padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(74, 222, 128, 0.2)', textAlign: 'center' }}>
                       <div style={{ fontSize: '1.8rem', marginBottom: '0.35rem' }}>⏱️</div>
                       <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#4ade80' }}>{stats?.playtime || 0}h</div>

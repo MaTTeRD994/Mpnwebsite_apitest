@@ -7,17 +7,22 @@ This folder contains the server-side bridge scripts and templates to push real-t
 ## 🚀 Option 1: KubeJS Server Script (Recommended for ATM10, ATM9, and Modern Packs)
 If your server runs **KubeJS** (included by default in All the Mods 10 and almost all modern modpacks):
 
-1. Copy the file `kubejs/mpn_live_sync.js` into your server's `kubejs/server_scripts/` folder:
+1. **Whitelist Network Access (Required to fix `Class is not allowed by class filter`)**:
+   Copy `kubejs/config/kubejs.classfilter.txt` into your server's **`kubejs/config/`** folder (and also copy `kubejs/kubejs.classfilter.txt` directly into your **`kubejs/`** root folder just in case):
+   ```
+   /server/kubejs/config/kubejs.classfilter.txt
+   /server/kubejs/kubejs.classfilter.txt
+   ```
+   *(This config tells KubeJS to allow `+java.net` and `+java.io` so the script can send HTTP packets).*
+
+2. **Add the Sync Script**:
+   Copy `kubejs/server_scripts/mpn_live_sync.js` into your server's `kubejs/server_scripts/` folder:
    ```
    /server/kubejs/server_scripts/mpn_live_sync.js
    ```
-2. Open `mpn_live_sync.js` and edit the configuration at the top:
-   ```javascript
-   const MPN_API_URL = "https://matterpixel.com/api/minecraft/event"; // Or your website domain
-   const MPN_API_SECRET = "YOUR_SECRET_HERE"; // Must match LEADERBOARD_SYNC_SECRET in your .env.local
-   const SERVER_ID = "atm10"; // Server ID (e.g., "atm10", "gtnh", "thasmp")
-   ```
-3. Run `/reload` in-game or restart your server. The script will automatically trigger on `PLAYER_JOIN`, `PLAYER_LEAVE`, and every 5 minutes in the background (`PERIODIC_SYNC`) using a separate Java background thread so it **never lags your server**!
+
+3. **Restart Your Server**:
+   Because class filters load at boot, do a full server **restart**. After restarting, `mpn_live_sync.js` will run cleanly without `Class is not allowed by class filter` errors!
 
 ---
 
@@ -26,7 +31,7 @@ For servers that do not run KubeJS (such as GregTech New Horizons on 1.7.10 or v
 
 ### Required HTTP Request Format
 * **Method**: `POST`
-* **URL**: `https://yourdomain.com/api/minecraft/event`
+* **URL**: `https://mpnhost.com/api/minecraft/event`
 * **Headers**:
   ```http
   Authorization: Bearer YOUR_LEADERBOARD_SYNC_SECRET
@@ -60,7 +65,7 @@ For servers that do not run KubeJS (such as GregTech New Horizons on 1.7.10 or v
 public static void pushLiveStatus(UUID playerUuid, String playerName, String serverId, boolean isOnline, double health, double maxHealth, int level, String dimension, int x, int y, int z) {
     new Thread(() -> {
         try {
-            URL url = new URL("https://yourdomain.com/api/minecraft/event");
+            URL url = new URL("https://mpnhost.com/api/minecraft/event");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
