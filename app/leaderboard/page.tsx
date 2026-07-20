@@ -234,6 +234,36 @@ export default function Leaderboard() {
 
       {/* TABLE SECTION */}
       <div style={{ padding: '0 1.5rem 3.5rem', maxWidth: '1250px', margin: '0 auto' }}>
+        
+        {/* MOBILE SORT TABS */}
+        <div className="mobile-only mobile-sort-tabs">
+          {[
+            { id: 'playtime', label: 'Playtime' },
+            { id: 'votes', label: 'Votes' },
+            { id: 'rank', label: 'Rank Level' },
+            { id: 'last_online', label: 'Activity' }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => handleSort(tab.id)}
+              style={{
+                background: sortField === tab.id ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
+                color: sortField === tab.id ? '#fff' : 'var(--text-muted)',
+                border: `1px solid ${sortField === tab.id ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}`,
+                padding: '0.5rem 1rem',
+                borderRadius: '20px',
+                fontSize: '0.8rem',
+                fontWeight: 'bold',
+                whiteSpace: 'nowrap',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
         <div style={{ 
           background: 'linear-gradient(135deg, rgba(18, 18, 24, 0.85) 0%, rgba(18, 18, 24, 0.7) 100%)', 
           border: '1px solid rgba(255, 255, 255, 0.08)', 
@@ -316,26 +346,26 @@ export default function Leaderboard() {
                       </td>
 
                       {/* RANK */}
-                      <td style={{ padding: '1.1rem 1rem' }}>
+                      <td className={sortField === 'rank' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1rem' }}>
                         <span style={{ fontStyle: 'italic', fontWeight: 'bold', color: rank.color, fontSize: '0.95rem' }}>
                           {rank.name}
                         </span>
                       </td>
 
                       {/* PLAYTIME */}
-                      <td style={{ padding: '1.1rem 1rem', color: 'rgba(255,255,255,0.9)', fontFamily: 'monospace', fontSize: '0.9rem', fontWeight: '500' }}>
+                      <td className={sortField === 'playtime' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1rem', color: 'rgba(255,255,255,0.9)', fontFamily: 'monospace', fontSize: '0.9rem', fontWeight: '500' }}>
                         <span style={{ opacity: 0.5, marginRight: '0.35rem' }}>🕒</span>{formatPlaytime(p.playtime)}
                       </td>
 
                       {/* LAST SERVER */}
-                      <td style={{ padding: '1.1rem 1rem' }}>
+                      <td className={sortField === 'last_server' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1rem' }}>
                         <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '0.35rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.8rem', color: '#cbd5e1', whiteSpace: 'nowrap', fontWeight: '500' }}>
                           {serverName}
                         </span>
                       </td>
 
                       {/* LAST ONLINE */}
-                      <td style={{ padding: '1.1rem 1rem' }}>
+                      <td className={sortField === 'last_online' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1rem' }}>
                         <span style={{ color: onlineInfo.isOnline ? '#4ade80' : 'var(--text-muted)', fontWeight: onlineInfo.isOnline ? 'bold' : 'normal', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                           {onlineInfo.isOnline && <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80' }} />}
                           {onlineInfo.text}
@@ -343,12 +373,12 @@ export default function Leaderboard() {
                       </td>
 
                       {/* VOTES */}
-                      <td style={{ padding: '1.1rem 1rem', color: '#fbbf24', fontWeight: 'bold', fontFamily: 'monospace', fontSize: '0.95rem' }}>
+                      <td className={sortField === 'votes' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1rem', color: '#fbbf24', fontWeight: 'bold', fontFamily: 'monospace', fontSize: '0.95rem' }}>
                         ★ {p.votes || 0}
                       </td>
 
                       {/* DISCORD */}
-                      <td style={{ padding: '1.1rem 1.5rem' }}>
+                      <td className={sortField === 'discord' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1.5rem' }}>
                         <span style={{ background: p.discord ? 'rgba(88, 101, 242, 0.2)' : 'rgba(255,255,255,0.03)', border: `1px solid ${p.discord ? 'rgba(88, 101, 242, 0.45)' : 'rgba(255,255,255,0.08)'}`, color: p.discord ? '#a5b4fc' : 'var(--text-muted)', padding: '0.35rem 0.75rem', borderRadius: '0.5rem', display: 'inline-flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.8rem', fontWeight: p.discord ? 'bold' : 'normal', whiteSpace: 'nowrap' }}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
