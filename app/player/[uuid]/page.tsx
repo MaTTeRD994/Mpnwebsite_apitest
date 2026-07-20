@@ -208,10 +208,10 @@ export default function PlayerProfile() {
       </Link>
 
       {/* Main Profile Card (Clean, no economy/gambling box) */}
-      <div className="glass" style={{ display: "flex", flexDirection: "row", padding: "2rem", borderRadius: "16px", gap: "2.5rem", flexWrap: "wrap", position: "relative", border: "1px solid var(--border-light)" }}>
+      <div className="glass gumao-hero-card" style={{ display: "flex", flexDirection: "row", padding: "2rem", borderRadius: "16px", gap: "2.5rem", flexWrap: "wrap", position: "relative", border: "1px solid var(--border-light)" }}>
         
         {/* Left Column: Skin */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
+        <div className="gumao-avatar" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
           <div style={{ background: "rgba(0,0,0,0.4)", borderRadius: "12px", padding: "1rem", border: "1px solid var(--border-light)", boxShadow: "0 8px 30px rgba(0,0,0,0.5)" }}>
             <canvas id="skin_container" style={{ display: "block" }}></canvas>
           </div>

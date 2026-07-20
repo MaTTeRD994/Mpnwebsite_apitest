@@ -246,4 +246,52 @@ a {
   .account-tabs::-webkit-scrollbar {
     display: none;
   }
+  
+  /* Gumao/RPG Style Mobile Profile */
+  .gumao-hero-card {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding-top: 6rem !important; /* Make room for overlapping avatar */
+    position: relative;
+    gap: 1rem !important;
+  }
+  .gumao-avatar {
+    position: absolute !important;
+    top: -4rem !important; /* Overlap the top of the card */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-width: 140px !important; /* Bigger avatar for mobile hero */
+    z-index: 10;
+  }
+  
+  /* Leaderboard Mobile Cards */
+  .mobile-table-card thead {
+    display: none !important; /* Hide headers */
+  }
+  .mobile-table-card tbody, 
+  .mobile-table-card tr, 
+  .mobile-table-card td {
+    display: block !important;
+    width: 100% !important;
+  }
+  .mobile-table-card tr {
+    margin-bottom: 1rem;
+    background: rgba(18, 18, 24, 0.6) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    border-radius: 12px;
+    padding: 1rem;
+    position: relative;
+  }
+  .mobile-table-card td {
+    padding: 0.35rem 0 !important;
+    border: none !important;
+    text-align: left !important;
+  }
+  /* Absolute position the rank/number on mobile */
+  .mobile-table-rank {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
 }

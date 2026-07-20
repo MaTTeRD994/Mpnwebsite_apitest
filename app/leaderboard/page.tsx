@@ -229,7 +229,7 @@ export default function Leaderboard() {
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
         }}>
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
+            <table className="mobile-table-card" style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid var(--border-light)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 'bold', color: 'var(--text-muted)', userSelect: 'none' }}>
                   <th onClick={() => handleSort('player')} style={{ padding: '1.25rem 1.5rem', cursor: 'pointer' }} className="hover-text-primary">
@@ -280,19 +280,19 @@ export default function Leaderboard() {
                       <td style={{ padding: '1.1rem 1.5rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                           {absolutePosition === 1 ? (
-                            <span style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)', color: '#000', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(251, 191, 36, 0.4)' }}>
+                            <span className="mobile-table-rank" style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)', color: '#000', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(251, 191, 36, 0.4)' }}>
                               #1
                             </span>
                           ) : absolutePosition === 2 ? (
-                            <span style={{ background: 'linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%)', color: '#0f172a', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(226, 232, 240, 0.3)' }}>
+                            <span className="mobile-table-rank" style={{ background: 'linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%)', color: '#0f172a', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(226, 232, 240, 0.3)' }}>
                               #2
                             </span>
                           ) : absolutePosition === 3 ? (
-                            <span style={{ background: 'linear-gradient(135deg, #f97316 0%, #c2410c 100%)', color: '#fff', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(249, 115, 22, 0.3)' }}>
+                            <span className="mobile-table-rank" style={{ background: 'linear-gradient(135deg, #f97316 0%, #c2410c 100%)', color: '#fff', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(249, 115, 22, 0.3)' }}>
                               #3
                             </span>
                           ) : (
-                            <span style={{ color: 'var(--text-muted)', fontFamily: 'monospace', fontSize: '0.85rem', width: '2.4rem', display: 'inline-block' }}>
+                            <span className="mobile-table-rank" style={{ color: 'var(--text-muted)', fontFamily: 'monospace', fontSize: '0.85rem', width: '2.4rem', display: 'inline-block' }}>
                               #{absolutePosition}
                             </span>
                           )}
