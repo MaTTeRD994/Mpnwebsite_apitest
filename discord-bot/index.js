@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits, REST, Routes, EmbedBuilder, ActivityType, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Client, GatewayIntentBits, REST, Routes, EmbedBuilder, ActivityType, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const { createClient } = require('@supabase/supabase-js');
 const RANKS = require('./ranks.json');
 
@@ -59,6 +59,37 @@ const commands = [
   {
     name: 'help',
     description: 'Show a list of all available bot commands.'
+  },
+  {
+    name: 'test',
+    description: 'Preview announcement embeds (admin only, only visible to you).',
+    default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
+    options: [
+      {
+        name: 'link',
+        description: 'Preview the account-linked announcement embed',
+        type: 1, // SUB_COMMAND
+      },
+      {
+        name: 'levelup',
+        description: 'Preview the rank-up announcement embed',
+        type: 1, // SUB_COMMAND
+        options: [
+          {
+            name: 'tier',
+            description: 'Which rank tier to preview',
+            type: 3, // STRING
+            required: true,
+            choices: RANKS.map(r => ({ name: r.name, value: r.name })),
+          }
+        ]
+      },
+      {
+        name: 'announce',
+        description: 'Preview the website-update announcement embed',
+        type: 1, // SUB_COMMAND
+      }
+    ]
   }
 ];
 
@@ -199,6 +230,7 @@ async function checkRankUps() {
           .setTitle('🔺 Rank Up!')
           .setColor(currentRank.color)
           .setDescription(`${identity} just reached **${currentRank.name}**!`)
+          .setThumbnail(`https://mc-heads.net/avatar/${player.uuid}/128`)
           .setFooter({ text: 'MaTTeRPixel Network' });
 
         const channel = await client.channels.fetch(levelUpChannelId).catch(() => null);
@@ -368,6 +400,88 @@ client.on('interactionCreate', async interaction => {
       .setFooter({ text: 'MaTTeRPixel Network Bot' });
       
     await interaction.reply({ embeds: [embed], ephemeral: true });
+  }
+
+  if (interaction.commandName === 'test') {
+    const sub = interaction.options.getSubcommand();
+    const TEST_UUID = '069a79f4-44e9-4726-a5be-fca90e38aaf5'; // Notch — has a real skin to render
+
+    if (sub === 'link') {
+      const embed = new EmbedBuilder()
+        .setTitle('🔗 Account Linked! (preview)')
+        .setColor('#E5231B')
+        .setDescription(`<@${interaction.user.id}> just linked their Minecraft account **TestPlayer**!`)
+        .setThumbnail(`https://mc-heads.net/avatar/${TEST_UUID}/128`)
+        .setFooter({ text: 'MaTTeRPixel Network' })
+        .setTimestamp();
+
+      const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setLabel('View Profile').setStyle(ButtonStyle.Link).setURL(`https://www.mpnhost.com/player/${TEST_UUID}`)
+      );
+
+      await interaction.reply({ content: '🧪 Preview only — not a real event.', embeds: [embed], components: [row], ephemeral: true });
+    }
+
+    if (sub === 'levelup') {
+      const tierName = interaction.options.getString('tier');
+      const tier = RANKS.find(r => r.name === tierName);
+
+      const embed = new EmbedBuilder()
+        .setTitle('🔺 Rank Up! (preview)')
+        .setColor(tier.color)
+        .setDescription(`<@${interaction.user.id}> just reached **${tier.name}**!`)
+        .setThumbnail(`https://mc-heads.net/avatar/${TEST_UUID}/128`)
+        .setFooter({ text: 'MaTTeRPixel Network' });
+
+      await interaction.reply({ content: '🧪 Preview only — not a real event.', embeds: [embed], ephemeral: true });
+    }
+
+    if (sub === 'announce') {
+      const embed = new EmbedBuilder()
+        .setTitle('🔴 MPN Website Update — Fresh Coat of Paint (and then some)')
+        .setColor('#E5231B')
+        .setDescription("We spent today giving the whole website a serious glow-up. Here's what's new:")
+        .setThumbnail('https://raw.githubusercontent.com/MaTTeRD994/Mpnwebsite_apitest/main/public/logo.png')
+        .addFields(
+          {
+            name: '🎨 Full visual rebrand',
+            value: 'The site now actually matches our logo — red & chrome instead of the old green theme. New navbar, new icon set, more consistent look across every page.'
+          },
+          {
+            name: '👤 Brand new profile pages',
+            value: 'Your leaderboard profile and account dashboard got rebuilt from scratch — your Minecraft skin front and center, your stats on one side, your achievements on the other. Way easier to flex your playtime now.'
+          },
+          {
+            name: '📱 Mobile fixes',
+            value: '• Fixed the leaderboard podium overflowing off-screen on phones\n• Fixed the navbar showing up twice on mobile\n• Fixed player stats getting stuck on "..." instead of loading\n• General spacing cleanup across the site'
+          },
+          {
+            name: '🛒 Store',
+            value: 'Fixed the Blue/Red/Vibrant MaTTeR tier images that had gone missing.'
+          },
+          {
+            name: '✨ Extra polish',
+            value: "Subtle background effects site-wide so it doesn't feel so flat scrolling around."
+          },
+          {
+            name: '🤖 Discord upgrades',
+            value: '• **Global ranks now sync here too** — link your account and you\'ll automatically get a Discord role matching your in-game rank (Neophyte → Eclipse), kept up to date automatically as you play\n• **Rank-up announcements** right in this channel — cross a threshold and everyone sees it\n• **Account-linked shoutouts** — linking your account now posts a little intro card here too'
+          },
+          {
+            name: '​',
+            value: 'More coming soon — let us know what you think! 🔥'
+          }
+        )
+        .setFooter({ text: 'MaTTeRPixel Network' })
+        .setTimestamp();
+
+      const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setLabel('🌐 Visit Website').setStyle(ButtonStyle.Link).setURL('https://www.mpnhost.com'),
+        new ButtonBuilder().setLabel('🛒 Check the Store').setStyle(ButtonStyle.Link).setURL('https://www.mpnhost.com/store')
+      );
+
+      await interaction.reply({ content: '🧪 Preview only — this has not been posted anywhere.', embeds: [embed], components: [row], ephemeral: true });
+    }
   }
 });
 
