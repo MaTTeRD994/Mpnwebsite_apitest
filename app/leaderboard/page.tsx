@@ -476,7 +476,7 @@ function PodiumPlayer({ player, rank, sortField, formatPlaytime }: any) {
         <img src={`https://mc-heads.net/body/${player.uuid}/256`} alt={player.name} style={{ height: '100%', objectFit: 'contain', filter: `drop-shadow(0 10px 15px rgba(0,0,0,0.5))` }} crossOrigin="anonymous" />
       </div>
       <div className="glass" style={{ width: isFirst ? 'clamp(110px, 34vw, 180px)' : 'clamp(90px, 27vw, 150px)', background: 'rgba(18, 18, 24, 0.85)', border: `1px solid ${color}40`, borderRadius: '16px', padding: 'clamp(1rem, 4vw, 1.5rem) 0.6rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: `0 8px 32px ${color}15`, position: 'relative' }}>
-        <div style={{ position: 'absolute', top: '-12px', background: `linear-gradient(135deg, ${color} 0%, ${color}99 100%)`, color: rank === 1 ? 'var(--bg-base)' : '#fff', fontWeight: 900, width: '28px', height: '28px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.85rem', boxShadow: `0 4px 12px ${color}60` }}>
+        <div style={{ position: 'absolute', bottom: '-14px', left: '50%', transform: 'translateX(-50%)', background: `linear-gradient(135deg, ${color} 0%, ${color}99 100%)`, color: rank === 1 ? 'var(--bg-base)' : '#fff', fontWeight: 900, width: '28px', height: '28px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.85rem', boxShadow: `0 4px 12px ${color}60`, zIndex: 15 }}>
           {rank}
         </div>
         <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '1rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{player.name}</div>
