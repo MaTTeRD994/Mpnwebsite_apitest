@@ -5,6 +5,45 @@ import { supabase } from '../../../../utils/supabase';
 
 export const dynamic = 'force-dynamic';
 
+async function announceLink(discordId: string, minecraftName: string, minecraftUuid: string) {
+  const channelId = process.env.DISCORD_LEVELUP_CHANNEL_ID;
+  const botToken = process.env.DISCORD_BOT_TOKEN;
+  if (!channelId || !botToken) return;
+
+  await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bot ${botToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      embeds: [
+        {
+          title: '🔗 Account Linked!',
+          description: `<@${discordId}> just linked their Minecraft account **${minecraftName}**!`,
+          color: parseInt('E5231B', 16),
+          thumbnail: { url: `https://mc-heads.net/avatar/${minecraftUuid}/128` },
+          footer: { text: 'MaTTeRPixel Network' },
+          timestamp: new Date().toISOString(),
+        },
+      ],
+      components: [
+        {
+          type: 1,
+          components: [
+            {
+              type: 2,
+              style: 5,
+              label: 'View Profile',
+              url: `https://www.mpnhost.com/player/${minecraftUuid}`,
+            },
+          ],
+        },
+      ],
+    }),
+  });
+}
+
 export async function POST(request: Request) {
   try {
     const cookieStore = await cookies();
@@ -80,7 +119,12 @@ export async function POST(request: Request) {
       .update({ used: true })
       .eq('id', linkCode.id);
 
-    return NextResponse.json({ 
+    // Best-effort Discord announcement — never let this block/fail the actual link.
+    announceLink(payload.discord_id, linkCode.minecraft_name, linkCode.minecraft_uuid).catch(err =>
+      console.error('Failed to post link announcement:', err)
+    );
+
+    return NextResponse.json({
       success: true, 
       minecraft_name: linkCode.minecraft_name,
       minecraft_uuid: linkCode.minecraft_uuid 

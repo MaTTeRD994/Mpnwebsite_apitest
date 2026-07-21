@@ -1,10 +1,27 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, REST, Routes, EmbedBuilder, ActivityType, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { createClient } = require('@supabase/supabase-js');
-const StatsPuller = require('./statsPuller');
+const RANKS = require('./ranks.json');
 
 // 1. Initialize Supabase
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+// Service-role client, scoped to player_rank_state only (bypasses RLS by design — see sql/001_player_rank_state.sql)
+// Optional until configured: createClient() throws synchronously if the key is missing, so guard it
+// rather than let a not-yet-configured feature take the whole bot down.
+const supabaseAdmin = process.env.SUPABASE_SERVICE_ROLE_KEY
+  ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+  : null;
+
+// All Discord role IDs created for the rank ladder — used to strip stale rank roles on sync.
+const ALL_RANK_ROLE_IDS = new Set(RANKS.map(r => r.discordRoleId).filter(Boolean));
+
+// Canonical global rank lookup (mirrors utils/ranks.ts on the website — see ranks.json)
+function getPlaytimeRank(playtime) {
+  for (let i = RANKS.length - 1; i >= 0; i--) {
+    if (playtime >= RANKS[i].hours) return RANKS[i];
+  }
+  return RANKS[0];
+}
 
 // 2. Initialize Discord Client
 const client = new Client({
@@ -68,9 +85,11 @@ client.once('ready', async () => {
   // Start the background sync intervals
   setInterval(updatePresence, 1000 * 60 * 5); // Update status every 5 mins
   setInterval(syncRoles, 1000 * 60 * 2); // Sync roles every 2 mins
-  
+  setInterval(checkRankUps, 1000 * 60 * 2); // Check for rank-ups every 2 mins
+
   // Run an initial sync immediately
   syncRoles();
+  checkRankUps();
 });
 
 // 5. Background Role Syncing
@@ -104,6 +123,92 @@ async function syncRoles() {
     }
   } catch (err) {
     console.error("[Sync] Error during role sync:", err);
+  }
+}
+
+// 5b. Global Rank-Up Detection & Announcement
+async function checkRankUps() {
+  if (!supabaseAdmin) {
+    console.log("[RankSync] Skipped — SUPABASE_SERVICE_ROLE_KEY not configured yet.");
+    return;
+  }
+  try {
+    console.log("[RankSync] Checking for rank changes...");
+
+    const { data: players, error: lbError } = await supabase
+      .from('network_leaderboard')
+      .select('uuid, name, playtime');
+    if (lbError || !players) {
+      console.error("[RankSync] Failed to fetch network_leaderboard:", lbError);
+      return;
+    }
+
+    const { data: stateRows, error: stateError } = await supabaseAdmin
+      .from('player_rank_state')
+      .select('uuid, last_rank_hours');
+    if (stateError) {
+      console.error("[RankSync] Failed to fetch player_rank_state:", stateError);
+      return;
+    }
+    const stateMap = new Map(stateRows.map(r => [r.uuid, r.last_rank_hours]));
+
+    const levelUpChannelId = process.env.DISCORD_LEVELUP_CHANNEL_ID;
+    const guild = await client.guilds.fetch(process.env.DISCORD_SERVER_ID).catch(() => null);
+
+    for (const player of players) {
+      try {
+        const currentRank = getPlaytimeRank(player.playtime || 0);
+        const lastHours = stateMap.get(player.uuid);
+        const isRankUp = lastHours !== undefined && currentRank.hours > lastHours;
+        const isFirstSeen = lastHours === undefined;
+
+        if (isFirstSeen || isRankUp) {
+          await supabaseAdmin.from('player_rank_state').upsert({
+            uuid: player.uuid,
+            last_rank_name: currentRank.name,
+            last_rank_hours: currentRank.hours,
+            updated_at: new Date().toISOString()
+          });
+        }
+
+        // Discord role + announcement only apply to linked accounts.
+        const { data: linkedUser } = await supabase
+          .from('users')
+          .select('discord_id')
+          .ilike('minecraft_uuid', player.uuid)
+          .maybeSingle();
+
+        if (linkedUser?.discord_id && guild && currentRank.discordRoleId) {
+          const member = await guild.members.fetch(linkedUser.discord_id).catch(() => null);
+          if (member) {
+            const hasTarget = member.roles.cache.has(currentRank.discordRoleId);
+            const staleRankRoles = member.roles.cache.filter(r => ALL_RANK_ROLE_IDS.has(r.id) && r.id !== currentRank.discordRoleId);
+            if (!hasTarget) await member.roles.add(currentRank.discordRoleId).catch(err => console.error(`[RankSync] Failed to add role for ${player.name}:`, err.message));
+            if (staleRankRoles.size > 0) await member.roles.remove([...staleRankRoles.keys()]).catch(err => console.error(`[RankSync] Failed to remove stale rank role for ${player.name}:`, err.message));
+          }
+        }
+
+        if (!isRankUp) continue;
+        console.log(`[RankSync] ${player.name} ranked up to ${currentRank.name}`);
+
+        if (!levelUpChannelId) continue;
+
+        const identity = linkedUser?.discord_id ? `<@${linkedUser.discord_id}>` : `**${player.name}**`;
+
+        const embed = new EmbedBuilder()
+          .setTitle('🔺 Rank Up!')
+          .setColor(currentRank.color)
+          .setDescription(`${identity} just reached **${currentRank.name}**!`)
+          .setFooter({ text: 'MaTTeRPixel Network' });
+
+        const channel = await client.channels.fetch(levelUpChannelId).catch(() => null);
+        if (channel) await channel.send({ embeds: [embed] });
+      } catch (err) {
+        console.error(`[RankSync] Failed to process rank for ${player.uuid}:`, err);
+      }
+    }
+  } catch (err) {
+    console.error("[RankSync] Error during rank check:", err);
   }
 }
 
@@ -218,26 +323,8 @@ client.on('interactionCreate', async interaction => {
       return interaction.editReply(`❌ Could not find any network statistics for player \`${targetName}\`. Make sure they have played on the network.`);
     }
 
-    // Calculate rank
-    const ranks = [
-      { hours: 1500, name: 'Apex' },
-      { hours: 1000, name: 'Celestial' },
-      { hours: 600, name: 'Exalted' },
-      { hours: 300, name: 'Angel' },
-      { hours: 150, name: 'Divine' },
-      { hours: 72, name: 'Oracle' },
-      { hours: 36, name: 'Prophet' },
-      { hours: 12, name: 'Disciple' },
-      { hours: 4, name: 'Acolyte' },
-      { hours: 0, name: 'Player' },
-    ];
-    let playerRank = 'Player';
-    for (const r of ranks) {
-      if (player.playtime >= r.hours) {
-        playerRank = r.name;
-        break;
-      }
-    }
+    // Calculate rank (canonical global ladder — see ranks.json)
+    const playerRank = getPlaytimeRank(player.playtime || 0).name;
 
     const embed1 = new EmbedBuilder()
       .setTitle(`**${player.name}**`)

@@ -1,0 +1,94 @@
+[
+  {
+    "name": "Neophyte",
+    "color": "#FF6F62",
+    "hours": 0,
+    "claims": 16,
+    "forceLoaded": 1,
+    "homes": 1,
+    "discordRoleId": "1529231745059127511"
+  },
+  {
+    "name": "Ember",
+    "color": "#6E8CB8",
+    "hours": 4,
+    "claims": 32,
+    "forceLoaded": 4,
+    "homes": 1,
+    "discordRoleId": "1529231746154102977"
+  },
+  {
+    "name": "Astral",
+    "color": "#F2A93C",
+    "hours": 24,
+    "claims": 64,
+    "forceLoaded": 8,
+    "homes": 2,
+    "discordRoleId": "1529231747521318982"
+  },
+  {
+    "name": "Vanguard",
+    "color": "#E5231B",
+    "hours": 50,
+    "claims": 100,
+    "forceLoaded": 16,
+    "homes": 2,
+    "discordRoleId": "1529231748938862729"
+  },
+  {
+    "name": "Warden",
+    "color": "#FF6F62",
+    "hours": 75,
+    "claims": 120,
+    "forceLoaded": 24,
+    "homes": 3,
+    "discordRoleId": "1529231751103254691"
+  },
+  {
+    "name": "Luminar",
+    "color": "#6E8CB8",
+    "hours": 100,
+    "claims": 150,
+    "forceLoaded": 30,
+    "homes": 3,
+    "discordRoleId": "1529231751908691982"
+  },
+  {
+    "name": "Vesper",
+    "color": "#F2A93C",
+    "hours": 200,
+    "claims": 200,
+    "forceLoaded": 40,
+    "homes": 4,
+    "discordRoleId": "1529231753703723159"
+  },
+  {
+    "name": "Zenith",
+    "color": "#E5231B",
+    "hours": 400,
+    "claims": 250,
+    "forceLoaded": 50,
+    "homes": 4,
+    "discordRoleId": "1529231755717120030"
+  },
+  {
+    "name": "Mythos",
+    "color": "#FF6F62",
+    "hours": 700,
+    "claims": 300,
+    "forceLoaded": 64,
+    "homes": 5,
+    "specialDiscord": true,
+    "discordRoleId": "1529231757302567121"
+  },
+  {
+    "name": "Eclipse",
+    "color": "#6E8CB8",
+    "hours": 1000,
+    "claims": 400,
+    "forceLoaded": 84,
+    "homes": 6,
+    "specialDiscord": true,
+    "discordRoleId": "1529231758883815454"
+  }
+]

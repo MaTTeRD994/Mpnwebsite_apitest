@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "./AuthProvider";
+import { LogIn, User, Trophy, LogOut } from "lucide-react";
 
 export default function NavUser() {
   const { user, loading } = useAuth();
@@ -23,8 +24,8 @@ export default function NavUser() {
       <div style={{
         width: '120px',
         height: '40px',
-        borderRadius: '0.75rem',
-        background: 'rgba(255,255,255,0.05)',
+        borderRadius: '16px',
+        background: 'var(--bg-elevated)',
         animation: 'pulse 2s infinite',
       }} />
     );
@@ -35,12 +36,12 @@ export default function NavUser() {
       <a
         href="/api/auth/login"
         style={{
-          background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-          border: '1px solid rgba(248, 113, 113, 0.4)',
+          background: 'var(--primary)',
+          border: '1px solid var(--primary)',
           color: '#fff',
           fontWeight: 'bold',
           padding: '0.55rem 1.15rem',
-          borderRadius: '0.75rem',
+          borderRadius: '16px',
           fontSize: '0.85rem',
           textDecoration: 'none',
           display: 'inline-flex',
@@ -48,14 +49,10 @@ export default function NavUser() {
           gap: '0.5rem',
           transition: 'all 0.2s',
           cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(239, 68, 68, 0.25)',
+          boxShadow: '0 4px 12px var(--primary-glow)',
         }}
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-          <polyline points="10 17 15 12 10 7" />
-          <line x1="15" y1="12" x2="3" y2="12" />
-        </svg>
+        <LogIn size={16} strokeWidth={2.5} />
         Login
       </a>
     );
@@ -116,9 +113,9 @@ export default function NavUser() {
           top: 'calc(100% + 0.5rem)',
           right: 0,
           minWidth: '200px',
-          background: 'rgba(18, 18, 24, 0.95)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: '0.85rem',
+          background: 'var(--bg-deep)',
+          border: '1px solid var(--border-strong)',
+          borderRadius: '16px',
           backdropFilter: 'blur(20px)',
           boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
           padding: '0.5rem',
@@ -133,8 +130,8 @@ export default function NavUser() {
               alignItems: 'center',
               gap: '0.65rem',
               padding: '0.7rem 0.85rem',
-              borderRadius: '0.5rem',
-              color: '#e2e8f0',
+              borderRadius: '12px',
+              color: 'var(--text-primary)',
               textDecoration: 'none',
               fontSize: '0.9rem',
               fontWeight: '500',
@@ -142,7 +139,7 @@ export default function NavUser() {
             }}
             className="hover-row"
           >
-            <span style={{ fontSize: '1rem' }}>👤</span> Account
+            <User size={16} strokeWidth={1.75} /> Account
           </a>
           <a
             href="/leaderboard"
@@ -152,8 +149,8 @@ export default function NavUser() {
               alignItems: 'center',
               gap: '0.65rem',
               padding: '0.7rem 0.85rem',
-              borderRadius: '0.5rem',
-              color: '#e2e8f0',
+              borderRadius: '12px',
+              color: 'var(--text-primary)',
               textDecoration: 'none',
               fontSize: '0.9rem',
               fontWeight: '500',
@@ -161,12 +158,12 @@ export default function NavUser() {
             }}
             className="hover-row"
           >
-            <span style={{ fontSize: '1rem' }}>🏆</span> Leaderboard
+            <Trophy size={16} strokeWidth={1.75} /> Leaderboard
           </a>
 
           <div style={{
             height: '1px',
-            background: 'rgba(255,255,255,0.08)',
+            background: 'var(--border-light)',
             margin: '0.35rem 0.5rem',
           }} />
 
@@ -177,8 +174,8 @@ export default function NavUser() {
               alignItems: 'center',
               gap: '0.65rem',
               padding: '0.7rem 0.85rem',
-              borderRadius: '0.5rem',
-              color: '#ef4444',
+              borderRadius: '12px',
+              color: 'var(--redstone)',
               textDecoration: 'none',
               fontSize: '0.9rem',
               fontWeight: '500',
@@ -186,7 +183,7 @@ export default function NavUser() {
             }}
             className="hover-row"
           >
-            <span style={{ fontSize: '1rem' }}>🚪</span> Logout
+            <LogOut size={16} strokeWidth={1.75} /> Logout
           </a>
         </div>
       )}

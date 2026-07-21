@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Lock, Users, Wrench, Hourglass, Coffee, Rocket, Pickaxe, Lightbulb, ExternalLink, Check } from "lucide-react";
 
 export default function ServerCard({ server }: { server: any }) {
   const [copied, setCopied] = useState(false);
@@ -20,51 +21,68 @@ export default function ServerCard({ server }: { server: any }) {
     }
   };
 
+  // Status pill tokens. Purple isn't a brand color, so "Private" borrows
+  // diamond/steel (a "restricted access" read) instead of inventing a swatch.
+  // Online uses --signal (status-only green) rather than --primary — --primary is
+  // brand red now, and "online" reading as red would be backwards.
+  const statusBg = isPrivate ? 'var(--diamond)' : isComingSoon ? 'var(--gold)' : isOnline ? 'var(--signal)' : 'var(--redstone)';
+  const statusText = isPrivate ? '#fff' : isComingSoon ? 'var(--bg-base)' : isOnline ? 'var(--bg-base)' : '#fff';
+
   return (
-    <div 
-      className="glass server-card" 
-      style={{ 
-        background: 'rgba(18, 18, 24, 0.75)',
-        border: isGtnh ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(255, 255, 255, 0.08)',
-        borderRadius: '1rem',
-        overflow: 'hidden',
-        transition: 'transform 0.3s, border-color 0.3s, box-shadow 0.3s',
-        display: 'flex', 
-        flexDirection: 'column', 
-        height: '100%' 
+    <div
+      className="server-card"
+      style={{
+        border: `1px solid ${isGtnh ? 'rgba(196, 25, 18, 0.35)' : 'var(--border-light)'}`,
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%'
       }}
     >
       {/* Image Banner Header */}
-      <div 
+      <div
         onClick={() => { if (isGtnh) setShowGtnhModal(true); }}
         style={{ height: '170px', background: 'var(--bg-base)', position: 'relative', overflow: 'hidden', cursor: isGtnh ? 'pointer' : 'default' }}
       >
-        <img 
-          src={server.imgUrl || "https://media.forgecdn.net/avatars/1182/438/638755918649288941.png"} 
-          alt={server.name} 
+        <img
+          src={server.imgUrl || "https://media.forgecdn.net/avatars/1182/438/638755918649288941.png"}
+          alt={server.name ? `${server.name} Minecraft server banner artwork` : "Minecraft server banner artwork"}
+          onError={(e) => {
+            const img = e.currentTarget;
+            const fallback = "https://media.forgecdn.net/avatars/1182/438/638755918649288941.png";
+            if (img.src !== fallback) img.src = fallback;
+          }}
           style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
           className="card-banner-img"
         />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(18, 18, 24, 0.95) 0%, rgba(18, 18, 24, 0.3) 50%, transparent 100%)' }} />
 
-        {/* Featured Corner Ribbon */}
+        {/* Subtle dotted texture accent — same brand motif as the mockup's spotlight cards */}
+        <div
+          className="dotted-pattern"
+          style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', right: '0.75rem', height: '48px', opacity: 0.12, pointerEvents: 'none' }}
+        />
+
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(17, 24, 36, 0.95) 0%, rgba(17, 24, 36, 0.3) 50%, transparent 100%)' }} />
+
+        {/* Featured Corner Chip — squared-off (radius-button) so it reads as a
+            label distinct from the fully-rounded live-state pills below */}
         {(server.featured || server.id === 'gtnh' || server.id === 'atm10') && (
           <div style={{
             position: 'absolute',
             top: '0.75rem',
             left: '0.75rem',
-            background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
-            color: '#000',
+            background: 'var(--gold)',
+            color: 'var(--bg-base)',
             fontSize: '0.65rem',
-            fontWeight: '900',
+            fontWeight: 900,
             padding: '0.25rem 0.65rem',
-            borderRadius: '0.35rem',
+            borderRadius: '16px',
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
-            boxShadow: '0 4px 10px rgba(0,0,0,0.5)',
+            boxShadow: '0 4px 10px rgba(0,0,0,0.4)',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.3rem'
+            gap: '0.3rem',
+            whiteSpace: 'nowrap'
           }}>
             ★ FEATURED
           </div>
@@ -75,8 +93,8 @@ export default function ServerCard({ server }: { server: any }) {
           position: 'absolute',
           bottom: '0.75rem',
           left: '0.75rem',
-          background: isPrivate ? 'rgba(168, 85, 247, 0.85)' : isComingSoon ? 'rgba(234, 179, 8, 0.85)' : isOnline ? 'rgba(16, 185, 129, 0.85)' : 'rgba(239, 68, 68, 0.85)',
-          color: '#fff',
+          background: statusBg,
+          color: statusText,
           fontSize: '0.75rem',
           fontWeight: 'bold',
           padding: '0.25rem 0.65rem',
@@ -84,10 +102,11 @@ export default function ServerCard({ server }: { server: any }) {
           display: 'flex',
           alignItems: 'center',
           gap: '0.4rem',
-          backdropFilter: 'blur(4px)',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.4)'
+          boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+          whiteSpace: 'nowrap',
+          maxWidth: 'calc(100% - 1.5rem)'
         }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#fff', boxShadow: '0 0 6px #fff' }} />
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: statusText, boxShadow: `0 0 6px ${statusText}`, flexShrink: 0 }} />
           {isPrivate ? 'Private' : isComingSoon ? 'Coming Soon' : isOnline ? 'Online' : 'Offline'}
         </div>
 
@@ -97,61 +116,74 @@ export default function ServerCard({ server }: { server: any }) {
             position: 'absolute',
             bottom: '0.75rem',
             right: '0.75rem',
-            background: 'rgba(0, 0, 0, 0.65)',
-            color: '#fff',
+            background: 'rgba(17, 24, 36, 0.75)',
+            color: 'var(--text-primary)',
             fontSize: '0.75rem',
             fontWeight: 'bold',
             padding: '0.25rem 0.65rem',
             borderRadius: '9999px',
-            border: '1px solid rgba(255,255,255,0.15)',
+            border: '1px solid var(--border-strong)',
             backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.35rem'
+            gap: '0.35rem',
+            whiteSpace: 'nowrap'
           }}>
-            {isPrivate ? '🔒 Whitelist' : `👥 ${server.players || 0} / 32`}
+            {isPrivate ? (<><Lock size={12} strokeWidth={2} /> Whitelist</>) : (<><Users size={12} strokeWidth={2} /> {server.players || 0} / 32</>)}
           </div>
         )}
       </div>
-      
+
       {/* Card Body */}
       <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
-            <h3 
+        <div style={{ minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <h3
               onClick={() => { if (isGtnh) setShowGtnhModal(true); }}
-              style={{ fontSize: '1.35rem', fontWeight: 'bold', color: '#fff', margin: '0 0 0.35rem 0', lineHeight: 1.3, cursor: isGtnh ? 'pointer' : 'default' }}
+              style={{ fontSize: '1.35rem', fontWeight: 'bold', color: 'var(--text-primary)', margin: '0 0 0.35rem 0', lineHeight: 1.3, cursor: isGtnh ? 'pointer' : 'default', minWidth: 0, overflowWrap: 'anywhere', flex: '1 1 auto' }}
             >
               {server.name}
             </h3>
             {isGtnh && (
-              <span 
+              <span
                 onClick={() => setShowGtnhModal(true)}
-                style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#f87171', border: '1px solid rgba(239, 68, 68, 0.4)', padding: '0.15rem 0.55rem', borderRadius: '100px', fontSize: '0.68rem', fontWeight: 900, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                style={{ background: 'rgba(196, 25, 18, 0.15)', color: 'var(--redstone)', border: '1px solid rgba(196, 25, 18, 0.4)', padding: '0.15rem 0.55rem', borderRadius: '9999px', fontSize: '0.68rem', fontWeight: 900, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
               >
-                ⚙️ Setup Guide
+                <Wrench size={11} strokeWidth={2.25} /> Setup Guide
               </span>
             )}
           </div>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0 }}>
-            {server.version} • MC {server.mc}
-          </p>
+
+          {/* Meta info as small tag chips (brand pill pattern) instead of a plain text line */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.15rem' }}>
+            {server.version && (
+              <span style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)', fontSize: '0.72rem', fontWeight: 700, padding: '0.15rem 0.55rem', borderRadius: '9999px', whiteSpace: 'nowrap' }}>
+                {server.version}
+              </span>
+            )}
+            {server.mc && (
+              <span style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)', fontSize: '0.72rem', fontWeight: 700, padding: '0.15rem 0.55rem', borderRadius: '9999px', whiteSpace: 'nowrap' }}>
+                MC {server.mc}
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* Actions Row */}
-        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
+        {/* Actions Row — flex-basis + wrap lets buttons stack on narrow (~310px) cards
+            instead of squeezing/overflowing */}
+        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
           {isGtnh ? (
             <button
               onClick={() => setShowGtnhModal(true)}
               style={{
-                flex: 1.2,
-                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(168, 85, 247, 0.25) 100%)',
-                border: '1px solid rgba(239, 68, 68, 0.5)',
-                color: '#fff',
+                flex: '1.2 1 140px',
+                background: 'rgba(196, 25, 18, 0.15)',
+                border: '1px solid rgba(196, 25, 18, 0.4)',
+                color: 'var(--text-primary)',
                 fontSize: '0.82rem',
-                fontWeight: '900',
+                fontWeight: 900,
                 padding: '0.65rem 0.8rem',
-                borderRadius: '0.6rem',
+                borderRadius: '16px',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
                 display: 'flex',
@@ -162,7 +194,7 @@ export default function ServerCard({ server }: { server: any }) {
               className="hover-bg-light"
             >
               <span>Install FAQs</span>
-              <span>⚙️</span>
+              <Wrench size={14} strokeWidth={2} />
             </button>
           ) : (
             <a
@@ -170,14 +202,14 @@ export default function ServerCard({ server }: { server: any }) {
               target="_blank"
               rel="noreferrer"
               style={{
-                flex: 1,
-                background: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                color: '#fff',
+                flex: '1 1 120px',
+                background: 'var(--bg-elevated)',
+                border: '1px solid var(--border-strong)',
+                color: 'var(--text-primary)',
                 fontSize: '0.85rem',
                 fontWeight: 'bold',
                 padding: '0.65rem 1rem',
-                borderRadius: '0.6rem',
+                borderRadius: '16px',
                 textAlign: 'center',
                 textDecoration: 'none',
                 transition: 'all 0.2s',
@@ -193,14 +225,14 @@ export default function ServerCard({ server }: { server: any }) {
           {isPrivate || isComingSoon ? (
             <div
               style={{
-                flex: 1,
+                flex: '1 1 120px',
                 background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                border: '1px solid var(--border-light)',
                 color: 'var(--text-muted)',
                 fontSize: '0.85rem',
                 fontWeight: 'bold',
                 padding: '0.65rem 1rem',
-                borderRadius: '0.6rem',
+                borderRadius: '16px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -208,20 +240,20 @@ export default function ServerCard({ server }: { server: any }) {
                 cursor: 'not-allowed'
               }}
             >
-              {isPrivate ? '🔒 Private' : '⏳ Coming Soon'}
+              {isPrivate ? (<><Lock size={14} strokeWidth={2} /> Private</>) : (<><Hourglass size={14} strokeWidth={2} /> Coming Soon</>)}
             </div>
           ) : (
             <button
               onClick={handleCopy}
               style={{
-                flex: 1,
-                background: copied ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.04)',
-                border: `1px solid ${copied ? '#10b981' : 'rgba(255, 255, 255, 0.1)'}`,
-                color: copied ? '#4ade80' : 'var(--text-muted)',
+                flex: '1 1 120px',
+                background: copied ? 'rgba(53, 194, 103, 0.15)' : 'rgba(255, 255, 255, 0.04)',
+                border: `1px solid ${copied ? 'var(--signal)' : 'var(--border-light)'}`,
+                color: copied ? 'var(--signal)' : 'var(--text-muted)',
                 fontSize: '0.85rem',
                 fontWeight: 'bold',
                 padding: '0.65rem 1rem',
-                borderRadius: '0.6rem',
+                borderRadius: '16px',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
                 display: 'flex',
@@ -230,7 +262,7 @@ export default function ServerCard({ server }: { server: any }) {
                 gap: '0.4rem'
               }}
             >
-              {copied ? '✓ Copied IP' : 'Copy IP'}
+              {copied ? (<><Check size={14} strokeWidth={2.5} /> Copied IP</>) : 'Copy IP'}
             </button>
           )}
         </div>
@@ -256,17 +288,17 @@ export default function ServerCard({ server }: { server: any }) {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              background: 'linear-gradient(135deg, rgba(25, 25, 35, 0.98) 0%, rgba(15, 15, 20, 0.99) 100%)',
-              border: '1px solid rgba(239, 68, 68, 0.45)',
-              borderRadius: '1.5rem',
+              background: 'linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-base) 100%)',
+              border: '1px solid rgba(196, 25, 18, 0.4)',
+              borderRadius: '26px',
               width: '100%',
               maxWidth: '680px',
               maxHeight: '88vh',
               overflowY: 'auto',
-              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(239, 68, 68, 0.2)',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(196, 25, 18, 0.2)',
               position: 'relative',
-              color: '#fff',
-              padding: '2.5rem',
+              color: 'var(--text-primary)',
+              padding: '2rem clamp(1.25rem, 5vw, 2.5rem)',
               textAlign: 'left'
             }}
           >
@@ -277,9 +309,9 @@ export default function ServerCard({ server }: { server: any }) {
                 position: 'absolute',
                 top: '1.5rem',
                 right: '1.5rem',
-                background: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#fff',
+                background: 'var(--bg-elevated)',
+                border: '1px solid var(--border-strong)',
+                color: 'var(--text-primary)',
                 width: '36px',
                 height: '36px',
                 borderRadius: '50%',
@@ -296,11 +328,12 @@ export default function ServerCard({ server }: { server: any }) {
             </button>
 
             {/* Modal Header */}
-            <div style={{ marginBottom: '2rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '1.25rem' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(239, 68, 68, 0.15)', color: '#f87171', fontSize: '0.72rem', fontWeight: 900, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.3rem 0.75rem', borderRadius: '100px', marginBottom: '0.6rem' }}>
-                <span>⚙️ SETUP GUIDE & TROUBLESHOOTING</span>
+            <div style={{ marginBottom: '2rem', borderBottom: '1px solid var(--border-light)', paddingBottom: '1.25rem', paddingRight: '2.5rem' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(196, 25, 18, 0.15)', color: 'var(--redstone)', fontSize: '0.72rem', fontWeight: 900, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.3rem 0.75rem', borderRadius: '9999px', marginBottom: '0.6rem' }}>
+                <Wrench size={13} strokeWidth={2.25} />
+                <span>SETUP GUIDE & TROUBLESHOOTING</span>
               </div>
-              <h2 style={{ fontSize: '1.85rem', fontWeight: 900, margin: '0 0 0.5rem 0', color: '#fff' }}>
+              <h2 style={{ fontSize: '1.85rem', fontWeight: 900, margin: '0 0 0.5rem 0', color: 'var(--text-primary)' }}>
                 GregTech New Horizons - Install/Setup FAQs
               </h2>
               <p style={{ fontSize: '0.92rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.5 }}>
@@ -310,14 +343,14 @@ export default function ServerCard({ server }: { server: any }) {
 
             {/* Modal Body Items */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              
-              {/* Point 1: Java 8 */}
-              <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '1rem', padding: '1.25rem' }}>
+
+              {/* Point 1: Java 8 (Gold = required prerequisite) */}
+              <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-light)', borderRadius: '20px', padding: '1.25rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.6rem' }}>
-                  <span style={{ fontSize: '1.3rem' }}>☕</span>
-                  <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: '#fbbf24' }}>GTNH Requires Java 8</h4>
+                  <Coffee size={21} strokeWidth={1.75} color="var(--gold)" />
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: 'var(--gold)' }}>GTNH Requires Java 8</h4>
                 </div>
-                <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', margin: '0 0 1rem 0', lineHeight: 1.5 }}>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', margin: '0 0 1rem 0', lineHeight: 1.5 }}>
                   GregTech New Horizons runs strictly on <strong>Java 8</strong>. Newer Java versions (like Java 17 or 21) will cause crash loops when launching the modpack.
                 </p>
                 <a
@@ -328,11 +361,11 @@ export default function ServerCard({ server }: { server: any }) {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.5rem',
-                    background: 'rgba(251, 191, 36, 0.15)',
-                    border: '1px solid rgba(251, 191, 36, 0.4)',
-                    color: '#fbbf24',
+                    background: 'rgba(242, 169, 60, 0.15)',
+                    border: '1px solid rgba(242, 169, 60, 0.4)',
+                    color: 'var(--gold)',
                     padding: '0.6rem 1.1rem',
-                    borderRadius: '0.65rem',
+                    borderRadius: '16px',
                     fontSize: '0.85rem',
                     fontWeight: 'bold',
                     textDecoration: 'none',
@@ -340,21 +373,21 @@ export default function ServerCard({ server }: { server: any }) {
                   }}
                 >
                   <span>Download Java 8 Manual Installer</span>
-                  <span>↗</span>
+                  <ExternalLink size={14} strokeWidth={2} />
                 </a>
               </div>
 
-              {/* Point 2: 6GB RAM & -d64 */}
-              <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '1rem', padding: '1.25rem' }}>
+              {/* Point 2: 6GB RAM & -d64 (Diamond = technical config note) */}
+              <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-light)', borderRadius: '20px', padding: '1.25rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.6rem' }}>
-                  <span style={{ fontSize: '1.3rem' }}>🚀</span>
-                  <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: '#60a5fa' }}>Allocating More Than 6GB RAM</h4>
+                  <Rocket size={21} strokeWidth={1.75} color="var(--diamond)" />
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: 'var(--diamond)' }}>Allocating More Than 6GB RAM</h4>
                 </div>
-                <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', margin: '0 0 1rem 0', lineHeight: 1.5 }}>
-                  If you want to allocate more than <strong>6GB of RAM</strong>, you MUST install 64-bit Java and force the instance to run as 64-bit by adding the <code style={{ color: '#93c5fd', background: 'rgba(96, 165, 250, 0.15)', padding: '0.15rem 0.4rem', borderRadius: '4px' }}>-d64</code> argument to your JVM arguments.
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', margin: '0 0 1rem 0', lineHeight: 1.5 }}>
+                  If you want to allocate more than <strong>6GB of RAM</strong>, you MUST install 64-bit Java and force the instance to run as 64-bit by adding the <code style={{ color: 'var(--diamond)', background: 'rgba(110, 140, 184, 0.15)', padding: '0.15rem 0.4rem', borderRadius: '4px' }}>-d64</code> argument to your JVM arguments.
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <code style={{ background: 'rgba(0, 0, 0, 0.6)', border: '1px solid rgba(255,255,255,0.15)', padding: '0.5rem 1rem', borderRadius: '0.5rem', color: '#93c5fd', fontWeight: 'bold', fontSize: '0.95rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  <code style={{ background: 'rgba(17, 24, 36, 0.6)', border: '1px solid var(--border-strong)', padding: '0.5rem 1rem', borderRadius: '16px', color: 'var(--diamond)', fontWeight: 'bold', fontSize: '0.95rem' }}>
                     -d64
                   </code>
                   <button
@@ -364,11 +397,11 @@ export default function ServerCard({ server }: { server: any }) {
                       setTimeout(() => setCopiedArg(false), 2000);
                     }}
                     style={{
-                      background: copiedArg ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.08)',
-                      border: `1px solid ${copiedArg ? '#10b981' : 'rgba(255, 255, 255, 0.2)'}`,
-                      color: copiedArg ? '#4ade80' : '#fff',
+                      background: copiedArg ? 'rgba(53, 194, 103, 0.15)' : 'var(--bg-elevated)',
+                      border: `1px solid ${copiedArg ? 'var(--signal)' : 'var(--border-strong)'}`,
+                      color: copiedArg ? 'var(--signal)' : 'var(--text-primary)',
                       padding: '0.5rem 0.9rem',
-                      borderRadius: '0.5rem',
+                      borderRadius: '16px',
                       fontSize: '0.8rem',
                       fontWeight: 'bold',
                       cursor: 'pointer',
@@ -380,40 +413,41 @@ export default function ServerCard({ server }: { server: any }) {
                 </div>
               </div>
 
-              {/* Point 3: CurseForge Instance & Ore Excavation */}
-              <div style={{ background: 'rgba(239, 68, 68, 0.06)', border: '1px solid rgba(239, 68, 68, 0.25)', borderRadius: '1rem', padding: '1.25rem' }}>
+              {/* Point 3: CurseForge Instance & Ore Excavation (Redstone = alert/fix) */}
+              <div style={{ background: 'rgba(196, 25, 18, 0.06)', border: '1px solid rgba(196, 25, 18, 0.25)', borderRadius: '20px', padding: '1.25rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.6rem' }}>
-                  <span style={{ fontSize: '1.3rem' }}>⛏️</span>
-                  <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: '#f87171' }}>CurseForge Instance & Ore Excavation Fix</h4>
+                  <Pickaxe size={21} strokeWidth={1.75} color="var(--redstone)" />
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: 'var(--redstone)' }}>CurseForge Instance & Ore Excavation Fix</h4>
                 </div>
-                <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.85)', margin: '0 0 0.85rem 0', lineHeight: 1.6 }}>
-                  The CurseForge Instance will not function by default, but you can get access to the server right now by adding <strong>Ore Excavation</strong> to your <code style={{ color: '#fca5a5', background: 'rgba(239,68,68,0.2)', padding: '0.15rem 0.4rem', borderRadius: '4px' }}>/mods/</code> folder in the instance (this is a lightweight vein miner required on our network profile).
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', margin: '0 0 0.85rem 0', lineHeight: 1.6 }}>
+                  The CurseForge Instance will not function by default, but you can get access to the server right now by adding <strong>Ore Excavation</strong> to your <code style={{ color: 'var(--redstone)', background: 'rgba(196, 25, 18, 0.15)', padding: '0.15rem 0.4rem', borderRadius: '4px' }}>/mods/</code> folder in the instance (this is a lightweight vein miner required on our network profile).
                 </p>
-                <div style={{ background: 'rgba(0, 0, 0, 0.4)', borderLeft: '3px solid #f87171', padding: '0.85rem 1rem', borderRadius: '0.5rem', fontSize: '0.85rem', color: '#fca5a5', lineHeight: 1.5 }}>
-                  💡 <strong>Quick Tip:</strong> You can also simply make the instance editable within CurseForge and add the <strong>"Ore Excavation"</strong> mod directly through the CurseForge interface!
+                <div style={{ background: 'rgba(17, 24, 36, 0.5)', borderLeft: '3px solid var(--redstone)', padding: '0.85rem 1rem', borderRadius: '8px', fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5, display: 'flex', gap: '0.5rem' }}>
+                  <Lightbulb size={16} strokeWidth={1.75} style={{ flexShrink: 0, marginTop: '0.15rem' }} />
+                  <span><strong style={{ color: 'var(--text-primary)' }}>Quick Tip:</strong> You can also simply make the instance editable within CurseForge and add the <strong style={{ color: 'var(--text-primary)' }}>&quot;Ore Excavation&quot;</strong> mod directly through the CurseForge interface!</span>
                 </div>
               </div>
 
             </div>
 
             {/* Modal Footer */}
-            <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+            <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-light)', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
               <button
                 onClick={() => setShowGtnhModal(false)}
                 style={{
-                  background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-                  border: '1px solid #ef4444',
+                  background: 'var(--redstone)',
+                  border: '1px solid var(--redstone)',
                   color: '#fff',
                   padding: '0.75rem 1.75rem',
-                  borderRadius: '0.75rem',
+                  borderRadius: '16px',
                   fontSize: '0.9rem',
                   fontWeight: 900,
                   cursor: 'pointer',
-                  boxShadow: '0 5px 15px rgba(239, 68, 68, 0.4)',
+                  boxShadow: '0 5px 15px rgba(196, 25, 18, 0.4)',
                   transition: 'all 0.2s'
                 }}
               >
-                Got It, Let's Play!
+                Got It, Let&apos;s Play!
               </button>
             </div>
 

@@ -11,17 +11,18 @@ export const metadata = {
 };
 
 export default function InfoPage() {
+  // Canonical global rank ladder — mirrors discord-bot/ranks.json / utils/ranks.ts.
   const ranks = [
-    { hours: 0, name: 'Player', color: '#9CA3AF', commands: 3, homes: 1, keepInv: false },
-    { hours: 4, name: 'Acolyte', color: '#60A5FA', commands: 4, homes: 1, keepInv: false },
-    { hours: 12, name: 'Disciple', color: '#F97316', commands: 5, homes: 1, keepInv: false },
-    { hours: 36, name: 'Prophet', color: '#FBBF24', commands: 6, homes: 2, keepInv: false },
-    { hours: 72, name: 'Oracle', color: '#4ADE80', commands: 7, homes: 2, keepInv: false },
-    { hours: 150, name: 'Divine', color: '#2DD4BF', commands: 8, homes: 3, keepInv: true },
-    { hours: 300, name: 'Angel', color: '#38BDF8', commands: 8, homes: 3, keepInv: true },
-    { hours: 600, name: 'Exalted', color: '#C084FC', commands: 9, homes: 4, keepInv: true },
-    { hours: 1000, name: 'Celestial', color: '#F472B6', commands: 10, homes: 5, keepInv: true },
-    { hours: 1500, name: 'Apex', color: '#EF4444', commands: 10, homes: 5, keepInv: true },
+    { hours: 0, name: 'Neophyte', color: '#FF6F62', commands: 3, homes: 1, keepInv: false },
+    { hours: 4, name: 'Ember', color: '#6E8CB8', commands: 4, homes: 1, keepInv: false },
+    { hours: 24, name: 'Astral', color: '#F2A93C', commands: 5, homes: 1, keepInv: false },
+    { hours: 50, name: 'Vanguard', color: '#E5231B', commands: 6, homes: 2, keepInv: false },
+    { hours: 75, name: 'Warden', color: '#FF6F62', commands: 7, homes: 2, keepInv: false },
+    { hours: 100, name: 'Luminar', color: '#6E8CB8', commands: 8, homes: 3, keepInv: true },
+    { hours: 200, name: 'Vesper', color: '#F2A93C', commands: 8, homes: 3, keepInv: true },
+    { hours: 400, name: 'Zenith', color: '#E5231B', commands: 9, homes: 4, keepInv: true },
+    { hours: 700, name: 'Mythos', color: '#FF6F62', commands: 10, homes: 5, keepInv: true },
+    { hours: 1000, name: 'Eclipse', color: '#6E8CB8', commands: 10, homes: 5, keepInv: true },
   ];
 
   return (
@@ -57,8 +58,8 @@ export default function InfoPage() {
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
           <div className="glass" style={{ padding: '2rem', borderRadius: '12px' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: 'rgba(56, 189, 248, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
-              <Heart size={20} color="#38BDF8" />
+            <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: 'rgba(110, 140, 184, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
+              <Heart size={20} color="var(--diamond)" />
             </div>
             <h3 style={{ fontSize: '1.1rem', marginBottom: '0.75rem', fontWeight: 600 }}>A Passion Project</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
@@ -67,8 +68,8 @@ export default function InfoPage() {
           </div>
           
           <div className="glass" style={{ padding: '2rem', borderRadius: '12px' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: 'rgba(74, 222, 128, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
-              <Server size={20} color="#4ADE80" />
+            <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: 'rgba(53, 194, 103, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
+              <Server size={20} color="var(--signal)" />
             </div>
             <h3 style={{ fontSize: '1.1rem', marginBottom: '0.75rem', fontWeight: 600 }}>Community-Driven Modpack Selection</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
@@ -77,8 +78,8 @@ export default function InfoPage() {
           </div>
           
           <div className="glass" style={{ padding: '2rem', borderRadius: '12px' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: 'rgba(192, 132, 252, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
-              <Globe size={20} color="#C084FC" />
+            <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: 'rgba(110, 140, 184, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
+              <Globe size={20} color="var(--diamond)" />
             </div>
             <h3 style={{ fontSize: '1.1rem', marginBottom: '0.75rem', fontWeight: 600 }}>Open to Everyone</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
@@ -93,15 +94,15 @@ export default function InfoPage() {
             <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>Server Uptime</div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#4ADE80', marginBottom: '0.25rem' }}>1 Gbps</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--signal)', marginBottom: '0.25rem' }}>1 Gbps</div>
             <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>Dedicated Connection</div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#FBBF24', marginBottom: '0.25rem' }}>1h</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--gold)', marginBottom: '0.25rem' }}>1h</div>
             <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>Active Backups</div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#C084FC', marginBottom: '0.25rem' }}>Free</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--diamond)', marginBottom: '0.25rem' }}>Free</div>
             <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>To Play</div>
           </div>
         </div>
@@ -146,9 +147,9 @@ export default function InfoPage() {
                     </td>
                     <td style={{ padding: '1rem', fontSize: '0.9rem' }}>
                       {rank.keepInv ? (
-                        <span style={{ color: '#4ADE80' }}>✔</span>
+                        <span style={{ color: 'var(--signal)' }}>✔</span>
                       ) : (
-                        <span style={{ color: '#EF4444' }}>✘</span>
+                        <span style={{ color: 'var(--redstone)' }}>✘</span>
                       )}
                     </td>
                   </tr>
@@ -161,13 +162,13 @@ export default function InfoPage() {
 
       {/* Support Section */}
       <section id="support" style={{ marginBottom: '5rem' }}>
-        <div className="glass" style={{ padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(245, 158, 11, 0.2)', background: 'linear-gradient(to right, rgba(0,0,0,0.4), rgba(245, 158, 11, 0.05))' }}>
+        <div className="glass" style={{ padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(242, 169, 60, 0.2)', background: 'linear-gradient(to right, rgba(0,0,0,0.4), rgba(242, 169, 60, 0.05))' }}>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
-            <div style={{ background: 'rgba(245, 158, 11, 0.1)', padding: '1rem', borderRadius: '12px' }}>
-              <Heart size={32} color="#F59E0B" />
+            <div style={{ background: 'rgba(242, 169, 60, 0.1)', padding: '1rem', borderRadius: '12px' }}>
+              <Heart size={32} color="var(--gold)" />
             </div>
             <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.75rem', color: '#FDE68A' }}>Where Your Donations Go</h2>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.75rem', color: 'var(--gold)' }}>Where Your Donations Go</h2>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
                 Every absolute cent directly goes to paying for our dedicated host boxes. We do not take money for ourselves, we do not 
                 make a profit from this network. We rely exclusively on your support to keep the servers running. If you enjoy the servers and want to help 
@@ -181,8 +182,8 @@ export default function InfoPage() {
                   display: 'inline-flex', 
                   alignItems: 'center', 
                   gap: '0.5rem',
-                  background: '#F59E0B', 
-                  color: '#000', 
+                  background: 'var(--gold)',
+                  color: '#000',
                   padding: '0.75rem 1.5rem', 
                   borderRadius: '8px', 
                   fontWeight: 600,
@@ -211,7 +212,7 @@ export default function InfoPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '1rem' }}>
           
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#EF4444', flexShrink: 0 }}><MessageSquare size={20} /></div>
+            <div style={{ color: 'var(--redstone)', flexShrink: 0 }}><MessageSquare size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>No Bullying or Harassment</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
@@ -221,7 +222,7 @@ export default function InfoPage() {
           </div>
 
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#38BDF8', flexShrink: 0 }}><Shield size={20} /></div>
+            <div style={{ color: 'var(--diamond)', flexShrink: 0 }}><Shield size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>No Exploits or Hacked Clients</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
@@ -231,7 +232,7 @@ export default function InfoPage() {
           </div>
 
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#F59E0B', flexShrink: 0 }}><Handshake size={20} /></div>
+            <div style={{ color: 'var(--gold)', flexShrink: 0 }}><Handshake size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>Respect All Players</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
@@ -241,7 +242,7 @@ export default function InfoPage() {
           </div>
 
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#4ADE80', flexShrink: 0 }}><FileWarning size={20} /></div>
+            <div style={{ color: 'var(--signal)', flexShrink: 0 }}><FileWarning size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>No Griefing, Stealing or Raiding</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
@@ -251,7 +252,7 @@ export default function InfoPage() {
           </div>
 
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#C084FC', flexShrink: 0 }}><MapPin size={20} /></div>
+            <div style={{ color: 'var(--diamond)', flexShrink: 0 }}><MapPin size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>Don't Claim Major Landmarks</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
@@ -261,7 +262,7 @@ export default function InfoPage() {
           </div>
 
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#F472B6', flexShrink: 0 }}><Ticket size={20} /></div>
+            <div style={{ color: 'var(--redstone)', flexShrink: 0 }}><Ticket size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>No Advertising</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
@@ -271,7 +272,7 @@ export default function InfoPage() {
           </div>
 
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#2DD4BF', flexShrink: 0 }}><Cloud size={20} /></div>
+            <div style={{ color: 'var(--diamond)', flexShrink: 0 }}><Cloud size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>Manage Lag</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
@@ -281,7 +282,7 @@ export default function InfoPage() {
           </div>
 
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#F87171', flexShrink: 0 }}><Shield size={20} /></div>
+            <div style={{ color: 'var(--redstone)', flexShrink: 0 }}><Shield size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>No AFK Bypass Scripts or Macros</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
@@ -291,7 +292,7 @@ export default function InfoPage() {
           </div>
 
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#60A5FA', flexShrink: 0 }}><Globe size={20} /></div>
+            <div style={{ color: 'var(--diamond)', flexShrink: 0 }}><Globe size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>Overworld is for Bases Only</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
@@ -301,7 +302,7 @@ export default function InfoPage() {
           </div>
           
           <div className="glass" style={{ padding: '1.25rem', borderRadius: '12px', display: 'flex', gap: '1rem' }}>
-            <div style={{ color: '#A78BFA', flexShrink: 0 }}><Zap size={20} /></div>
+            <div style={{ color: 'var(--diamond)', flexShrink: 0 }}><Zap size={20} /></div>
             <div>
               <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.25rem', color: 'var(--text-light)' }}>Mob Farms Need an ON Switch</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>

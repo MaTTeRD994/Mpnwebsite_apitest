@@ -1,3 +1,5 @@
+import ranksData from '../discord-bot/ranks.json';
+
 export interface PlaytimeRank {
   name: string;
   color: string;
@@ -6,20 +8,13 @@ export interface PlaytimeRank {
   forceLoaded: number;
   homes: number;
   specialDiscord?: boolean;
+  discordRoleId?: string;
 }
 
-export const PLAYTIME_RANKS: PlaytimeRank[] = [
-  { name: 'Neophyte', color: '#9ca3af', hours: 0, claims: 16, forceLoaded: 1, homes: 1 },
-  { name: 'Ember', color: '#f97316', hours: 4, claims: 32, forceLoaded: 4, homes: 1 },
-  { name: 'Astral', color: '#38bdf8', hours: 24, claims: 64, forceLoaded: 8, homes: 2 },
-  { name: 'Vanguard', color: '#4ade80', hours: 50, claims: 100, forceLoaded: 16, homes: 2 },
-  { name: 'Warden', color: '#3b82f6', hours: 75, claims: 120, forceLoaded: 24, homes: 3 },
-  { name: 'Luminar', color: '#eab308', hours: 100, claims: 150, forceLoaded: 30, homes: 3 },
-  { name: 'Vesper', color: '#a855f7', hours: 200, claims: 200, forceLoaded: 40, homes: 4 },
-  { name: 'Zenith', color: '#ef4444', hours: 400, claims: 250, forceLoaded: 50, homes: 4 },
-  { name: 'Mythos', color: '#f43f5e', hours: 700, claims: 300, forceLoaded: 64, homes: 5, specialDiscord: true },
-  { name: 'Eclipse', color: '#9333ea', hours: 1000, claims: 400, forceLoaded: 84, homes: 6, specialDiscord: true },
-];
+// Canonical global rank ladder — lives in discord-bot/ranks.json so the
+// Discord bot (deployed standalone, can't import TS from this app) reads
+// the exact same tiers. Edit that file, not this array.
+export const PLAYTIME_RANKS: PlaytimeRank[] = ranksData;
 
 export function getPlaytimeRank(playtime: number, username?: string, uuid?: string): { name: string; color: string } {
   const lowerName = username ? username.toLowerCase() : "";
@@ -27,10 +22,10 @@ export function getPlaytimeRank(playtime: number, username?: string, uuid?: stri
 
   // Special Owner / Admin Exceptions
   if (lowerName === 'vallith' || lowerUuid === '63514ed4-62d2-413f-aeaf-a29d204d757b') {
-    return { name: 'Owner', color: '#f87171' }; // Light red / coral for Owner
+    return { name: 'Owner', color: '#FF6F62' }; // --secondary
   }
   if (lowerName === 'thamatter') {
-    return { name: 'Admin', color: '#f87171' }; // Light red for Admin
+    return { name: 'Admin', color: '#FF6F62' }; // --secondary
   }
 
   // Iterate backwards to find the highest rank achieved
@@ -44,7 +39,48 @@ export function getPlaytimeRank(playtime: number, username?: string, uuid?: stri
   }
 
   // Fallback (should never happen since Neophyte is 0)
-  return { name: 'Neophyte', color: '#9ca3af' };
+  return { name: 'Neophyte', color: '#FF6F62' };
+}
+
+export interface RankProgress {
+  next: PlaytimeRank | null;
+  percent: number;
+  remaining: number;
+}
+
+// Shared by the account dashboard and the public player profile hero so both show
+// identical "hours to next rank" math instead of two hand-maintained copies.
+export function getRankProgress(playtime: number, username?: string, uuid?: string): RankProgress {
+  const lowerName = username ? username.toLowerCase() : "";
+  const lowerUuid = uuid ? uuid.toLowerCase() : "";
+
+  if (
+    lowerName === 'thamatter' ||
+    lowerName === 'vallith' ||
+    lowerUuid === '63514ed4-62d2-413f-aeaf-a29d204d757b'
+  ) {
+    return { next: null, percent: 100, remaining: 0 };
+  }
+
+  let currentIdx = 0;
+  for (let i = PLAYTIME_RANKS.length - 1; i >= 0; i--) {
+    if (playtime >= PLAYTIME_RANKS[i].hours) {
+      currentIdx = i;
+      break;
+    }
+  }
+
+  const next = currentIdx + 1 < PLAYTIME_RANKS.length ? PLAYTIME_RANKS[currentIdx + 1] : null;
+  if (!next) {
+    return { next: null, percent: 100, remaining: 0 };
+  }
+
+  const current = PLAYTIME_RANKS[currentIdx];
+  const progressInRange = playtime - current.hours;
+  const rangeTotal = next.hours - current.hours;
+  const percent = Math.min(Math.max(Math.round((progressInRange / rangeTotal) * 100), 0), 100);
+  const remaining = Math.max(next.hours - playtime, 0);
+  return { next, percent, remaining };
 }
 
 export function getRankLevel(playtime: number, username?: string, uuid?: string): number {

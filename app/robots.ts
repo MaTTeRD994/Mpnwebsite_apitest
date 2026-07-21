@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/leaderboard/pull', '/api/leaderboard/sync'],
     },
-    sitemap: 'https://mpnwebsite-apitest.vercel.app/sitemap.xml',
+    sitemap: 'https://mpnhost.com/sitemap.xml',
   };
 }

@@ -41,7 +41,7 @@ export const mpnPacks: PackConfig[] = [
     version: "2.1.0",
     mcVersion: "1.20.4",
     modloader: "Fabric",
-    color: "#8b5cf6", // Vibrant MaTTeR purple/primary glow
+    color: "var(--diamond)", // steel accent — mechanical/tech identity
     iconUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
     bannerUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
     modrinthUrl: "https://modrinth.com/modpack/makeshift",
@@ -98,7 +98,7 @@ export const mpnPacks: PackConfig[] = [
     version: "1.4.2",
     mcVersion: "1.20.4",
     modloader: "Fabric",
-    color: "#eab308", // Golden/Amber glow
+    color: "var(--gold)", // cozy/vanilla+ identity
     iconUrl: "https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp",
     bannerUrl: "https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp",
     modrinthUrl: "https://modrinth.com/modpack/thasmp",

@@ -30,7 +30,7 @@ export default function PackDetailsPage() {
               fontWeight: "bold",
               textDecoration: "none",
               display: "inline-block",
-              boxShadow: "0 8px 20px rgba(239, 68, 68, 0.4)"
+              boxShadow: "0 8px 20px var(--primary-glow)"
             }}
           >
             ← Back to Modpacks
@@ -99,9 +99,9 @@ export default function PackDetailsPage() {
                 <span style={{ color: "var(--text-muted)" }}>/</span>
                 <span
                   style={{
-                    background: "rgba(139, 92, 246, 0.25)",
-                    border: "1px solid rgba(139, 92, 246, 0.4)",
-                    color: "#d8b4fe",
+                    background: "color-mix(in srgb, var(--gold) 25%, transparent)",
+                    border: "1px solid color-mix(in srgb, var(--gold) 40%, transparent)",
+                    color: "var(--gold)",
                     fontSize: "0.7rem",
                     fontWeight: "800",
                     textTransform: "uppercase",
@@ -157,14 +157,14 @@ export default function PackDetailsPage() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                background: "linear-gradient(135deg, var(--signal) 0%, color-mix(in srgb, var(--signal) 70%, black) 100%)",
                 color: "#fff",
                 fontWeight: "bold",
                 padding: "0.9rem 2.2rem",
                 borderRadius: "0.75rem",
                 fontSize: "1.05rem",
                 textDecoration: "none",
-                boxShadow: "0 10px 25px -5px rgba(16, 185, 129, 0.45)",
+                boxShadow: "0 10px 25px -5px color-mix(in srgb, var(--signal) 45%, transparent)",
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.6rem",
@@ -285,19 +285,19 @@ export default function PackDetailsPage() {
             {activeInstallTab === "modrinth" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", color: "var(--text-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "rgba(16, 185, 129, 0.2)", color: "#34d399", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>1</span>
-                  <p style={{ margin: 0 }}>Download and install the official <a href="https://modrinth.com/app" target="_blank" rel="noopener noreferrer" style={{ color: "#34d399", fontWeight: "bold" }}>Modrinth App</a> for Windows, macOS, or Linux.</p>
+                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "color-mix(in srgb, var(--signal) 20%, transparent)", color: "var(--signal)", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>1</span>
+                  <p style={{ margin: 0 }}>Download and install the official <a href="https://modrinth.com/app" target="_blank" rel="noopener noreferrer" style={{ color: "var(--signal)", fontWeight: "bold" }}>Modrinth App</a> for Windows, macOS, or Linux.</p>
                 </div>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "rgba(16, 185, 129, 0.2)", color: "#34d399", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>2</span>
+                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "color-mix(in srgb, var(--signal) 20%, transparent)", color: "var(--signal)", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>2</span>
                   <p style={{ margin: 0 }}>Open the Modrinth App, click on the **Search** icon on the left, and search for `<span style={{ color: "#fff", fontWeight: "bold" }}>{pack.name}</span>`.</p>
                 </div>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "rgba(16, 185, 129, 0.2)", color: "#34d399", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>3</span>
+                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "color-mix(in srgb, var(--signal) 20%, transparent)", color: "var(--signal)", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>3</span>
                   <p style={{ margin: 0 }}>Click the **Install** button. The app will automatically download all required mods, configs, and the exact Fabric version with zero setup needed!</p>
                 </div>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "rgba(16, 185, 129, 0.2)", color: "#34d399", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>4</span>
+                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "color-mix(in srgb, var(--signal) 20%, transparent)", color: "var(--signal)", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>4</span>
                   <p style={{ margin: 0 }}>Once installed, click **Play** from your library to start your adventure in solo or multiplayer!</p>
                 </div>
               </div>
@@ -314,15 +314,15 @@ export default function PackDetailsPage() {
             {activeInstallTab === "prism" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", color: "var(--text-muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "rgba(139, 92, 246, 0.2)", color: "#c084fc", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>1</span>
+                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "color-mix(in srgb, var(--diamond) 20%, transparent)", color: "var(--diamond)", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>1</span>
                   <p style={{ margin: 0 }}>In Prism Launcher, click **Add Instance** at the top left.</p>
                 </div>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "rgba(139, 92, 246, 0.2)", color: "#c084fc", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>2</span>
+                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "color-mix(in srgb, var(--diamond) 20%, transparent)", color: "var(--diamond)", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>2</span>
                   <p style={{ margin: 0 }}>Select **Modrinth** from the left tab list and search for `<span style={{ color: "#fff", fontWeight: "bold" }}>{pack.name}</span>`.</p>
                 </div>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "rgba(139, 92, 246, 0.2)", color: "#c084fc", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>3</span>
+                  <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "color-mix(in srgb, var(--diamond) 20%, transparent)", color: "var(--diamond)", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>3</span>
                   <p style={{ margin: 0 }}>Select the latest release and click **OK** to build the instance.</p>
                 </div>
               </div>
@@ -353,7 +353,7 @@ export default function PackDetailsPage() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                background: "linear-gradient(135deg, var(--signal) 0%, color-mix(in srgb, var(--signal) 70%, black) 100%)",
                 color: "#fff",
                 fontWeight: "bold",
                 padding: "0.9rem",
@@ -364,7 +364,7 @@ export default function PackDetailsPage() {
                 alignItems: "center",
                 justifyContent: "center",
                 gap: "0.5rem",
-                boxShadow: "0 8px 20px rgba(16, 185, 129, 0.4)",
+                boxShadow: "0 8px 20px color-mix(in srgb, var(--signal) 40%, transparent)",
                 transition: "transform 0.2s, box-shadow 0.2s"
               }}
               className="hover-scale"
@@ -394,7 +394,7 @@ export default function PackDetailsPage() {
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span style={{ color: "var(--text-muted)" }}>Recommended RAM:</span>
-                <span style={{ color: "#34d399", fontWeight: "bold" }}>{pack.specs.ramRecommendation}</span>
+                <span style={{ color: "var(--signal)", fontWeight: "bold" }}>{pack.specs.ramRecommendation}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span style={{ color: "var(--text-muted)" }}>Developer:</span>

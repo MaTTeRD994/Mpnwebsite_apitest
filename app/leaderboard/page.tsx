@@ -161,14 +161,14 @@ export default function Leaderboard() {
           transform: 'translate(-50%, -50%)',
           width: '600px',
           height: '300px',
-          background: 'radial-gradient(ellipse, rgba(139, 92, 246, 0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(229, 35, 27, 0.10) 0%, rgba(110, 140, 184, 0.08) 55%, transparent 75%)',
           zIndex: 1,
           pointerEvents: 'none'
         }} />
 
         <div style={{ maxWidth: '1250px', margin: '0 auto', position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}>
           <div>
-            <div style={{ color: '#a855f7', fontSize: '0.75rem', fontWeight: '900', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            <div style={{ color: 'var(--secondary)', fontSize: '0.75rem', fontWeight: '900', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
               COMMUNITY RANKINGS
             </div>
             <h1 style={{ fontSize: 'clamp(2.2rem, 5vw, 3rem)', fontWeight: 'bold', letterSpacing: '-0.02em', color: '#fff', margin: '0 0 0.75rem 0' }}>
@@ -223,9 +223,12 @@ export default function Leaderboard() {
         </div>
       </div>
 
-      {/* TOP 3 PODIUM */}
+      {/* TOP 3 PODIUM — fixed-px card widths (180/150px) plus 1.5rem gaps totaled ~530px,
+          well past a 375-390px phone viewport with no fallback, so #2/#3 got clipped off
+          the sides. PodiumPlayer's internal widths now use clamp() to shrink proportionally
+          instead; gap/padding here do the same so nothing needs to wrap or scroll. */}
       {top3.length >= 3 && (
-        <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '1.5rem', padding: '1rem 1rem 3rem', marginTop: '-3rem', position: 'relative', zIndex: 20 }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: 'clamp(0.4rem, 2vw, 1.5rem)', padding: '1rem clamp(0.35rem, 2vw, 1rem) 3rem', marginTop: '-3rem', position: 'relative', zIndex: 20 }}>
           <PodiumPlayer player={top3[1]} rank={2} sortField={sortField} formatPlaytime={formatPlaytime} />
           <PodiumPlayer player={top3[0]} rank={1} sortField={sortField} formatPlaytime={formatPlaytime} />
           <PodiumPlayer player={top3[2]} rank={3} sortField={sortField} formatPlaytime={formatPlaytime} />
@@ -324,15 +327,15 @@ export default function Leaderboard() {
                       <td style={{ padding: '1.1rem 1.5rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                           {absolutePosition === 1 ? (
-                            <span className="mobile-table-rank" style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)', color: '#000', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(251, 191, 36, 0.4)' }}>
+                            <span className="mobile-table-rank" style={{ background: 'var(--gold)', color: 'var(--bg-base)', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(242, 169, 60, 0.4)' }}>
                               #1
                             </span>
                           ) : absolutePosition === 2 ? (
-                            <span className="mobile-table-rank" style={{ background: 'linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%)', color: '#0f172a', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(226, 232, 240, 0.3)' }}>
+                            <span className="mobile-table-rank" style={{ background: 'var(--diamond)', color: '#fff', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(110, 140, 184, 0.35)' }}>
                               #2
                             </span>
                           ) : absolutePosition === 3 ? (
-                            <span className="mobile-table-rank" style={{ background: 'linear-gradient(135deg, #f97316 0%, #c2410c 100%)', color: '#fff', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(249, 115, 22, 0.3)' }}>
+                            <span className="mobile-table-rank" style={{ background: 'var(--redstone)', color: '#fff', fontWeight: '900', fontSize: '0.75rem', padding: '0.2rem 0.55rem', borderRadius: '6px', minWidth: '2.4rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(196, 25, 18, 0.35)' }}>
                               #3
                             </span>
                           ) : (
@@ -359,25 +362,25 @@ export default function Leaderboard() {
 
                       {/* LAST SERVER */}
                       <td className={sortField === 'last_server' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1rem' }}>
-                        <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '0.35rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.8rem', color: '#cbd5e1', whiteSpace: 'nowrap', fontWeight: '500' }}>
+                        <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '0.35rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap', fontWeight: '500' }}>
                           {serverName}
                         </span>
                       </td>
 
                       {/* LAST ONLINE */}
                       <td className={sortField === 'last_online' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1rem' }}>
-                        <span style={{ color: onlineInfo.isOnline ? '#4ade80' : 'var(--text-muted)', fontWeight: onlineInfo.isOnline ? 'bold' : 'normal', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                          {onlineInfo.isOnline && <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80' }} />}
+                        <span style={{ color: onlineInfo.isOnline ? 'var(--signal)' : 'var(--text-muted)', fontWeight: onlineInfo.isOnline ? 'bold' : 'normal', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                          {onlineInfo.isOnline && <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--signal)', boxShadow: '0 0 6px var(--signal)' }} />}
                           {onlineInfo.text}
                         </span>
                       </td>
 
                       {/* VOTES */}
-                      <td className={sortField === 'votes' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1rem', color: '#fbbf24', fontWeight: 'bold', fontFamily: 'monospace', fontSize: '0.95rem' }}>
+                      <td className={sortField === 'votes' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1rem', color: 'var(--gold)', fontWeight: 'bold', fontFamily: 'monospace', fontSize: '0.95rem' }}>
                         ★ {p.votes || 0}
                       </td>
 
-                      {/* DISCORD */}
+                      {/* DISCORD — Discord's own brand blue (#5865F2), not an MPN token, left as-is */}
                       <td className={sortField === 'discord' ? 'mobile-active-stat' : ''} style={{ padding: '1.1rem 1.5rem' }}>
                         <span style={{ background: p.discord ? 'rgba(88, 101, 242, 0.2)' : 'rgba(255,255,255,0.03)', border: `1px solid ${p.discord ? 'rgba(88, 101, 242, 0.45)' : 'rgba(255,255,255,0.08)'}`, color: p.discord ? '#a5b4fc' : 'var(--text-muted)', padding: '0.35rem 0.75rem', borderRadius: '0.5rem', display: 'inline-flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.8rem', fontWeight: p.discord ? 'bold' : 'normal', whiteSpace: 'nowrap' }}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -417,7 +420,7 @@ export default function Leaderboard() {
                   ‹ Prev
                 </button>
                 <div style={{ padding: '0 0.85rem', color: '#fff', fontWeight: 'bold', fontSize: '0.95rem' }}>
-                  Page <span style={{ color: '#a855f7' }}>{currentPage}</span> of {totalPages}
+                  Page <span style={{ color: 'var(--secondary)' }}>{currentPage}</span> of {totalPages}
                 </div>
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
@@ -446,12 +449,15 @@ export default function Leaderboard() {
 
 function PodiumPlayer({ player, rank, sortField, formatPlaytime }: any) {
   const isFirst = rank === 1;
-  const height = isFirst ? '220px' : '180px';
-  const width = isFirst ? '140px' : '110px';
+  const height = isFirst ? 'clamp(140px, 44vw, 220px)' : 'clamp(115px, 36vw, 180px)';
+  const width = isFirst ? 'clamp(90px, 28vw, 140px)' : 'clamp(75px, 22vw, 110px)';
+  // Literal hex here (not var()) because these feed the `${color}NN` alpha-suffix
+  // pattern below, which needs a real hex string to append to — the values are
+  // exactly var(--gold) / var(--diamond) / var(--redstone) from globals.css.
   const colors: Record<number, string> = {
-    1: '#fbbf24', // Gold
-    2: '#94a3b8', // Silver
-    3: '#f97316'  // Bronze
+    1: '#F2A93C', // var(--gold) — 1st
+    2: '#6E8CB8', // var(--diamond) — 2nd, steel/silver
+    3: '#C41912'  // var(--redstone) — 3rd, bronze
   };
   const color = colors[rank];
   const rankRank = getPlaytimeRank(player.playtime, player.name, player.uuid);
@@ -469,8 +475,8 @@ function PodiumPlayer({ player, rank, sortField, formatPlaytime }: any) {
         {isFirst && <div style={{ position: 'absolute', top: '-1.5rem', fontSize: '2rem', zIndex: 20 }}>👑</div>}
         <img src={`https://mc-heads.net/body/${player.uuid}/256`} alt={player.name} style={{ height: '100%', objectFit: 'contain', filter: `drop-shadow(0 10px 15px rgba(0,0,0,0.5))` }} crossOrigin="anonymous" />
       </div>
-      <div className="glass" style={{ width: isFirst ? '180px' : '150px', background: 'rgba(18, 18, 24, 0.85)', border: `1px solid ${color}40`, borderRadius: '16px', padding: '1.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: `0 8px 32px ${color}15`, position: 'relative' }}>
-        <div style={{ position: 'absolute', top: '-12px', background: `linear-gradient(135deg, ${color} 0%, ${color}99 100%)`, color: rank === 1 ? '#000' : '#fff', fontWeight: 900, width: '28px', height: '28px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.85rem', boxShadow: `0 4px 12px ${color}60` }}>
+      <div className="glass" style={{ width: isFirst ? 'clamp(110px, 34vw, 180px)' : 'clamp(90px, 27vw, 150px)', background: 'rgba(18, 18, 24, 0.85)', border: `1px solid ${color}40`, borderRadius: '16px', padding: 'clamp(1rem, 4vw, 1.5rem) 0.6rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: `0 8px 32px ${color}15`, position: 'relative' }}>
+        <div style={{ position: 'absolute', top: '-12px', background: `linear-gradient(135deg, ${color} 0%, ${color}99 100%)`, color: rank === 1 ? 'var(--bg-base)' : '#fff', fontWeight: 900, width: '28px', height: '28px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.85rem', boxShadow: `0 4px 12px ${color}60` }}>
           {rank}
         </div>
         <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '1rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{player.name}</div>

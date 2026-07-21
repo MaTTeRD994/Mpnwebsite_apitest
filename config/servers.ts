@@ -58,7 +58,7 @@ export const staticServers: StaticServerConfig[] = [
     version: "1.0.0",
     mc: "1.20.1",
     packUrl: "https://www.curseforge.com/minecraft/modpacks/all-the-mons",
-    color: "#ef4444",
+    color: "var(--primary)",
     imgUrl: "https://media.forgecdn.net/avatars/thumbnails/1567/555/256/256/639016249214580144.png"
   },
   {
@@ -81,7 +81,7 @@ export const staticServers: StaticServerConfig[] = [
     version: "Custom",
     mc: "1.20.4",
     packUrl: "https://modrinth.com/modpack/thasmp",
-    color: "#eab308",
+    color: "var(--gold)",
     imgUrl: "https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp",
     isPrivate: true
   },

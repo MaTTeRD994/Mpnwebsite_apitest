@@ -2,7 +2,9 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../components/AuthProvider";
 import { supabase } from "../../utils/supabase";
-import { getPlaytimeRank, PLAYTIME_RANKS } from "../../utils/ranks";
+import { getPlaytimeRank, getRankProgress, PLAYTIME_RANKS } from "../../utils/ranks";
+import { getAchievementCategories } from "../../utils/achievements";
+import PlayerProfileHero from "../../components/PlayerProfileHero";
 
 export default function AccountPage() {
   const { user, loading, refreshUser } = useAuth();
@@ -111,8 +113,8 @@ export default function AccountPage() {
           <a
             href="/api/auth/login"
             style={{
-              background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-              border: '1px solid rgba(248, 113, 113, 0.4)',
+              background: 'linear-gradient(135deg, var(--primary) 0%, var(--redstone) 100%)',
+              border: '1px solid rgba(229, 35, 27, 0.4)',
               color: '#fff',
               fontWeight: 'bold',
               padding: '0.85rem 2rem',
@@ -123,7 +125,7 @@ export default function AccountPage() {
               alignItems: 'center',
               gap: '0.6rem',
               transition: 'all 0.2s',
-              boxShadow: '0 8px 24px rgba(239, 68, 68, 0.3)',
+              boxShadow: '0 8px 24px var(--primary-glow)',
             }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -142,36 +144,17 @@ export default function AccountPage() {
 
   const playtimeHours = stats?.playtime || 0;
   const currentRank = getPlaytimeRank(playtimeHours, user.minecraft_name || "", user.minecraft_uuid || "");
+  const rankProgress = getRankProgress(playtimeHours, user.minecraft_name || "", user.minecraft_uuid || "");
 
-  // Calculate next rank progress
-  const getNextRankProgress = () => {
-    if (
-      user.minecraft_name?.toLowerCase() === 'thamatter' ||
-      user.minecraft_name?.toLowerCase() === 'vallith' ||
-      user.minecraft_uuid?.toLowerCase() === '63514ed4-62d2-413f-aeaf-a29d204d757b'
-    ) {
-      return { next: null, percent: 100, remaining: 0 };
-    }
-    let currentIdx = 0;
-    for (let i = PLAYTIME_RANKS.length - 1; i >= 0; i--) {
-      if (playtimeHours >= PLAYTIME_RANKS[i].hours) {
-        currentIdx = i;
-        break;
-      }
-    }
-    const next = currentIdx + 1 < PLAYTIME_RANKS.length ? PLAYTIME_RANKS[currentIdx + 1] : null;
-    if (!next) {
-      return { next: null, percent: 100, remaining: 0 };
-    }
-    const current = PLAYTIME_RANKS[currentIdx];
-    const progressInRange = playtimeHours - current.hours;
-    const rangeTotal = next.hours - current.hours;
-    const percent = Math.min(Math.max(Math.round((progressInRange / rangeTotal) * 100), 0), 100);
-    const remaining = Math.max(next.hours - playtimeHours, 0);
-    return { next, percent, remaining };
-  };
-
-  const rankProgress = getNextRankProgress();
+  const achievementCategories = getAchievementCategories({
+    playtime: playtimeHours,
+    votes: stats?.votes || 0,
+    discordLinked: !!user.minecraft_uuid,
+    mob_kills: stats?.mob_kills || 0,
+    blocks_mined: stats?.blocks_mined || 0,
+    deaths: stats?.deaths || 0,
+    servers_played: stats?.servers_played || 0,
+  });
 
   return (
     <main style={{ background: 'var(--bg-base)', minHeight: '100vh', padding: '3rem 1.5rem 6rem' }}>
@@ -187,177 +170,38 @@ export default function AccountPage() {
           </h1>
         </div>
 
-        {/* 🌟 UNIFIED 3D HERO BANNER */}
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(18, 18, 24, 0.95) 0%, rgba(26, 26, 38, 0.85) 100%)',
-          border: `1px solid ${user.minecraft_uuid ? currentRank.color + '66' : 'rgba(255,255,255,0.1)'}`,
-          borderRadius: '1.5rem',
-          padding: '2.25rem',
-          backdropFilter: 'blur(20px)',
-          boxShadow: `0 25px 60px -15px rgba(0,0,0,0.6), 0 0 40px -10px ${user.minecraft_uuid ? currentRank.color + '33' : 'transparent'}`,
-          marginBottom: '2.5rem',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          {/* Ambient Background Glow */}
-          {user.minecraft_uuid && (
-            <div style={{
-              position: 'absolute',
-              top: '-30%',
-              right: '-10%',
-              width: '400px',
-              height: '400px',
-              background: currentRank.color,
-              filter: 'blur(130px)',
-              opacity: 0.12,
-              pointerEvents: 'none'
-            }} />
-          )}
-
-          <div className="account-hero" style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap', position: 'relative', zIndex: 2 }}>
-            
-            {/* Left Column: Avatars / 3D Character Preview */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexShrink: 0 }}>
-              {user.minecraft_uuid ? (
-                <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  {/* 3D Minecraft Body Render */}
-                  <div style={{
-                    width: '84px',
-                    height: '110px',
-                    background: 'rgba(0,0,0,0.5)',
-                    border: `2px solid ${currentRank.color}`,
-                    borderRadius: '1rem',
-                    padding: '0.4rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: `0 10px 25px rgba(0,0,0,0.5), inset 0 0 15px ${currentRank.color + '22'}`
-                  }}>
-                    <img
-                      src={`https://mc-heads.net/body/${user.minecraft_uuid}/right`}
-                      alt={user.minecraft_name || 'Minecraft Player'}
-                      style={{ height: '95px', objectFit: 'contain' }}
-                    />
-                  </div>
-                  {/* Connected Discord Avatar Badge */}
-                  <img
-                    src={avatarUrl}
-                    alt={user.discord_username}
-                    style={{
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '50%',
-                      border: '2px solid #5865f2',
-                      boxShadow: '0 4px 12px rgba(88, 101, 242, 0.4)',
-                      position: 'absolute',
-                      bottom: '-6px',
-                      right: '-12px',
-                      background: '#121218'
-                    }}
-                  />
-                </div>
-              ) : (
+        {/* Profile Hero: stats-left / skin-center / achievements-right (linked), or a
+            simple Discord-identity card prompting a link (unlinked) */}
+        {user.minecraft_uuid ? (
+          <div style={{ marginBottom: '2.5rem' }}>
+            <PlayerProfileHero
+              uuid={user.minecraft_uuid}
+              name={user.minecraft_name || 'Player'}
+              eyebrow="PLAYER DASHBOARD"
+              rank={currentRank}
+              stats={{
+                playtime: stats?.playtime || 0,
+                votes: stats?.votes || 0,
+                deaths: stats?.deaths || 0,
+                mob_kills: stats?.mob_kills || 0,
+                blocks_mined: stats?.blocks_mined || 0,
+                servers_played: stats?.servers_played || 0,
+              }}
+              rankProgress={rankProgress}
+              achievementCategories={achievementCategories}
+              identityBadge={
                 <img
                   src={avatarUrl}
                   alt={user.discord_username}
-                  style={{
-                    width: '84px',
-                    height: '84px',
-                    borderRadius: '50%',
-                    border: '3px solid #5865f2',
-                    boxShadow: '0 8px 24px rgba(88, 101, 242, 0.3)',
-                  }}
+                  style={{ width: '52px', height: '52px', borderRadius: '50%', border: '2px solid #5865f2', boxShadow: '0 4px 12px rgba(88, 101, 242, 0.4)' }}
                 />
-              )}
-            </div>
-
-            {/* Center Column: Player Identification & Rank Level Up Bar */}
-            <div style={{ flex: 1, minWidth: '280px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.4rem' }}>
-                <h2 style={{ fontSize: '1.75rem', fontWeight: 900, color: '#fff', margin: 0 }}>
-                  {user.minecraft_uuid ? user.minecraft_name : user.discord_username}
-                </h2>
-                {user.minecraft_uuid ? (
-                  <span style={{
-                    background: currentRank.color + '22',
-                    color: currentRank.color,
-                    border: `1px solid ${currentRank.color + '66'}`,
-                    padding: '0.25rem 0.75rem',
-                    borderRadius: '0.5rem',
-                    fontSize: '0.75rem',
-                    fontWeight: 800,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em'
-                  }}>
-                    {currentRank.name}
-                  </span>
-                ) : (
-                  <span style={{
-                    background: 'rgba(234, 179, 8, 0.15)',
-                    color: '#facc15',
-                    border: '1px solid rgba(234, 179, 8, 0.4)',
-                    padding: '0.25rem 0.75rem',
-                    borderRadius: '0.5rem',
-                    fontSize: '0.75rem',
-                    fontWeight: 700
-                  }}>
-                    ⚠️ Minecraft Unlinked
-                  </span>
-                )}
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.25rem' }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#a5b4fc' }}>
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                  </svg>
-                  {user.discord_username}
-                </span>
-                {user.minecraft_uuid && (
-                  <span style={{ color: 'rgba(255,255,255,0.3)' }}>•</span>
-                )}
-                {user.minecraft_uuid && (
-                  <span style={{ fontFamily: 'monospace', fontSize: '0.8rem', opacity: 0.7 }}>
-                    UUID: {user.minecraft_uuid.slice(0, 8)}...{user.minecraft_uuid.slice(-4)}
-                  </span>
-                )}
-              </div>
-
-              {/* Level Up Progress Bar */}
-              {user.minecraft_uuid && rankProgress.next ? (
-                <div style={{ background: 'rgba(0,0,0,0.4)', padding: '1rem', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '0.5rem', fontWeight: 600 }}>
-                    <span style={{ color: currentRank.color }}>{currentRank.name} ({playtimeHours}h)</span>
-                    <span style={{ color: rankProgress.next.color }}>Next: {rankProgress.next.name} ({rankProgress.next.hours}h)</span>
-                  </div>
-                  <div style={{ height: '10px', background: 'rgba(255,255,255,0.08)', borderRadius: '999px', overflow: 'hidden', position: 'relative' }}>
-                    <div style={{
-                      height: '100%',
-                      width: `${rankProgress.percent}%`,
-                      background: `linear-gradient(90deg, ${currentRank.color}, ${rankProgress.next.color})`,
-                      borderRadius: '999px',
-                      transition: 'width 1s cubic-bezier(0.4, 0, 0.2, 1)'
-                    }} />
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
-                    <span>Progress to next rank: <strong style={{ color: '#fff' }}>{rankProgress.percent}%</strong></span>
-                    <span><strong style={{ color: '#fff' }}>{rankProgress.remaining} hours</strong> remaining</span>
-                  </div>
-                </div>
-              ) : user.minecraft_uuid ? (
-                <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '0.75rem 1rem', borderRadius: '0.75rem', color: '#fca5a5', fontSize: '0.85rem', fontWeight: 600 }}>
-                  🌟 You have achieved our maximum rank milestone (`{currentRank.name}`) or special Admin/Owner privileges!
-                </div>
-              ) : null}
-            </div>
-
-            {/* Right Column: Profile Actions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {user.minecraft_uuid ? (
+              }
+              actions={
                 <a
                   href={`/player/${user.minecraft_uuid}`}
                   style={{
-                    background: 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)',
+                    background: 'var(--bg-elevated)',
+                    border: '1px solid var(--border-strong)',
                     color: '#fff',
                     padding: '0.75rem 1.4rem',
                     borderRadius: '0.75rem',
@@ -365,34 +209,78 @@ export default function AccountPage() {
                     fontWeight: 700,
                     textDecoration: 'none',
                     textAlign: 'center',
-                    boxShadow: '0 8px 20px rgba(168, 85, 247, 0.3)',
                     transition: 'transform 0.2s'
                   }}
                 >
                   View Public Profile →
                 </a>
-              ) : (
-                <button
-                  onClick={() => setActiveTab('settings')}
-                  style={{
-                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                    border: 'none',
-                    color: '#fff',
-                    padding: '0.75rem 1.4rem',
-                    borderRadius: '0.75rem',
-                    fontSize: '0.9rem',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    boxShadow: '0 8px 20px rgba(16, 185, 129, 0.3)'
-                  }}
-                >
-                  Connect Minecraft →
-                </button>
-              )}
-            </div>
-
+              }
+            />
           </div>
-        </div>
+        ) : (
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(18, 18, 24, 0.95) 0%, rgba(26, 26, 38, 0.85) 100%)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '1.5rem',
+            padding: '2.25rem',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 25px 60px -15px rgba(0,0,0,0.6)',
+            marginBottom: '2.5rem',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+              <img
+                src={avatarUrl}
+                alt={user.discord_username}
+                style={{ width: '84px', height: '84px', borderRadius: '50%', border: '3px solid #5865f2', boxShadow: '0 8px 24px rgba(88, 101, 242, 0.3)' }}
+              />
+
+              <div style={{ flex: 1, minWidth: '280px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.4rem' }}>
+                  <h2 style={{ fontSize: '1.75rem', fontWeight: 900, color: '#fff', margin: 0 }}>
+                    {user.discord_username}
+                  </h2>
+                  <span style={{
+                    background: 'rgba(242, 169, 60, 0.15)',
+                    color: 'var(--gold)',
+                    border: '1px solid rgba(242, 169, 60, 0.4)',
+                    padding: '0.25rem 0.75rem',
+                    borderRadius: '0.5rem',
+                    fontSize: '0.75rem',
+                    fontWeight: 700
+                  }}>
+                    ⚠️ Minecraft Unlinked
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#a5b4fc' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                    </svg>
+                    {user.discord_username}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setActiveTab('settings')}
+                style={{
+                  background: 'var(--primary)',
+                  border: 'none',
+                  color: '#fff',
+                  padding: '0.75rem 1.4rem',
+                  borderRadius: '0.75rem',
+                  fontSize: '0.9rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  boxShadow: '0 8px 20px var(--primary-glow)'
+                }}
+              >
+                Connect Minecraft →
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* 📑 INTERACTIVE DASHBOARD TABS */}
         <div className="account-tabs" style={{ display: 'flex', gap: '0.75rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
@@ -469,13 +357,13 @@ export default function AccountPage() {
                         <h2 style={{ fontSize: "1.6rem", margin: 0, fontWeight: 800, display: "flex", alignItems: "center", gap: "0.6rem" }}>
                           <span>Live Character Status</span>
                           {liveStatus.is_online ? (
-                            <span style={{ fontSize: "0.75rem", background: "rgba(16, 185, 129, 0.2)", color: "#10b981", border: "1px solid rgba(16, 185, 129, 0.4)", padding: "0.25rem 0.75rem", borderRadius: "9999px", display: "inline-flex", alignItems: "center", gap: "0.4rem", fontWeight: "bold" }}>
-                              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 8px #10b981" }} />
+                            <span style={{ fontSize: "0.75rem", background: "rgba(53, 194, 103, 0.2)", color: "var(--signal)", border: "1px solid rgba(53, 194, 103, 0.4)", padding: "0.25rem 0.75rem", borderRadius: "9999px", display: "inline-flex", alignItems: "center", gap: "0.4rem", fontWeight: "bold" }}>
+                              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--signal)", boxShadow: "0 0 8px var(--signal)" }} />
                               ONLINE ({liveStatus.server_id?.toUpperCase()})
                             </span>
                           ) : (
-                            <span style={{ fontSize: "0.75rem", background: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.3)", padding: "0.25rem 0.75rem", borderRadius: "9999px", display: "inline-flex", alignItems: "center", gap: "0.4rem", fontWeight: "bold" }}>
-                              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#ef4444" }} />
+                            <span style={{ fontSize: "0.75rem", background: "rgba(196, 25, 18, 0.15)", color: "var(--secondary)", border: "1px solid rgba(196, 25, 18, 0.35)", padding: "0.25rem 0.75rem", borderRadius: "9999px", display: "inline-flex", alignItems: "center", gap: "0.4rem", fontWeight: "bold" }}>
+                              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--redstone)" }} />
                               OFFLINE (Last on {liveStatus.server_id?.toUpperCase()})
                             </span>
                           )}
@@ -491,38 +379,38 @@ export default function AccountPage() {
                     {/* Vitals Bar */}
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "1rem", marginBottom: "1.75rem" }}>
                       {liveStatus.health !== null && liveStatus.health !== undefined && (
-                        <div style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
+                        <div style={{ background: "rgba(196, 25, 18, 0.1)", border: "1px solid rgba(196, 25, 18, 0.3)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
                           <span style={{ fontSize: "1.6rem" }}>❤️</span>
                           <div>
                             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: "bold" }}>Health</div>
-                            <div style={{ fontSize: "1.2rem", fontWeight: 900, color: "#f87171" }}>{liveStatus.health} / {liveStatus.max_health || 20} HP</div>
+                            <div style={{ fontSize: "1.2rem", fontWeight: 900, color: "var(--secondary)" }}>{liveStatus.health} / {liveStatus.max_health || 20} HP</div>
                           </div>
                         </div>
                       )}
                       {liveStatus.level !== null && liveStatus.level !== undefined && (
-                        <div style={{ background: "rgba(234, 179, 8, 0.08)", border: "1px solid rgba(234, 179, 8, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
+                        <div style={{ background: "rgba(242, 169, 60, 0.08)", border: "1px solid rgba(242, 169, 60, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
                           <span style={{ fontSize: "1.6rem" }}>✨</span>
                           <div>
                             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: "bold" }}>XP Level</div>
-                            <div style={{ fontSize: "1.2rem", fontWeight: 900, color: "#fbbf24" }}>Level {liveStatus.level}</div>
+                            <div style={{ fontSize: "1.2rem", fontWeight: 900, color: "var(--gold)" }}>Level {liveStatus.level}</div>
                           </div>
                         </div>
                       )}
                       {liveStatus.dimension && (
-                        <div style={{ background: "rgba(168, 85, 247, 0.08)", border: "1px solid rgba(168, 85, 247, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
+                        <div style={{ background: "rgba(110, 140, 184, 0.08)", border: "1px solid rgba(110, 140, 184, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
                           <span style={{ fontSize: "1.6rem" }}>🌍</span>
                           <div>
                             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: "bold" }}>Dimension</div>
-                            <div style={{ fontSize: "1.1rem", fontWeight: 900, color: "#c084fc", textTransform: "capitalize" }}>{typeof liveStatus.dimension === 'string' ? liveStatus.dimension.replace('minecraft:', '') : 'Overworld'}</div>
+                            <div style={{ fontSize: "1.1rem", fontWeight: 900, color: "var(--diamond)", textTransform: "capitalize" }}>{typeof liveStatus.dimension === 'string' ? liveStatus.dimension.replace('minecraft:', '') : 'Overworld'}</div>
                           </div>
                         </div>
                       )}
                       {liveStatus.coordinates && (
-                        <div style={{ background: "rgba(59, 130, 246, 0.08)", border: "1px solid rgba(59, 130, 246, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
+                        <div style={{ background: "rgba(110, 140, 184, 0.08)", border: "1px solid rgba(110, 140, 184, 0.25)", padding: "1rem", borderRadius: "12px", display: "flex", alignItems: "center", gap: "0.8rem" }}>
                           <span style={{ fontSize: "1.6rem" }}>📍</span>
                           <div>
                             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: "bold" }}>Coordinates</div>
-                            <div style={{ fontSize: "1.05rem", fontWeight: 900, color: "#60a5fa", fontFamily: "monospace" }}>X:{liveStatus.coordinates.x} Y:{liveStatus.coordinates.y} Z:{liveStatus.coordinates.z}</div>
+                            <div style={{ fontSize: "1.05rem", fontWeight: 900, color: "var(--diamond)", fontFamily: "monospace" }}>X:{liveStatus.coordinates.x} Y:{liveStatus.coordinates.y} Z:{liveStatus.coordinates.z}</div>
                           </div>
                         </div>
                       )}
@@ -562,70 +450,39 @@ export default function AccountPage() {
                   </div>
                 )}
 
-                <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 'bold', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-                  YOUR LIVE NETWORK PERFORMANCE
-                </div>
-                {loadingStats ? (
-                  <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)', background: 'rgba(18,18,24,0.7)', borderRadius: '1.25rem', border: '1px solid rgba(255,255,255,0.06)' }}>
+                {loadingStats && (
+                  <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)', background: 'rgba(18,18,24,0.7)', borderRadius: '1.25rem', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '3rem' }}>
                     Fetching real-time stats across all MPN servers...
-                  </div>
-                ) : (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1.25rem', marginBottom: '3rem' }}>
-                    <div className="glass" style={{ padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(74, 222, 128, 0.2)', textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.8rem', marginBottom: '0.35rem' }}>⏱️</div>
-                      <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#4ade80' }}>{stats?.playtime || 0}h</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700, marginTop: '0.2rem' }}>Total Playtime</div>
-                    </div>
-                    <div className="glass" style={{ padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(251, 146, 60, 0.2)', textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.8rem', marginBottom: '0.35rem' }}>⚡</div>
-                      <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#fb923c' }}>{(stats?.mob_kills || 0).toLocaleString()}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700, marginTop: '0.2rem' }}>Mob Kills</div>
-                    </div>
-                    <div className="glass" style={{ padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.8rem', marginBottom: '0.35rem' }}>⛏️</div>
-                      <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#eab308' }}>{(stats?.blocks_mined || 0).toLocaleString()}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700, marginTop: '0.2rem' }}>Blocks Mined</div>
-                    </div>
-                    <div className="glass" style={{ padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(248, 113, 113, 0.2)', textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.8rem', marginBottom: '0.35rem' }}>💀</div>
-                      <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#f87171' }}>{(stats?.deaths || 0).toLocaleString()}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700, marginTop: '0.2rem' }}>Total Deaths</div>
-                    </div>
-                    <div className="glass" style={{ padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(96, 165, 250, 0.2)', textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.8rem', marginBottom: '0.35rem' }}>📦</div>
-                      <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#60a5fa' }}>{stats?.servers_played || 0}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700, marginTop: '0.2rem' }}>Modpacks Played</div>
-                    </div>
                   </div>
                 )}
 
                 {/* Personal Milestones Checkbox Grid */}
-                <div style={{ fontSize: '0.75rem', color: '#a855f7', fontWeight: 'bold', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 'bold', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1rem' }}>
                   PERSONAL MILESTONES & BADGES
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
-                  <div className="glass" style={{ padding: '1.25rem', borderRadius: '14px', border: `1px solid ${(stats?.blocks_mined || 0) >= 10000 ? '#4ade80' : 'rgba(255,255,255,0.06)'}`, opacity: (stats?.blocks_mined || 0) >= 10000 ? 1 : 0.6 }}>
+                  <div className="glass" style={{ padding: '1.25rem', borderRadius: '14px', border: `1px solid ${(stats?.blocks_mined || 0) >= 10000 ? 'var(--signal)' : 'rgba(255,255,255,0.06)'}`, opacity: (stats?.blocks_mined || 0) >= 10000 ? 1 : 0.6 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                       <span style={{ fontWeight: 800, color: '#fff' }}>🪵 Lumberjack</span>
                       <span>{(stats?.blocks_mined || 0) >= 10000 ? '✅' : '🔒'}</span>
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Mine over 10,000 blocks across the network.</div>
                   </div>
-                  <div className="glass" style={{ padding: '1.25rem', borderRadius: '14px', border: `1px solid ${(stats?.mob_kills || 0) >= 1000 ? '#4ade80' : 'rgba(255,255,255,0.06)'}`, opacity: (stats?.mob_kills || 0) >= 1000 ? 1 : 0.6 }}>
+                  <div className="glass" style={{ padding: '1.25rem', borderRadius: '14px', border: `1px solid ${(stats?.mob_kills || 0) >= 1000 ? 'var(--signal)' : 'rgba(255,255,255,0.06)'}`, opacity: (stats?.mob_kills || 0) >= 1000 ? 1 : 0.6 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                       <span style={{ fontWeight: 800, color: '#fff' }}>⚔️ Monster Hunter</span>
                       <span>{(stats?.mob_kills || 0) >= 1000 ? '✅' : '🔒'}</span>
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Slay over 1,000 hostile mobs.</div>
                   </div>
-                  <div className="glass" style={{ padding: '1.25rem', borderRadius: '14px', border: `1px solid ${(stats?.playtime || 0) >= 50 ? '#4ade80' : 'rgba(255,255,255,0.06)'}`, opacity: (stats?.playtime || 0) >= 50 ? 1 : 0.6 }}>
+                  <div className="glass" style={{ padding: '1.25rem', borderRadius: '14px', border: `1px solid ${(stats?.playtime || 0) >= 50 ? 'var(--signal)' : 'rgba(255,255,255,0.06)'}`, opacity: (stats?.playtime || 0) >= 50 ? 1 : 0.6 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                       <span style={{ fontWeight: 800, color: '#fff' }}>⏳ Vanguard Veteran</span>
                       <span>{(stats?.playtime || 0) >= 50 ? '✅' : '🔒'}</span>
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Reach 50 hours of total network playtime.</div>
                   </div>
-                  <div className="glass" style={{ padding: '1.25rem', borderRadius: '14px', border: '1px solid #4ade80', opacity: 1 }}>
+                  <div className="glass" style={{ padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--signal)', opacity: 1 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                       <span style={{ fontWeight: 800, color: '#fff' }}>🤝 Bridge Builder</span>
                       <span>✅</span>
@@ -713,7 +570,7 @@ export default function AccountPage() {
                           ★ CURRENT
                         </span>
                       ) : isUnlocked ? (
-                        <span style={{ background: 'rgba(74, 222, 128, 0.15)', color: '#4ade80', border: '1px solid rgba(74, 222, 128, 0.3)', padding: '0.2rem 0.6rem', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 800 }}>
+                        <span style={{ background: 'rgba(53, 194, 103, 0.15)', color: 'var(--signal)', border: '1px solid rgba(53, 194, 103, 0.3)', padding: '0.2rem 0.6rem', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 800 }}>
                           ✓ UNLOCKED
                         </span>
                       ) : (
@@ -737,7 +594,7 @@ export default function AccountPage() {
                         <strong style={{ color: '#fff' }}>{rank.homes} {rank.homes === 1 ? 'Home' : 'Homes'}</strong>
                       </div>
                       {rank.specialDiscord && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#a855f7', fontWeight: 700, marginTop: '0.3rem', fontSize: '0.82rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--gold)', fontWeight: 700, marginTop: '0.3rem', fontSize: '0.82rem' }}>
                           <span>💬</span> Special Discord Role & Color
                         </div>
                       )}
@@ -761,8 +618,8 @@ export default function AccountPage() {
 
               {user.minecraft_uuid ? (
                 <div>
-                  <div style={{ padding: '1.25rem', background: 'rgba(74, 222, 128, 0.08)', border: '1px solid rgba(74, 222, 128, 0.25)', borderRadius: '1rem', marginBottom: '1.5rem' }}>
-                    <div style={{ fontSize: '0.8rem', color: '#4ade80', fontWeight: 700, textTransform: 'uppercase', marginBottom: '0.35rem' }}>
+                  <div style={{ padding: '1.25rem', background: 'rgba(53, 194, 103, 0.08)', border: '1px solid rgba(53, 194, 103, 0.25)', borderRadius: '1rem', marginBottom: '1.5rem' }}>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--signal)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '0.35rem' }}>
                       Connected IGN
                     </div>
                     <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#fff', marginBottom: '0.25rem' }}>
@@ -782,8 +639,8 @@ export default function AccountPage() {
                     style={{
                       width: '100%',
                       background: 'transparent',
-                      border: '1px solid rgba(239, 68, 68, 0.4)',
-                      color: '#ef4444',
+                      border: '1px solid rgba(196, 25, 18, 0.4)',
+                      color: 'var(--secondary)',
                       padding: '0.75rem',
                       borderRadius: '0.75rem',
                       fontWeight: 700,
@@ -805,7 +662,7 @@ export default function AccountPage() {
                     <strong style={{ color: '#fff', fontSize: '0.9rem' }}>How to connect right now:</strong>
                     <ol style={{ paddingLeft: '1.25rem', color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.6, margin: '0.5rem 0 0 0' }}>
                       <li>Join any MaTTeRPixel server in Minecraft</li>
-                      <li>Type <code style={{ color: '#a855f7', background: 'rgba(168,85,247,0.15)', padding: '0.15rem 0.4rem', borderRadius: '4px', fontWeight: 'bold' }}>/link</code> in your game chat</li>
+                      <li>Type <code style={{ color: 'var(--diamond)', background: 'rgba(110,140,184,0.15)', padding: '0.15rem 0.4rem', borderRadius: '4px', fontWeight: 'bold' }}>/link</code> in your game chat</li>
                       <li>Copy the 6-character code given by the bot and enter it below</li>
                     </ol>
                   </div>
@@ -832,14 +689,14 @@ export default function AccountPage() {
                         borderRadius: '0.75rem',
                         outline: 'none',
                       }}
-                      onFocus={(e) => e.target.style.borderColor = '#a855f7'}
+                      onFocus={(e) => e.target.style.borderColor = 'var(--primary)'}
                       onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.15)'}
                     />
                     <button
                       onClick={handleLink}
                       disabled={linkCode.length < 6 || linking}
                       style={{
-                        background: linkCode.length < 6 ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                        background: linkCode.length < 6 ? 'rgba(255,255,255,0.05)' : 'var(--primary)',
                         border: 'none',
                         color: linkCode.length < 6 ? 'rgba(255,255,255,0.3)' : '#fff',
                         fontWeight: 'bold',
@@ -848,7 +705,7 @@ export default function AccountPage() {
                         fontSize: '0.95rem',
                         cursor: linkCode.length < 6 ? 'not-allowed' : 'pointer',
                         transition: 'all 0.2s',
-                        boxShadow: linkCode.length >= 6 ? '0 8px 20px rgba(16, 185, 129, 0.3)' : 'none',
+                        boxShadow: linkCode.length >= 6 ? '0 8px 20px var(--primary-glow)' : 'none',
                       }}
                     >
                       {linking ? 'Verifying...' : 'Connect →'}
@@ -861,9 +718,9 @@ export default function AccountPage() {
                       borderRadius: '0.6rem',
                       fontSize: '0.88rem',
                       fontWeight: 600,
-                      background: linkStatus.type === 'success' ? 'rgba(74, 222, 128, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                      border: `1px solid ${linkStatus.type === 'success' ? 'rgba(74, 222, 128, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-                      color: linkStatus.type === 'success' ? '#4ade80' : '#ef4444',
+                      background: linkStatus.type === 'success' ? 'rgba(53, 194, 103, 0.1)' : 'rgba(196, 25, 18, 0.1)',
+                      border: `1px solid ${linkStatus.type === 'success' ? 'rgba(53, 194, 103, 0.3)' : 'rgba(196, 25, 18, 0.3)'}`,
+                      color: linkStatus.type === 'success' ? 'var(--signal)' : 'var(--secondary)',
                     }}>
                       {linkStatus.message}
                     </div>
@@ -907,9 +764,9 @@ export default function AccountPage() {
                     display: 'block',
                     width: '100%',
                     textAlign: 'center',
-                    background: 'rgba(239, 68, 68, 0.15)',
-                    border: '1px solid rgba(239, 68, 68, 0.4)',
-                    color: '#ef4444',
+                    background: 'rgba(196, 25, 18, 0.15)',
+                    border: '1px solid rgba(196, 25, 18, 0.4)',
+                    color: 'var(--secondary)',
                     padding: '0.75rem',
                     borderRadius: '0.75rem',
                     fontWeight: 700,

@@ -1,9 +1,21 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ClientNav from "../components/ClientNav";
 
+const SITE_URL = "https://mpnhost.com";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#111824",
+  colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mpnwebsite-apitest.vercel.app"),
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: "/",
+  },
   title: {
     default: "MaTTeRPixel Network | Free Modded Minecraft Servers",
     template: "%s | MaTTeRPixel Network",
@@ -16,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "MaTTeRPixel Network | Free Modded Minecraft Servers",
     description: "Join the MaTTeRPixel Network (MPN) — premier lag-free modded Minecraft servers. Explore expert modpacks, kitchen sinks, and long-term community worlds.",
-    url: "https://mpnwebsite-apitest.vercel.app",
+    url: SITE_URL,
     siteName: "MaTTeRPixel Network",
     images: [
       {
@@ -53,6 +65,22 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "MaTTeRPixel Network",
+  alternateName: "MPN",
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo.png`,
+  sameAs: [`${SITE_URL}/discord`],
+  subjectOf: {
+    "@type": "WebSite",
+    name: "MaTTeRPixel Network",
+    url: SITE_URL,
+    description: "Free modded Minecraft servers built around community, creativity, automation, and long-term world stability.",
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -61,6 +89,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <div className="ambient-bg">
+          <div className="ambient-bg-dots" />
+        </div>
         <ClientNav>
           {/* Main Content */}
           <div style={{ flex: 1 }}>

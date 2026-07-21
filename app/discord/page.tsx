@@ -44,8 +44,8 @@ export default function DiscordPage() {
 
   const features = [
     { icon: <MessageSquare size={24} color="#5865F2" />, title: 'Community Chat', desc: 'Meet fellow modpack players, share base builds, and discuss strategies.' },
-    { icon: <Headphones size={24} color="#4ADE80" />, title: 'Instant Support', desc: 'Get fast help from staff and community members via our #support ticket system.' },
-    { icon: <Bot size={24} color="#FBBF24" />, title: 'Network Bot', desc: 'Check live server stats, leaderboards, and player accounts directly inside Discord.' },
+    { icon: <Headphones size={24} color="var(--signal)" />, title: 'Instant Support', desc: 'Get fast help from staff and community members via our #support ticket system.' },
+    { icon: <Bot size={24} color="var(--gold)" />, title: 'Network Bot', desc: 'Check live server stats, leaderboards, and player accounts directly inside Discord.' },
     { icon: <Bell size={24} color="#F472B6" />, title: 'Announcements', desc: 'Be the first to know about modpack updates, server wipes, and new pack launches.' },
   ];
 
@@ -175,8 +175,8 @@ export default function DiscordPage() {
             </p>
           </div>
 
-          <div className="glass" style={{ padding: '2rem', borderRadius: '16px', border: '1px solid rgba(74, 222, 128, 0.2)' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(74, 222, 128, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem', color: '#4ADE80' }}>
+          <div className="glass" style={{ padding: '2rem', borderRadius: '16px', border: '1px solid rgba(53, 194, 103, 0.2)' }}>
+            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(53, 194, 103, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem', color: 'var(--signal)' }}>
               <MessageCircle size={24} />
             </div>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#fff', marginBottom: '0.75rem' }}>
@@ -240,7 +240,7 @@ export default function DiscordPage() {
 
       {/* Discord Bot Commands */}
       <section style={{ marginBottom: '5rem' }}>
-        <div style={{ fontSize: '0.75rem', color: '#FBBF24', fontWeight: 'bold', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+        <div style={{ fontSize: '0.75rem', color: 'var(--gold)', fontWeight: 'bold', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
           MATTERPIXEL NETWORK BOT
         </div>
         <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>
@@ -254,10 +254,10 @@ export default function DiscordPage() {
           {commands.map((cmdItem, idx) => (
             <div key={idx} className="glass" style={{ padding: '1.75rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(251, 191, 36, 0.12)', color: '#FBBF24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '0.9rem', fontFamily: 'monospace' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(242, 169, 60, 0.12)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '0.9rem', fontFamily: 'monospace' }}>
                   &gt;_
                 </div>
-                <code style={{ background: 'rgba(255,255,255,0.08)', color: '#FDE68A', padding: '0.35rem 0.75rem', borderRadius: '6px', fontSize: '0.9rem', fontWeight: 700 }}>
+                <code style={{ background: 'rgba(255,255,255,0.08)', color: 'var(--gold)', padding: '0.35rem 0.75rem', borderRadius: '6px', fontSize: '0.9rem', fontWeight: 700 }}>
                   {cmdItem.cmd}
                 </code>
               </div>
@@ -271,7 +271,7 @@ export default function DiscordPage() {
 
       {/* Discord Rules Grid */}
       <section>
-        <div style={{ fontSize: '0.75rem', color: '#4ADE80', fontWeight: 'bold', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+        <div style={{ fontSize: '0.75rem', color: 'var(--signal)', fontWeight: 'bold', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
           KEEP IT FRIENDLY
         </div>
         <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>

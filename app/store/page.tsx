@@ -10,11 +10,11 @@ export default function StorePage() {
       name: "Blue MaTTeR",
       priceMonthly: "$6.50",
       priceAnnual: "$5.85",
-      color: "#06b6d4",
-      gradient: "linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(18, 18, 24, 0.9) 100%)",
-      border: "rgba(6, 182, 212, 0.4)",
-      glow: "0 0 30px rgba(6, 182, 212, 0.25)",
-      image: "https://media.discordapp.net/attachments/1024056889866194964/1465117536319439052/IMG_0818.PNG?ex=6a5dfe49&is=6a5cacc9&hm=8b5ff7e75b44785f40ddea00412e347a696dbd308d4d6da95ca882687a112eac&=&format=webp&quality=lossless&width=1114&height=1114",
+      color: "var(--diamond)",
+      gradient: "linear-gradient(135deg, rgba(110, 140, 184, 0.16) 0%, var(--bg-surface) 100%)",
+      border: "rgba(110, 140, 184, 0.4)",
+      glow: "0 20px 40px rgba(0,0,0,0.4)",
+      image: "https://media.discordapp.net/attachments/1024056889866194964/1465117536319439052/IMG_0818.PNG?ex=6a60a149&is=6a5f4fc9&hm=1053668ab7eec8e75828f0a6d3ef1b24a695a126f361de81d0a9b1ee48bd88fd&=&format=webp&quality=lossless&width=736&height=736",
       desc: "Thank you so much for the support! As a reward for fueling our servers, you get essential network boosts and Discord perks.",
       perks: [
         { text: "Discord Supporter Role & Badge", highlighted: false },
@@ -32,11 +32,11 @@ export default function StorePage() {
       name: "Red MaTTeR",
       priceMonthly: "$18.50",
       priceAnnual: "$16.65",
-      color: "#ef4444",
-      gradient: "linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(18, 18, 24, 0.95) 100%)",
-      border: "rgba(239, 68, 68, 0.6)",
-      glow: "0 0 45px rgba(239, 68, 68, 0.35)",
-      image: "https://media.discordapp.net/attachments/1024056889866194964/1465117535753080933/IMG_0811.PNG?ex=6a5dfe49&is=6a5cacc9&hm=5acf4a995918c8fc86dbec6d8941f9528a4ce049c6c1ee216e8c0431915b6f5b&=&format=webp&quality=lossless&width=1114&height=1114",
+      color: "var(--primary)",
+      gradient: "linear-gradient(135deg, rgba(229, 35, 27, 0.25) 0%, var(--bg-surface) 100%)",
+      border: "rgba(229, 35, 27, 0.6)",
+      glow: "0 0 45px rgba(229, 35, 27, 0.35)",
+      image: "https://media.discordapp.net/attachments/1024056889866194964/1465117535753080933/IMG_0811.PNG?ex=6a60a149&is=6a5f4fc9&hm=a05903408026317eccde0d5292f24f4cdf3ddef2d73303d93437c60e3db175ed&=&format=webp&quality=lossless&width=736&height=736",
       desc: "Woah, your support is crazily helpful to our network! Without you we wouldn't have expanded this far. Unlocks massive claim reserves.",
       perks: [
         { text: "Everything in Blue MaTTeR Tier", highlighted: false },
@@ -54,11 +54,11 @@ export default function StorePage() {
       name: "Vibrant MaTTeR",
       priceMonthly: "$25.00",
       priceAnnual: "$22.50",
-      color: "#a855f7",
-      gradient: "linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(18, 18, 24, 0.95) 100%)",
-      border: "rgba(168, 85, 247, 0.6)",
-      glow: "0 0 45px rgba(168, 85, 247, 0.35)",
-      image: "https://media.discordapp.net/attachments/1024056889866194964/1465117536688275700/IMG_0821.PNG?ex=6a5dfe49&is=6a5cacc9&hm=c15f766fa291934c0a85734a514cdc73333f48caa68eaf5e8fe3417ed42ff5f4&=&format=webp&quality=lossless&width=1114&height=1114",
+      color: "var(--gold)",
+      gradient: "linear-gradient(135deg, rgba(242, 169, 60, 0.18) 0%, var(--bg-surface) 100%)",
+      border: "rgba(242, 169, 60, 0.45)",
+      glow: "0 20px 40px rgba(0,0,0,0.4)",
+      image: "https://media.discordapp.net/attachments/1024056889866194964/1465117536688275700/IMG_0821.PNG?ex=6a60a149&is=6a5f4fc9&hm=8a72fae2194b94fa18193ef24e1875a9c4df2156c77465bcaadb4f3c1b4625cf&=&format=webp&quality=lossless&width=736&height=736",
       desc: "We cannot express how much this means to us! You cover a huge portion of our monthly dedicated machine bills. Ultimate VIP status.",
       perks: [
         { text: "Everything in Red MaTTeR Tier", highlighted: false },
@@ -84,31 +84,31 @@ export default function StorePage() {
           transform: 'translate(-50%, -50%)',
           width: '700px',
           height: '350px',
-          background: 'radial-gradient(ellipse, rgba(239, 68, 68, 0.14) 0%, rgba(168, 85, 247, 0.08) 50%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(229, 35, 27, 0.14) 0%, rgba(110, 140, 184, 0.08) 50%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none'
         }} />
 
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            gap: '0.5rem', 
-            background: 'rgba(239, 68, 68, 0.12)', 
-            border: '1px solid rgba(239, 68, 68, 0.35)', 
-            color: '#fca5a5', 
-            padding: '0.45rem 1rem', 
-            borderRadius: '100px', 
-            fontSize: '0.8rem', 
-            fontWeight: 'bold', 
-            letterSpacing: '0.08em', 
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'rgba(229, 35, 27, 0.12)',
+            border: '1px solid rgba(229, 35, 27, 0.35)',
+            color: 'var(--secondary)',
+            padding: '0.45rem 1rem',
+            borderRadius: '100px',
+            fontSize: '0.8rem',
+            fontWeight: 'bold',
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            marginBottom: '1.25rem' 
+            marginBottom: '1.25rem'
           }}>
             <span>💎 SUPPORT THE NETWORK</span>
           </div>
           <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, color: '#fff', margin: '0 0 1rem 0', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
-            Patreon Membership & <span style={{ background: 'linear-gradient(135deg, #ef4444 0%, #a855f7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Perks</span>
+            Patreon Membership & <span style={{ background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Perks</span>
           </h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '44rem', margin: '0 auto 2.5rem', lineHeight: 1.6 }}>
             Our servers run on enterprise high-clock AMD hardware with massive RAM pools to keep tick rates at 20 TPS. 
@@ -151,17 +151,17 @@ export default function StorePage() {
               }}
             >
               <span>Annual Billing</span>
-              <span style={{ background: '#22c55e', color: '#000', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '4px', fontWeight: 900 }}>SAVE 10%</span>
+              <span style={{ background: 'var(--signal)', color: '#000', fontSize: '0.65rem', padding: '0.15rem 0.45rem', borderRadius: '4px', fontWeight: 900 }}>SAVE 10%</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* MONTHLY SERVER COST GOAL BAR */}
-      <div style={{ maxWidth: '850px', margin: '0 auto 4.5rem', background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.22) 0%, rgba(18, 18, 24, 0.95) 100%)', border: '1px solid rgba(239, 68, 68, 0.55)', borderRadius: '1.5rem', padding: '2rem 2.5rem', boxShadow: '0 15px 35px rgba(239, 68, 68, 0.15)', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ maxWidth: '850px', margin: '0 auto 4.5rem', background: 'linear-gradient(135deg, rgba(110, 140, 184, 0.18) 0%, var(--bg-surface) 100%)', border: '1px solid rgba(110, 140, 184, 0.45)', borderRadius: '1.5rem', padding: '2rem 2.5rem', boxShadow: '0 15px 35px rgba(0, 0, 0, 0.3)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(239, 68, 68, 0.25)', color: '#fca5a5', fontSize: '0.72rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '0.3rem 0.75rem', borderRadius: '100px', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(110, 140, 184, 0.22)', color: 'var(--diamond)', fontSize: '0.72rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '0.3rem 0.75rem', borderRadius: '100px', marginBottom: '0.5rem' }}>
               <span>⚡ MONTHLY COMMUNITY GOAL</span>
             </div>
             <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', margin: 0 }}>
@@ -169,20 +169,20 @@ export default function StorePage() {
             </h3>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: '1.8rem', fontWeight: 900, color: '#f87171' }}>$0</span>
+            <span style={{ fontSize: '1.8rem', fontWeight: 900, color: 'var(--diamond)' }}>$0</span>
             <span style={{ fontSize: '1.1rem', color: 'var(--text-muted)', fontWeight: 600 }}> / $450 USD</span>
-            <div style={{ fontSize: '0.8rem', color: '#fca5a5', fontWeight: 'bold', marginTop: '0.15rem' }}>0% Funded This Month — Be the first to fuel the network! 🔥</div>
+            <div style={{ fontSize: '0.8rem', color: 'var(--diamond)', fontWeight: 'bold', marginTop: '0.15rem' }}>0% Funded This Month — Be the first to fuel the network! 🔥</div>
           </div>
         </div>
 
         {/* Progress Track */}
-        <div style={{ width: '100%', height: '16px', background: 'rgba(239, 68, 68, 0.12)', borderRadius: '100px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+        <div style={{ width: '100%', height: '16px', background: 'rgba(110, 140, 184, 0.12)', borderRadius: '100px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(110, 140, 184, 0.3)' }}>
           <div style={{
             width: '0%',
             height: '100%',
-            background: 'linear-gradient(90deg, #ef4444 0%, #f43f5e 100%)',
+            background: 'var(--diamond)',
             borderRadius: '100px',
-            boxShadow: '0 0 20px rgba(239, 68, 68, 0.6)',
+            boxShadow: '0 0 20px rgba(110, 140, 184, 0.6)',
             transition: 'width 1s cubic-bezier(0.4, 0, 0.2, 1)'
           }} />
         </div>
@@ -220,7 +220,7 @@ export default function StorePage() {
                 top: 0,
                 left: 0,
                 right: 0,
-                background: 'linear-gradient(90deg, #ef4444, #f43f5e)',
+                background: 'linear-gradient(90deg, var(--primary), var(--redstone))',
                 color: '#fff',
                 fontSize: '0.72rem',
                 fontWeight: '900',
@@ -228,7 +228,7 @@ export default function StorePage() {
                 textAlign: 'center',
                 padding: '0.4rem 0',
                 textTransform: 'uppercase',
-                boxShadow: '0 2px 10px rgba(239, 68, 68, 0.5)'
+                boxShadow: '0 2px 10px rgba(229, 35, 27, 0.5)'
               }}>
                 🔥 YOU MIGHT LIKE / MOST POPULAR
               </div>
@@ -300,8 +300,8 @@ export default function StorePage() {
                 justifyContent: 'center',
                 gap: '0.5rem',
                 width: '100%',
-                background: tier.popular ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' : 'rgba(255, 255, 255, 0.08)',
-                border: `1px solid ${tier.popular ? '#ef4444' : 'rgba(255, 255, 255, 0.2)'}`,
+                background: tier.popular ? 'linear-gradient(135deg, var(--primary) 0%, var(--redstone) 100%)' : 'var(--bg-elevated)',
+                border: `1px solid ${tier.popular ? 'var(--primary)' : tier.border}`,
                 color: '#fff',
                 padding: '1rem',
                 borderRadius: '0.85rem',
@@ -311,7 +311,7 @@ export default function StorePage() {
                 letterSpacing: '0.08em',
                 textDecoration: 'none',
                 whiteSpace: 'nowrap',
-                boxShadow: tier.popular ? '0 8px 25px rgba(239, 68, 68, 0.4)' : 'none',
+                boxShadow: tier.popular ? '0 8px 25px var(--primary-glow)' : 'none',
                 transition: 'all 0.2s'
               }}
               className={tier.popular ? '' : 'hover-bg-light'}
@@ -333,7 +333,7 @@ export default function StorePage() {
           padding: '2.5rem',
           backdropFilter: 'blur(16px)'
         }}>
-          <div style={{ color: '#06b6d4', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+          <div style={{ color: 'var(--diamond)', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
             WHERE DOES YOUR MONEY GO?
           </div>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 900, color: '#fff', margin: '0 0 1rem 0' }}>
@@ -350,7 +350,7 @@ export default function StorePage() {
                 <div style={{ fontWeight: 'bold', color: '#fff' }}>AMD Ryzen 9 Dedicated Nodes</div>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>High single-core clocks needed for GTNH & ATM10 20 TPS</div>
               </div>
-              <span style={{ color: '#4ade80', fontWeight: 'bold', fontFamily: 'monospace' }}>Active</span>
+              <span style={{ color: 'var(--signal)', fontWeight: 'bold', fontFamily: 'monospace' }}>Active</span>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1.25rem', borderRadius: '0.75rem', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -358,7 +358,7 @@ export default function StorePage() {
                 <div style={{ fontWeight: 'bold', color: '#fff' }}>128GB+ ECC RAM & NVMe Storage</div>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Ensures rapid chunk generation and zero disk bottlenecks</div>
               </div>
-              <span style={{ color: '#4ade80', fontWeight: 'bold', fontFamily: 'monospace' }}>Active</span>
+              <span style={{ color: 'var(--signal)', fontWeight: 'bold', fontFamily: 'monospace' }}>Active</span>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1.25rem', borderRadius: '0.75rem', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -366,7 +366,7 @@ export default function StorePage() {
                 <div style={{ fontWeight: 'bold', color: '#fff' }}>DDoS Protection & Global Network Routing</div>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Low latency ping across North America and Europe</div>
               </div>
-              <span style={{ color: '#4ade80', fontWeight: 'bold', fontFamily: 'monospace' }}>Active</span>
+              <span style={{ color: 'var(--signal)', fontWeight: 'bold', fontFamily: 'monospace' }}>Active</span>
             </div>
           </div>
         </div>
@@ -382,7 +382,7 @@ export default function StorePage() {
           flexDirection: 'column',
           justifyContent: 'center'
         }}>
-          <div style={{ color: '#a855f7', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+          <div style={{ color: 'var(--gold)', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
             HOW TO CLAIM YOUR PERKS
           </div>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 900, color: '#fff', margin: '0 0 1.25rem 0' }}>
@@ -391,7 +391,7 @@ export default function StorePage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(168, 85, 247, 0.2)', border: '1px solid #a855f7', color: '#a855f7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(242, 169, 60, 0.2)', border: '1px solid var(--gold)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>
                 1
               </div>
               <div>
@@ -403,7 +403,7 @@ export default function StorePage() {
             </div>
 
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(168, 85, 247, 0.2)', border: '1px solid #a855f7', color: '#a855f7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(242, 169, 60, 0.2)', border: '1px solid var(--gold)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>
                 2
               </div>
               <div>
@@ -415,7 +415,7 @@ export default function StorePage() {
             </div>
 
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(168, 85, 247, 0.2)', border: '1px solid #a855f7', color: '#a855f7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(242, 169, 60, 0.2)', border: '1px solid var(--gold)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0 }}>
                 3
               </div>
               <div>

@@ -21,7 +21,7 @@ export default function PacksPage() {
       <section style={{ 
         padding: '6rem 2rem 4.5rem', 
         borderBottom: '1px solid var(--border-light)', 
-        background: 'radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15) 0%, var(--bg-base) 70%)',
+        background: 'radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--primary) 15%, transparent) 0%, var(--bg-base) 70%)',
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden'
@@ -45,7 +45,7 @@ export default function PacksPage() {
           right: '20%',
           width: '350px',
           height: '350px',
-          background: '#eab308',
+          background: 'var(--diamond)',
           borderRadius: '50%',
           filter: 'blur(160px)',
           opacity: 0.08,
@@ -57,17 +57,17 @@ export default function PacksPage() {
             display: 'inline-flex', 
             alignItems: 'center', 
             gap: '0.5rem', 
-            background: 'rgba(139, 92, 246, 0.12)', 
-            border: '1px solid rgba(139, 92, 246, 0.3)', 
-            color: '#c084fc', 
-            fontSize: '0.75rem', 
-            fontWeight: '800', 
-            textTransform: 'uppercase', 
-            letterSpacing: '0.25em', 
-            padding: '0.4rem 1.1rem', 
+            background: 'color-mix(in srgb, var(--primary) 10%, transparent)',
+            border: '1px solid color-mix(in srgb, var(--primary) 30%, transparent)',
+            color: 'var(--secondary)',
+            fontSize: '0.75rem',
+            fontWeight: '800',
+            textTransform: 'uppercase',
+            letterSpacing: '0.25em',
+            padding: '0.4rem 1.1rem',
             borderRadius: '9999px',
             marginBottom: '1.5rem',
-            boxShadow: '0 4px 15px rgba(139, 92, 246, 0.15)'
+            boxShadow: '0 4px 15px var(--primary-glow)'
           }}>
             ✦ MODRINTH MODPACK STUDIO ✦
           </div>
@@ -190,8 +190,8 @@ export default function PacksPage() {
                       position: 'absolute',
                       top: '1rem',
                       right: '1rem',
-                      background: 'rgba(139, 92, 246, 0.85)',
-                      color: '#fff',
+                      background: 'var(--gold)',
+                      color: 'var(--bg-base)',
                       fontSize: '0.7rem',
                       fontWeight: '800',
                       textTransform: 'uppercase',
@@ -204,7 +204,7 @@ export default function PacksPage() {
                       alignItems: 'center',
                       gap: '0.35rem'
                     }}>
-                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#fff', boxShadow: '0 0 6px #fff' }} />
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--bg-base)', boxShadow: '0 0 6px var(--bg-base)' }} />
                       {pack.status}
                     </div>
 
@@ -272,7 +272,7 @@ export default function PacksPage() {
 
                     {/* Specs Pill Bar */}
                     <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.75rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                      <span style={{ fontSize: '0.75rem', color: '#c084fc', background: 'rgba(139, 92, 246, 0.1)', border: '1px solid rgba(139, 92, 246, 0.25)', padding: '0.3rem 0.65rem', borderRadius: '0.4rem', fontWeight: 'bold' }}>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--diamond)', background: 'color-mix(in srgb, var(--diamond) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--diamond) 25%, transparent)', padding: '0.3rem 0.65rem', borderRadius: '0.4rem', fontWeight: 'bold' }}>
                         🎯 {pack.specs.focus}
                       </span>
                       <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', background: 'rgba(255,255,255,0.03)', padding: '0.3rem 0.65rem', borderRadius: '0.4rem' }}>
@@ -286,7 +286,7 @@ export default function PacksPage() {
                         href={`/packs/${pack.id}`}
                         style={{
                           flex: 1,
-                          background: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
+                          background: 'linear-gradient(135deg, var(--primary) 0%, var(--redstone) 100%)',
                           color: '#fff',
                           fontWeight: 'bold',
                           padding: '0.75rem 1rem',
@@ -294,7 +294,7 @@ export default function PacksPage() {
                           fontSize: '0.9rem',
                           textDecoration: 'none',
                           textAlign: 'center',
-                          boxShadow: '0 8px 20px -4px rgba(139, 92, 246, 0.4)',
+                          boxShadow: '0 8px 20px -4px var(--primary-glow)',
                           transition: 'transform 0.2s, box-shadow 0.2s',
                           display: 'flex',
                           alignItems: 'center',
@@ -311,9 +311,9 @@ export default function PacksPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
-                          background: 'rgba(16, 185, 129, 0.15)',
-                          border: '1px solid rgba(16, 185, 129, 0.3)',
-                          color: '#34d399',
+                          background: 'color-mix(in srgb, var(--signal) 15%, transparent)',
+                          border: '1px solid color-mix(in srgb, var(--signal) 30%, transparent)',
+                          color: 'var(--signal)',
                           fontWeight: 'bold',
                           padding: '0.75rem 1.1rem',
                           borderRadius: '0.65rem',
@@ -345,7 +345,7 @@ export default function PacksPage() {
       {/* 4. WHY PLAY OFFICIAL MPN PACKS? (STUDIO STANDARD) */}
       <section style={{ padding: '5rem 2rem 6rem', maxWidth: '1250px', margin: '0 auto', borderTop: '1px solid var(--border-light)' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <div style={{ color: '#38bdf8', fontSize: '0.75rem', fontWeight: '900', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+          <div style={{ color: 'var(--secondary)', fontSize: '0.75rem', fontWeight: '900', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
             STUDIO STANDARD
           </div>
           <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#fff', margin: 0, letterSpacing: '-0.02em' }}>
@@ -359,7 +359,7 @@ export default function PacksPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.75rem' }}>
           {/* Box 1 */}
           <div style={{ background: 'rgba(18, 18, 24, 0.65)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '1.25rem', padding: '2rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(139, 92, 246, 0.12)', border: '1px solid rgba(139, 92, 246, 0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', color: '#c084fc', flexShrink: 0 }}>
+            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'color-mix(in srgb, var(--diamond) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--diamond) 25%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', color: 'var(--diamond)', flexShrink: 0 }}>
               🚀
             </div>
             <div>
@@ -374,7 +374,7 @@ export default function PacksPage() {
 
           {/* Box 2 */}
           <div style={{ background: 'rgba(18, 18, 24, 0.65)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '1.25rem', padding: '2rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', color: '#34d399', flexShrink: 0 }}>
+            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'color-mix(in srgb, var(--signal) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--signal) 25%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', color: 'var(--signal)', flexShrink: 0 }}>
               🛡️
             </div>
             <div>
@@ -389,7 +389,7 @@ export default function PacksPage() {
 
           {/* Box 3 */}
           <div style={{ background: 'rgba(18, 18, 24, 0.65)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '1.25rem', padding: '2rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(234, 179, 8, 0.12)', border: '1px solid rgba(234, 179, 8, 0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', color: '#facc15', flexShrink: 0 }}>
+            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'color-mix(in srgb, var(--gold) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 25%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', color: 'var(--gold)', flexShrink: 0 }}>
               🤝
             </div>
             <div>
