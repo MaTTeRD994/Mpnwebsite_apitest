@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { mpnPacks, PackConfig } from "../../../config/packs";
+import { parseChangelog, tokenizeInline, ChangelogVersion } from "../../../utils/changelog";
 
 export default function PackDetailsPage() {
   const params = useParams<{ id: string }>();
@@ -10,6 +11,17 @@ export default function PackDetailsPage() {
   const pack: PackConfig | undefined = mpnPacks.find((p) => p.id === id);
 
   const [activeInstallTab, setActiveInstallTab] = useState("modrinth");
+  const [changelog, setChangelog] = useState<ChangelogVersion[] | null>(null);
+
+  useEffect(() => {
+    if (!pack?.changelogRepo) return;
+    fetch(`/api/packs/${pack.id}/changelog`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.markdown) setChangelog(parseChangelog(data.markdown));
+      })
+      .catch((err) => console.error("Failed to load changelog:", err));
+  }, [pack?.id, pack?.changelogRepo]);
 
   if (!pack) {
     return (
@@ -328,6 +340,71 @@ export default function PackDetailsPage() {
               </div>
             )}
           </div>
+
+          {/* Update Log — auto-pulled from the pack's GitHub CHANGELOG.md (see
+              config/packs.ts `changelogRepo` + app/api/packs/[id]/changelog).
+              Only rendered for packs that have a linked repo. */}
+          {pack.changelogRepo && changelog && changelog.length > 0 && (
+            <div className="glass" style={{ background: "rgba(18, 18, 24, 0.75)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "1.25rem", padding: "2.5rem" }}>
+              <h2 style={{ fontSize: "1.8rem", fontWeight: "bold", color: "#fff", margin: "0 0 1.5rem 0", display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                <span style={{ color: pack.color }}>📋</span> Update Log
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+                {changelog.map((version, vIdx) => (
+                  <div key={vIdx} style={{ position: "relative", paddingLeft: "1.5rem", borderLeft: `2px solid ${pack.color}40` }}>
+                    <div style={{ position: "absolute", left: "-7px", top: "0.3rem", width: "12px", height: "12px", borderRadius: "50%", background: pack.color, boxShadow: `0 0 0 4px rgba(18, 18, 24, 0.75)` }} />
+                    <h3 style={{ fontSize: "1.2rem", fontWeight: "bold", color: pack.color, margin: "0 0 1rem 0" }}>{version.title}</h3>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                      {version.sections.map((section, sIdx) => (
+                        <div key={sIdx}>
+                          {section.heading && (
+                            <div style={{ fontSize: "0.8rem", fontWeight: "bold", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.6rem" }}>
+                              {tokenizeInline(section.heading).map((tok, tIdx) =>
+                                tok.type === "code" ? (
+                                  <code key={tIdx} style={{ background: "rgba(255,255,255,0.08)", padding: "0.1rem 0.4rem", borderRadius: "4px", fontFamily: "monospace", color: "#fff" }}>{tok.value}</code>
+                                ) : (
+                                  <span key={tIdx}>{tok.value}</span>
+                                )
+                              )}
+                            </div>
+                          )}
+                          {section.bullets.length > 0 && (
+                            <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                              {section.bullets.map((bullet, bIdx) => (
+                                <li key={bIdx} style={{ display: "flex", gap: "0.5rem", fontSize: "0.9rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
+                                  <span style={{ color: pack.color, flexShrink: 0 }}>•</span>
+                                  <span>
+                                    {bullet.linkUrl && (
+                                      <a href={bullet.linkUrl} target="_blank" rel="noopener noreferrer" style={{ color: "var(--signal)", fontWeight: "bold", textDecoration: "none" }}>
+                                        {bullet.linkText}
+                                      </a>
+                                    )}{" "}
+                                    {tokenizeInline(bullet.rest).map((tok, tIdx) =>
+                                      tok.type === "code" ? (
+                                        <code key={tIdx} style={{ background: "rgba(255,255,255,0.08)", padding: "0.1rem 0.4rem", borderRadius: "4px", fontFamily: "monospace", color: "#fff" }}>{tok.value}</code>
+                                      ) : (
+                                        <span key={tIdx}>{tok.value}</span>
+                                      )
+                                    )}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p style={{ marginTop: "1.5rem", fontSize: "0.78rem", color: "var(--text-light)" }}>
+                Synced from{" "}
+                <a href={`https://github.com/${pack.changelogRepo}`} target="_blank" rel="noopener noreferrer" style={{ color: "var(--text-muted)" }}>
+                  github.com/{pack.changelogRepo}
+                </a>
+              </p>
+            </div>
+          )}
         </div>
 
         {/* RIGHT COLUMN SIDEBAR (Modrinth Project Style Sidebar) */}

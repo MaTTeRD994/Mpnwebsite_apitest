@@ -17,6 +17,9 @@ export interface PackConfig {
   bannerUrl: string;
   modrinthUrl: string;
   curseforgeUrl?: string;
+  // "owner/repo" — when set, the pack detail page fetches CHANGELOG.md from
+  // this GitHub repo's default branch and renders it as an update log.
+  changelogRepo?: string;
   status: "Featured Pack" | "Community Pack";
   specs: {
     totalMods: string;
@@ -45,6 +48,7 @@ export const mpnPacks: PackConfig[] = [
     iconUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
     bannerUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
     modrinthUrl: "https://modrinth.com/modpack/makeshift",
+    changelogRepo: "MaTTeRD994/MakeshiftSMP",
     status: "Featured Pack",
     specs: {
       totalMods: "140+ Curated Mods",

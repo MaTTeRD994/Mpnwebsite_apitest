@@ -46,6 +46,12 @@ Welcome to your project command center! Keep this file open in your editor (`TOD
 
 ## ✅ Completed Milestones
 
+- [x] **Auto-Synced Modpack Update Log (`/packs/[id]`)**
+  - Added `changelogRepo` (`"owner/repo"`) to `PackConfig` in `config/packs.ts` — opt-in per pack, set for `makeshiftsmp` -> `MaTTeRD994/MakeshiftSMP`.
+  - New `app/api/packs/[id]/changelog/route.ts` fetches that repo's `CHANGELOG.md` from GitHub (`next: { revalidate: 3600 }`) — a commit to the pack repo shows up on the site within an hour, no redeploy needed.
+  - New `utils/changelog.ts` parses the `# version` / `## section` / `- [mod](url) - old -> new` format already used in that changelog.
+  - Rendered as a timeline "Update Log" card on the pack detail page, only for packs with `changelogRepo` set (ThaSMP has none yet — no dead section shown).
+  - To add a changelog for another pack: give its repo the same `CHANGELOG.md` format and set `changelogRepo` in `config/packs.ts` — everything else is automatic.
 - [x] **Command Center Dashboard Overhaul (`/account`) & Navigation Upgrades**
   - Built unified 3D identity hero banner with side-by-side Discord avatar + Minecraft skin preview (`mc-heads.net`), live rank progress bar (`%` and remaining hours), and glowing rank badges.
   - Implemented 3 interactive dashboard tabs: `Overview & Stats` (KPIs & Milestone badges), `Rank & Perks` (10-tier breakdown), and `Account Settings & Link`.
