@@ -280,6 +280,23 @@ a {
   animation: marquee 35s linear infinite;
 }
 
+/* Pack detail page's 2-column layout (main content + sticky sidebar). Full
+   width by default, spans 2 of the outer grid's auto-fit tracks at 1024px+
+   so the sidebar gets its own track alongside it. Previously driven by an
+   inline `gridColumn` + a `<style jsx>` override — styled-jsx isn't used
+   anywhere else in this codebase and wasn't actually applying, and even if
+   it had, an inline style always wins over a class rule anyway, so the
+   "desktop" span never took effect at any width. */
+.pack-details-main {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 1024px) {
+  .pack-details-main {
+    grid-column: span 2 / span 2;
+  }
+}
+
 /* PlayerProfileHero: stats-left / skin-center / achievements-right on desktop,
    collapsing to a single column with the character brought to the top on mobile. */
 .profile-hero-grid {

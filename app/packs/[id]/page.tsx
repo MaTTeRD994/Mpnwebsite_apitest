@@ -232,15 +232,7 @@ export default function PackDetailsPage() {
         {/* LEFT COLUMN (70% on large screen) — ordered by what a visitor actually
             wants first: what is this pack, how do I install it, what's in it,
             and only then the full history of mod version bumps. */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "3.5rem", gridColumn: "1 / -1" }} className="pack-details-main">
-          <style jsx>{`
-            @media (min-width: 1024px) {
-              .pack-details-main {
-                grid-column: span 2 / span 2;
-              }
-            }
-          `}</style>
-
+        <div style={{ display: "flex", flexDirection: "column", gap: "3.5rem" }} className="pack-details-main">
           {/* About & Overview */}
           <div className="glass" style={{ background: "rgba(18, 18, 24, 0.75)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "1.25rem", padding: "2.5rem" }}>
             <h2 style={{ fontSize: "1.8rem", fontWeight: "bold", color: "#fff", margin: "0 0 1.5rem 0", display: "flex", alignItems: "center", gap: "0.6rem" }}>
