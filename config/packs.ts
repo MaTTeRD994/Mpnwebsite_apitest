@@ -37,13 +37,13 @@ export const mpnPacks: PackConfig[] = [
     name: "Makeshift SMP",
     tagline: "A mechanical engineering and automation modpack built around the Create Mod, trains, and industrial contraptions.",
     description: [
-      "Makeshift SMP is our premier Create Mod focused modpack engineered by the MaTTeRPixel Network team for Minecraft 1.20.4. If you love designing kinetic mechanisms, building functional steam engines, laying down vast railway networks, and automating complex factories, this pack is your ultimate playground.",
-      "Instead of magical black boxes or spreadsheet-driven tech mods, Makeshift focuses purely on visual, physical automation through the Create Mod ecosystem and its finest add-ons. Watch gears turn, conveyor belts carry resources, and mechanical arms assemble components right before your eyes.",
-      "Every mod has been carefully balanced and optimized with Sodium, Lithium, and custom memory configs so that even complex moving contraptions run at silky-smooth frame rates. Whether playing solo or with friends on multiplayer, Makeshift delivers an unmatched engineering experience."
+      "Makeshift SMP is our premier Create Mod focused modpack engineered by the MaTTeRPixel Network team, running NeoForge on Minecraft 1.21.1. If you love designing kinetic mechanisms, building functional steam engines, laying down vast railway networks, and automating complex factories, this pack is your ultimate playground.",
+      "Instead of magical black boxes or spreadsheet-driven tech mods, Makeshift focuses purely on visual, physical automation through the Create Mod ecosystem and its finest add-ons — Create Encased, Central Kitchen, Design n' Decor, Railways Navigator, Steam 'n' Rails, and more — plus deep automation tooling like CC: Tweaked, Advanced Peripherals, and KubeJS for scripted logistics.",
+      "Every mod has been carefully balanced and optimized with Sodium, Lithium, and custom memory configs so that even complex moving contraptions run at silky-smooth frame rates. 167 mods total, all pinned to exact versions for a stable, reproducible pack. Whether playing solo or with friends on multiplayer, Makeshift delivers an unmatched engineering experience."
     ],
-    version: "2.1.0",
-    mcVersion: "1.20.4",
-    modloader: "Fabric",
+    version: "6.0.0",
+    mcVersion: "1.21.1",
+    modloader: "NeoForge",
     color: "var(--diamond)", // steel accent — mechanical/tech identity
     iconUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
     bannerUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
@@ -51,7 +51,7 @@ export const mpnPacks: PackConfig[] = [
     changelogRepo: "MaTTeRD994/MakeshiftSMP",
     status: "Featured Pack",
     specs: {
-      totalMods: "140+ Curated Mods",
+      totalMods: "167 Curated Mods",
       ramRecommendation: "4GB - 6GB RAM",
       creator: "MaTTeRPixel Team",
       releaseYear: "2026",
@@ -93,57 +93,58 @@ export const mpnPacks: PackConfig[] = [
   {
     id: "thasmp",
     name: "ThaSMP",
-    tagline: "The ultimate Vanilla+ modpack capturing the true, cozy soul of Minecraft while elevating exploration, building, and quality of life.",
+    tagline: "Just the two of us — keeping it feeling vanilla, with QoL and performance mods layered on top.",
     description: [
-      "ThaSMP is designed around one guiding philosophy: preserve the timeless, cozy feeling of vanilla Minecraft while subtly enhancing everything that makes the game magical. Built for Minecraft 1.20.4, it feels like the sequel to vanilla survival that you have always wanted.",
-      "Instead of overwhelming you with completely foreign mechanics, ThaSMP enriches your world with majestic terrain generation, atmospheric ambient sounds, refined building options, and thoughtful quality-of-life additions like inventory sorting and waypoints. Every mod feels like it could be a native Mojang update.",
-      "Whether you are building a peaceful mountainside homestead, exploring ancient caverns, or sharing a survival world with close friends, ThaSMP provides a polished, ultra-optimized experience that never loses the authentic charm of Minecraft."
+      "ThaSMP is a forever-world built for long-term survival with a friend, not a public server — every mod here either makes the game run better or removes a small annoyance. Nothing changes how Minecraft actually plays: no content overhauls, no tech mods, no magic mods. The world stays exactly as recognizable as vanilla, it just runs smoother and remembers more.",
+      "That means real performance work (Sodium, Lithium, C2ME, VMP, EntityCulling, MoreCulling), tools for building and remembering what you built (Axiom, Litematica, Flashback replay, Screenshot Gallery), better navigation (Xaero's Minimap & World Map, Distant Horizons), everyday comforts (inventory sorting, tooltips, JEI, Essential, Chat Heads), and small immersion touches (Ambient Sounds, Presence Footsteps, Better Clouds) — 107 mods total, all pinned to exact versions.",
+      "The whole pack is managed with packwiz, so it's fully versioned, diffable, and reproducible — every mod bump is a real, reviewable commit."
     ],
-    version: "1.4.2",
-    mcVersion: "1.20.4",
+    version: "1.0.0",
+    mcVersion: "26.2",
     modloader: "Fabric",
     color: "var(--gold)", // cozy/vanilla+ identity
     iconUrl: "https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp",
-    bannerUrl: "https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp",
+    bannerUrl: "https://raw.githubusercontent.com/MaTTeRD994/ThaSMP/master/docs/images/forest-lake.jpg",
     modrinthUrl: "https://modrinth.com/modpack/thasmp",
+    changelogRepo: "MaTTeRD994/ThaSMP",
     status: "Featured Pack",
     specs: {
-      totalMods: "125+ Curated Mods",
+      totalMods: "107 Curated Mods",
       ramRecommendation: "4GB - 6GB RAM",
-      creator: "MaTTeRPixel Team",
+      creator: "Thamatter",
       releaseYear: "2026",
-      focus: "Vanilla+ & Cozy QoL"
+      focus: "Vanilla-First QoL & Performance"
     },
     features: [
       {
-        title: "Authentic Vanilla+ Feel",
-        icon: "🌿",
-        description: "Every mod is carefully selected to blend seamlessly with vanilla progression, ensuring the game feels familiar yet fresh and exciting."
+        title: "Real Performance Gains",
+        icon: "⚡",
+        description: "Sodium, Lithium, C2ME, VMP, EntityCulling, and MoreCulling keep the world smooth no matter how much you've built — not a placebo optimization pack."
       },
       {
-        title: "Breathtaking World Generation",
-        icon: "🌄",
-        description: "Majestic mountain ranges, lush forests, and natural rivers that invite peaceful exploration without chaotic or cluttered biomes."
+        title: "Building & Creativity Tools",
+        icon: "🎨",
+        description: "Axiom, Litematica, Flashback replay, and Screenshot Gallery for when you want to build big and actually remember it afterward."
       },
       {
-        title: "Quality of Life Perfection",
+        title: "See Further, Get Lost Less",
+        icon: "🧭",
+        description: "Xaero's Minimap & World Map plus Distant Horizons long-range rendering, so the world never feels smaller than it is."
+      },
+      {
+        title: "Everyday Comfort",
         icon: "🎒",
-        description: "Say goodbye to tedious sorting sessions with intuitive inventory management, mini-maps, waypoints, and smart storage utilities."
+        description: "Inventory sorting, item tooltips, JEI, Essential, Chat Heads, and durability warnings — the small conveniences that add up over hundreds of hours."
       },
       {
-        title: "Cozy Aesthetic & Building",
-        icon: "🏡",
-        description: "New wooden palettes, furniture accents, cozy lighting, and atmospheric sound design that make every base feel like home."
+        title: "Immersion, Not Overhaul",
+        icon: "🍃",
+        description: "Ambient Sounds, Presence Footsteps, and Better Clouds add atmosphere without changing a single block — still vanilla at heart."
       },
       {
-        title: "Silky Smooth FPS",
-        icon: "🚀",
-        description: "Packed with Sodium, Lithium, and FerriteCore. Experience lightning-fast world loading and high frame rates even on modest laptops."
-      },
-      {
-        title: "Multiplayer Synchronized",
-        icon: "🤝",
-        description: "Lightweight, stable, and ready for cooperative play with proximity voice chat integration for unforgettable shared adventures."
+        title: "107 Mods, Fully Reproducible",
+        icon: "🧩",
+        description: "Every mod is pinned to an exact Modrinth version and hash via packwiz — the whole pack is versioned, diffable, and rebuildable from scratch."
       }
     ]
   }

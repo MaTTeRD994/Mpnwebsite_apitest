@@ -79,7 +79,7 @@ export const staticServers: StaticServerConfig[] = [
     name: "ThaSMP",
     address: "Private",
     version: "Custom",
-    mc: "1.20.4",
+    mc: "26.2",
     packUrl: "https://modrinth.com/modpack/thasmp",
     color: "var(--gold)",
     imgUrl: "https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp",

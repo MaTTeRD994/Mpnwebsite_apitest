@@ -306,7 +306,7 @@ export default function PackDetailsPage() {
                 </div>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
                   <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "color-mix(in srgb, var(--signal) 20%, transparent)", color: "var(--signal)", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>3</span>
-                  <p style={{ margin: 0 }}>Click the **Install** button. The app will automatically download all required mods, configs, and the exact Fabric version with zero setup needed!</p>
+                  <p style={{ margin: 0 }}>Click the **Install** button. The app will automatically download all required mods, configs, and the exact {pack.modloader} version with zero setup needed!</p>
                 </div>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
                   <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "color-mix(in srgb, var(--signal) 20%, transparent)", color: "var(--signal)", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>4</span>
@@ -422,7 +422,7 @@ export default function PackDetailsPage() {
             <p style={{ color: "var(--text-muted)", fontSize: "0.88rem", lineHeight: 1.6, marginBottom: "1.5rem" }}>
               {pack.id === "makeshiftsmp"
                 ? "Ideal for redstone engineers, kinetic builders, and players who love designing trains and automated machinery."
-                : "Ideal for survivalists, peaceful explorers, and community builders who want a rich, immersive Vanilla+ journey."}
+                : "Built for long-term survival with a friend — ideal if you want vanilla Minecraft that just runs smoother and forgets less."}
             </p>
 
             <a
