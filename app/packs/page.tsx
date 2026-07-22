@@ -177,19 +177,22 @@ export default function PacksPage() {
                   }}
                 >
                   {/* Banner Header with Gradient Overlay */}
-                  <div style={{ height: '170px', position: 'relative', background: 'var(--bg-base)', overflow: 'hidden' }}>
-                    <img 
-                      src={pack.bannerUrl} 
-                      alt={`${pack.name} banner`} 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.55 }}
-                    />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(18, 18, 24, 1) 0%, rgba(18, 18, 24, 0.3) 60%, transparent 100%)' }} />
+                  <div style={{ height: '170px', position: 'relative', background: 'var(--bg-base)' }}>
+                    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 1 }}>
+                      <img
+                        src={pack.bannerUrl}
+                        alt={`${pack.name} banner`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.55 }}
+                      />
+                      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(18, 18, 24, 1) 0%, rgba(18, 18, 24, 0.3) 60%, transparent 100%)' }} />
+                    </div>
 
                     {/* Status Badge Top Right */}
                     <div style={{
                       position: 'absolute',
                       top: '1rem',
                       right: '1rem',
+                      zIndex: 2,
                       background: 'var(--gold)',
                       color: 'var(--bg-base)',
                       fontSize: '0.7rem',
@@ -213,6 +216,7 @@ export default function PacksPage() {
                       position: 'absolute',
                       top: '1rem',
                       left: '1rem',
+                      zIndex: 2,
                       background: 'rgba(0, 0, 0, 0.65)',
                       border: '1px solid rgba(255,255,255,0.15)',
                       color: '#fff',
@@ -241,7 +245,7 @@ export default function PacksPage() {
                       alignItems: 'center',
                       justifyContent: 'center',
                       overflow: 'hidden',
-                      zIndex: 5
+                      zIndex: 10
                     }}>
                       <img src={pack.iconUrl} alt={pack.name} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '0.8rem' }} />
                     </div>

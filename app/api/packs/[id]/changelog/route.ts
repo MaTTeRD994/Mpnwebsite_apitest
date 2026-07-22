@@ -8,12 +8,12 @@ export async function GET(
   const { id } = await params;
   const pack = mpnPacks.find((p) => p.id === id);
 
-  if (!pack?.changelogRepo) {
+  if (!pack?.githubRepo) {
     return NextResponse.json({ error: 'No changelog configured for this pack' }, { status: 404 });
   }
 
   try {
-    const res = await fetch(`https://api.github.com/repos/${pack.changelogRepo}/contents/CHANGELOG.md`, {
+    const res = await fetch(`https://api.github.com/repos/${pack.githubRepo}/contents/CHANGELOG.md`, {
       headers: {
         Accept: 'application/vnd.github.raw+json',
         'User-Agent': 'mpnhost.com',

@@ -19,7 +19,7 @@ export interface PackConfig {
   curseforgeUrl?: string;
   // "owner/repo" — when set, the pack detail page fetches CHANGELOG.md from
   // this GitHub repo's default branch and renders it as an update log.
-  changelogRepo?: string;
+  githubRepo?: string;
   status: "Featured Pack" | "Community Pack";
   specs: {
     totalMods: string;
@@ -48,7 +48,7 @@ export const mpnPacks: PackConfig[] = [
     iconUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
     bannerUrl: "https://cdn.modrinth.com/data/zqTr0quY/de943b4e36d73dd9262af8c543453846a02ea457_96.webp",
     modrinthUrl: "https://modrinth.com/modpack/makeshift",
-    changelogRepo: "MaTTeRD994/MakeshiftSMP",
+    githubRepo: "MaTTeRD994/MakeshiftSMP",
     status: "Featured Pack",
     specs: {
       totalMods: "167 Curated Mods",
@@ -106,7 +106,7 @@ export const mpnPacks: PackConfig[] = [
     iconUrl: "https://cdn.modrinth.com/data/BJE0QM1S/35fb306549e10716fda1cc35f653652e2d16d55c_96.webp",
     bannerUrl: "https://raw.githubusercontent.com/MaTTeRD994/ThaSMP/master/docs/images/forest-lake.jpg",
     modrinthUrl: "https://modrinth.com/modpack/thasmp",
-    changelogRepo: "MaTTeRD994/ThaSMP",
+    githubRepo: "MaTTeRD994/ThaSMP",
     status: "Featured Pack",
     specs: {
       totalMods: "107 Curated Mods",
